@@ -1,13 +1,85 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+*,*::before,*::after{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body{
+    font-family: "Public Sans", sans-serif;
+    font-size: 16px;
+}
+
+ul{
+    list-style: none;
+}
+
+a{
+    color:inherit;
+    text-decoration: none;
+}
+
+.container{
+    max-width: 1320px;
+    padding: 10px 0;
+    margin: 0 auto;
+}
+
+.header{
+    padding: 20px 0;
+    background-color: #3589c2;
+    color:#fff;
+}
+
+.header__inner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap:10px;   
+}
+
+.logo-title{
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.header__menuList{
+    display: flex;
+    align-items: center;
+    gap:70px;
+}
+
+.menuList__item-link{
+    font-size: 18px;
+    font-weight: 400;
+    opacity: 1;
+    transition:opacity .5s ease;
+}
+.menuList__item-link:hover{
+    opacity: 0.5;
+}
+
+.menuList__item-cart{
+    position: relative;
+}
+
+.item__link-spanCart{
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    padding: 0 1px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 20px;
+    background-color: #fff;
+    color:#000;
 }
