@@ -83,3 +83,126 @@ a{
     background-color: #fff;
     color:#000;
 }
+
+.sectionTop{
+    padding: 24px 0;
+}
+
+.sectionTop__inner{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 24px;
+}
+
+.sectionTop__left{
+    padding: 56px;
+    display: flex;
+    align-items: center;
+    gap:36px;
+    background-color: #F2F4F5;
+}
+
+.info__subtitle{
+    color:#2484C2;
+    font-size: 14px;
+    font-weight: 600;
+}
+.info__title{
+    color:#000;
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+.info__desc{
+    font-size: 18px;
+    font-weight: 400;
+    color:#475156;
+    margin-bottom: 24px;
+}
+
+.info__link{
+    padding: 16px 32px;
+    color:#fff;
+    display: flex;
+    align-items: center;
+    gap:12px;
+    background-color: #FA8232;
+    max-width: 191px;
+    font-family: 'Public Sans',sans-serif;
+    transition:opacity .5s ease;
+}
+.info__link:hover{
+    opacity: 0.5;
+}
+.info__link-text{
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.sectionTop__right-topBlock{
+    padding: 46px;
+    display: flex;
+    justify-content: space-between;
+    gap:93px;
+    background-image: url('/public/images/sectionTop/Widget.png');
+    border-radius: 6px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 24px;
+}
+.right__info-subtitle{
+    color:#EBC80C;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.right__info-title{
+    font-size: 24px;
+    font-weight: 600;
+    color:#fff;
+    margin-bottom: 18px;
+}
+
+.right__info-link{
+    max-width: 156px;
+    gap:5px;
+    padding: 14px;
+    align-items: center;
+}
+.info__link-text{
+    text-wrap: nowrap;
+}
+.sectionTop__right-sale{
+    padding: 8px 16px;
+    background-color: #EFD33D;
+    align-self: start;
+}
+.right__sale-text{
+    font-size: 16px;
+    font-weight: 600;
+    text-wrap: nowrap;
+}
+
+.sectionTop__right-bottomBlock{
+    background-color: #F2F4F5;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    gap:20px;
+}
+.right__bottomBlock-title{
+    font-size: 24px;
+    font-weight: 600;
+    color:#000;
+    margin-bottom: 12px;
+}
+.right__bottomBlock-price{
+    color:#2DA5F3;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.right__bottomBlock-link{
+    max-width: 156px;
+    justify-content: center;
+}
