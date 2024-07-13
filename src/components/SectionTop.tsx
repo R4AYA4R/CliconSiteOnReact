@@ -43,6 +43,36 @@ const SectionTop = () => {
                         </div>
                     </div>
                 </div>
+                <div className="sectionTop__desc">
+                    <div className="sectionTop__desc-item">
+                        <img src="/images/sectionTop/Package.png" alt="" className="desc__item-img" />
+                        <div className="desc__item-info">
+                            <h3 className="item__info-title">Fasted Delivery</h3>
+                            <p className="item__info-text">Delivery in 24/H</p>
+                        </div>
+                    </div>
+                    <div className="sectionTop__desc-item">
+                        <img src="/images/sectionTop/Trophy.png" alt="" className="desc__item-img" />
+                        <div className="desc__item-info">
+                            <h3 className="item__info-title">24 Hours Return</h3>
+                            <p className="item__info-text">100% money-back guarantee</p>
+                        </div>
+                    </div>
+                    <div className="sectionTop__desc-item">
+                        <img src="/images/sectionTop/CreditCard.png" alt="" className="desc__item-img" />
+                        <div className="desc__item-info">
+                            <h3 className="item__info-title">Secure Payment</h3>
+                            <p className="item__info-text">Your money is safe</p>
+                        </div>
+                    </div>
+                    <div className="sectionTop__desc-item sectionTop__desc-item4">
+                        <img src="/images/sectionTop/HeadPhones.png" alt="" className="desc__item-img" />
+                        <div className="desc__item-info">
+                            <h3 className="item__info-title">Support 24/7</h3>
+                            <p className="item__info-text">Live contact/message</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     )
