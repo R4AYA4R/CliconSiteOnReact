@@ -1,4 +1,5 @@
 import Header from "./components/Header";
+import SectionDeals from "./components/SectionDeals";
 import SectionTop from "./components/SectionTop";
 
 
@@ -8,6 +9,7 @@ function App() {
       <Header/>
       <main className="main">
         <SectionTop/>
+        <SectionDeals/>
       </main>
     </>
   );
