@@ -1,3 +1,4 @@
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import SectionDeals from "./components/SectionDeals";
 import SectionMac from "./components/SectionMac";
@@ -17,6 +18,7 @@ function App() {
         <SectionMac/>
         <SectionSellers/>
       </main>
+      <Footer/>
     </>
   );
 }
