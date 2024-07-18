@@ -1,7 +1,11 @@
+import { useRef } from "react";
+import { useIsOnScreen } from "../hooks/useIsOnScreen";
 
 const SectionNew = () => {
+    const sectionNewRef=useRef(null);
+    const onScreen = useIsOnScreen(sectionNewRef);
     return (
-        <section className="sectionNew">
+        <section id="sectionNew" ref={sectionNewRef} className={onScreen.sectionNewIntersecting ? "sectionNew sectionNew__active" : "sectionNew"}>
             <div className="container">
                 <div className="sectionNew__inner">
                     <div className="sectionNew__left">

@@ -9,6 +9,7 @@
 body{
     font-family: "Public Sans", sans-serif;
     font-size: 16px;
+    overflow-x:hidden;
 }
 
 ul{
@@ -86,6 +87,13 @@ a{
 
 .sectionTop{
     padding: 24px 0;
+    opacity: 0;
+    transform:translateX(-50%);
+    transition:all 1s ease;
+}
+.sectionTop__active{
+    opacity: 1;
+    transform:translateX(0);
 }
 
 .sectionTop__inner{
@@ -257,6 +265,13 @@ a{
 
 .sectionDeals{
     padding-bottom: 72px;
+    opacity: 0;
+    transform:translateX(50%);
+    transition:all 1s ease;
+}
+.sectionDeals__active{
+    opacity: 1;
+    transform:translateX(0);
 }
 .sectionDeals__top{
     display: flex;
@@ -385,6 +400,13 @@ a{
 
 .sectionNew{
     padding-bottom: 72px;
+    opacity: 0;
+    transform:translateX(50%);
+    transition:all 1s ease;
+}
+.sectionNew__active{
+    opacity: 1;
+    transform:translateX(0);
 }
 .sectionNew__inner{
     display: flex;
@@ -465,6 +487,13 @@ a{
 }
 .sectionMac{
     margin-bottom: 72px;
+    opacity: 0;
+    transform:translate(-50%);
+    transition:all 1s ease;
+}
+.sectionMac__active{
+    opacity: 1;
+    transform:translate(0);
 }
 .sectionMac__inner{
     padding: 0 72px;
@@ -499,11 +528,19 @@ a{
 }
 .sectionSellers{
     margin-bottom: 56px;
+    overflow-y:hidden;
 }
 .sectionSellers__inner{
     display: grid;
     grid-template-columns: repeat(4,1fr);
     gap:24px;
+    opacity: 0;
+    transform:translateY(-100%);
+    transition:all 1s ease;
+}
+.sectionSellers__inner-active{
+    opacity: 1;
+    transform:translateY(0);
 }
 .sectionSellers__flash-title{
     font-size: 16px;

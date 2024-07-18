@@ -1,7 +1,11 @@
+import { useRef } from "react";
+import { useIsOnScreen } from "../hooks/useIsOnScreen";
 
 const SectionMac = () => {
+    const sectionMacRef=useRef(null);
+    const onScreen = useIsOnScreen(sectionMacRef);
     return (
-        <section className="sectionMac">
+        <section id="sectionMac" ref={sectionMacRef} className={onScreen.sectionMacIntersecting ? "sectionMac sectionMac__active" : "sectionMac"}>
             <div className="container">
                 <div className="sectionMac__inner">
                     <div className="sectionMac__info">
