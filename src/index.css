@@ -60,7 +60,10 @@ a{
     font-size: 18px;
     font-weight: 400;
     opacity: 1;
-    transition:opacity .5s ease;
+    transition:all .5s ease;
+}
+.menuList__item-linkActive{
+    color:#4ab6ff;
 }
 .menuList__item-link:hover{
     opacity: 0.5;
@@ -666,4 +669,19 @@ a{
     font-weight: 400;
     color:#ADB7BC;
     text-align: center;
+}
+.sectionCatalog__top{
+    background-color: #F2F4F5;
+    padding: 26px;
+}
+.sectionCatalog__top-inner{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color:#5F6C72;
+    font-size: 14px;
+    font-weight: 400;
+}
+.sectionCatalog__top-textCenter{
+    margin: 0 4px;
 }

@@ -1,19 +1,20 @@
+import { NavLink } from "react-router-dom";
 
-const Header = ()=>{
-    return(
+const Header = () => {
+    return (
         <header className="header">
             <div className="container">
                 <div className="header__inner">
-                    <a href="#" className="logo">
+                    <NavLink to="/" className="logo">
                         <img src="/images/header/Icon.png" alt="" className="logo-img" />
                         <h2 className="logo-title">CLICON</h2>
-                    </a>
+                    </NavLink>
                     <ul className="header__menuList">
                         <li className="menuList__item">
-                            <a href="#" className="menuList__item-link">Home</a>
+                            <NavLink to="/" className={({ isActive }) => isActive ? "menuList__item-link menuList__item-linkActive" : "menuList__item-link"}>Home</NavLink>
                         </li>
                         <li className="menuList__item">
-                            <a href="#" className="menuList__item-link">Catalog</a>
+                            <NavLink to="/catalog" className={({ isActive }) => isActive ? "menuList__item-link menuList__item-linkActive" : "menuList__item-link"}>Catalog</NavLink>
                         </li>
                         <li className="menuList__item">
                             <a href="#" className="menuList__item-link">About Us</a>
