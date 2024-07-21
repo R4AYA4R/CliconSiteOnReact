@@ -730,6 +730,10 @@ a{
     opacity: 0.7;
 }
 
+.filterBar__categories-item:hover .categories__item-radioStyle,
+.filterBar__categories-item:hover .categories__item-checkBoxStyle{
+    border:2px solid #FA8232;
+}
 
 .categories__item-text{
     font-size: 14px;
@@ -772,3 +776,30 @@ a{
     font-weight: 500;
     color:#191C1F;
 }
+
+.categories__item-checkBoxStyle{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border:1px solid #C9CFD2;
+}
+
+.categories__item-radio:checked + .categories__item-checkBoxStyle{
+    background-color: #FA8232;
+}
+
+.categories__item-radio:checked + .categories__item-checkBoxStyle::before{
+    content:"";
+    width: 20px;
+    height: 20px;
+    background-image: url('/public/images/sectionCatalog/Check.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+
+
