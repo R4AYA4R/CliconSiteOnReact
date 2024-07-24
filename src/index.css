@@ -804,21 +804,84 @@ a{
 .productsBlock__top-input{
     border:1px solid #E4E7E9;
     color:#77878F;
-    padding: 12px 40px 12px 16px;
+    padding: 14px 40px 14px 16px;
     outline:none;
     position: relative;
     width: 100%;
 }
 
 .productsBlock__top{
-    max-width: 424px;
-    position: relative;
+    display: flex;  
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 16px;
+}
+
+.productsBlock__top-inputBlock{
+    min-width: 424px;
+    position: relative;
+}
+
+.productsBlock__top-selectBlock{
+    display: flex;
+    align-items: center;
+    gap:22px;
+}
+
+.selectBlock__select{
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border:1px solid #E4E7E9;
+    min-width: 180px;
+    position: relative;
+    min-height: 44px;
+}
+
+.select__img{
+    position: absolute;
+    top: 12px;
+    right: 16px;
+}
+.selectBlock__select-inner{
+    position: relative;
+    cursor:pointer;
+}
+.select__optionsBlock{
+    max-height: 0;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    opacity: 0;
+    background-color: #fff;
+    min-width: 180px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.15);
+    transition:all 1s ease;
+    z-index: -2;
+}
+
+.select__optionsBlock--active{
+    max-height: 100px;
+    top: 45px;
+    opacity: 1;
+    z-index: 5;
+}
+
+.optionsBlock__item{
+    padding: 5px;
+    padding: 12px 0 10px 10px;
+}
+.optionsBlock__item:hover{
+    background-color: rgba(0,0,0,0.1);
+}
+.optionsBlock__item-text{
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .productsBlock__top-img{
     position: absolute;
-    top: 10px;
+    top: 12px;
     right: 12px;
 }
 
@@ -862,3 +925,4 @@ a{
 .filters__right-desc{
     color:#5F6C72;
 }
+

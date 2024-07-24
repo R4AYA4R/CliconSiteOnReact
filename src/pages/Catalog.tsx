@@ -7,6 +7,10 @@ const Catalog = () => {
 
     const [filterPrice, setFilterPrice] = useState('');
 
+    const [selectActive, setSelectActive] = useState(false);
+
+    const [selectValue,setSelectValue] = useState('');
+
     const [filterBrands, setFilterBrands] = useState({
         appleBrand: false,
         samsungBrand: false,
@@ -17,6 +21,7 @@ const Catalog = () => {
     const mainCatalogRef = useRef(null);
 
     const onScreen = useIsOnScreen(mainCatalogRef);
+
 
     return (
         <main id="mainCatalog" className={onScreen.sectionMainCatalogIntersecting ? "main mainCatalog mainCatalog__active" : "main mainCatalog"} ref={mainCatalogRef}>
@@ -116,8 +121,24 @@ const Catalog = () => {
                         </div>
                         <div className="sectionCatalog__productsBlock">
                             <div className="productsBlock__top">
-                                <input type="text" className="productsBlock__top-input" placeholder="Search for anything..." />
-                                <img src="/images/sectionCatalog/glass.png" alt="" className="productsBlock__top-img" />
+                                <div className="productsBlock__top-inputBlock">
+                                    <input type="text" className="productsBlock__top-input" placeholder="Search for anything..." />
+                                    <img src="/images/sectionCatalog/glass.png" alt="" className="productsBlock__top-img" />
+                                </div>
+                                <div className="productsBlock__top-selectBlock">
+                                    <p className="selectBlock__text">Sort by:</p>
+                                    <div className="selectBlock__select-inner" onClick={() => setSelectActive((prev) => !prev)}>
+                                        <div className="selectBlock__select" >
+                                            <p className="select__text">{selectValue}</p>
+                                            <img src="/images/sectionCatalog/arrowDown.png" alt="" className="select__img" />
+                                        </div>
+                                        <div className={selectActive ? "select__optionsBlock select__optionsBlock--active" : "select__optionsBlock"}>
+                                            <div className="optionsBlock__item" onClick={()=>setSelectValue('Rating')}>
+                                                <p className="optionsBlock__item-text">Rating</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div className="productsBlock__top-filters">
                                 <div className="top__filters-left">
@@ -133,35 +154,43 @@ const Catalog = () => {
                                     {filterPrice !== '' &&
                                         <div className="filters__left-filterItem">
                                             <p className="filterItem__text">{filterPrice}</p>
-                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterPrice('')}/>
+                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterPrice('')} />
                                         </div>
                                     }
 
                                     {filterBrands.appleBrand &&
                                         <div className="filters__left-filterItem">
                                             <p className="filterItem__text">Apple</p>
-                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterBrands((prev)=>({...prev,appleBrand:false}))}/>
+                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterBrands((prev) => ({ ...prev, appleBrand: false }))} />
                                         </div>
                                     }
 
                                     {filterBrands.samsungBrand &&
                                         <div className="filters__left-filterItem">
                                             <p className="filterItem__text">Samsung</p>
-                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterBrands((prev)=>({...prev,samsungBrand:false}))}/>
+                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterBrands((prev) => ({ ...prev, samsungBrand: false }))} />
                                         </div>
                                     }
 
                                     {filterBrands.lgBrand &&
                                         <div className="filters__left-filterItem">
                                             <p className="filterItem__text">LG</p>
-                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterBrands((prev)=>({...prev,lgBrand:false}))}/>
+                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterBrands((prev) => ({ ...prev, lgBrand: false }))} />
                                         </div>
                                     }
 
                                     {filterBrands.xiaomiBrand &&
                                         <div className="filters__left-filterItem">
                                             <p className="filterItem__text">Xiaomi</p>
-                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterBrands((prev)=>({...prev,xiaomiBrand:false}))}/>
+                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setFilterBrands((prev) => ({ ...prev, xiaomiBrand: false }))} />
+                                        </div>
+                                    }
+
+                                    {selectValue &&
+                                        <div className="filters__left-filterItem">
+                                            <p className="filterItem__text">Sort By: </p>
+                                            <p className="filterItem__text">{selectValue}</p>
+                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() =>setSelectValue('')} />
                                         </div>
                                     }
 
