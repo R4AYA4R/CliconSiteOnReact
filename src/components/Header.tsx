@@ -17,7 +17,7 @@ const Header = () => {
                             <NavLink to="/catalog" className={({ isActive }) => isActive ? "menuList__item-link menuList__item-linkActive" : "menuList__item-link"}>Catalog</NavLink>
                         </li>
                         <li className="menuList__item">
-                            <a href="#" className="menuList__item-link">About Us</a>
+                            <NavLink to="/about" className="menuList__item-link">About Us</NavLink>
                         </li>
                         <li className="menuList__item menuList__item-cart">
                             <a href="#" className="menuList__item-link">

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import ProductItem from "../components/ProductsItem";
 
 const Catalog = () => {
 
@@ -130,7 +131,7 @@ const Catalog = () => {
                                     <div className="selectBlock__select-inner" onClick={() => setSelectActive((prev) => !prev)}>
                                         <div className="selectBlock__select" >
                                             <p className="select__text">{selectValue}</p>
-                                            <img src="/images/sectionCatalog/arrowDown.png" alt="" className="select__img" />
+                                            <img src="/images/sectionCatalog/arrowDown.png" alt="" className={selectActive ? "select__img select__img--active" : "select__img"} />
                                         </div>
                                         <div className={selectActive ? "select__optionsBlock select__optionsBlock--active" : "select__optionsBlock"}>
                                             <div className="optionsBlock__item" onClick={()=>setSelectValue('Rating')}>
@@ -199,6 +200,9 @@ const Catalog = () => {
                                     <p className="filters__right-text">10</p>
                                     <p className="filters__right-desc">Results found.</p>
                                 </div>
+                            </div>
+                            <div className="sectionCatalog__productsBlock-products">
+                                    <ProductItem/>
                             </div>
                         </div>
                     </div>
