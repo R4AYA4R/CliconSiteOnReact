@@ -1,9 +1,9 @@
 
 const ProductItemPage = ()=>{
     return(
-        <div>
+        <main className="main">
             product page
-        </div>
+        </main>
     )
 }
 
