@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import SectionTeam from "../components/SectionTeam";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import SectionSellers from "../components/SectionSellers";
+import SectionTrusted from "../components/SectionTrusted";
 
 const AboutPage=()=>{
 
@@ -40,6 +42,8 @@ const AboutPage=()=>{
                 </div>
             </section>
             <SectionTeam/>
+            <SectionTrusted/>
+            <SectionSellers/>
         </main>
     )
 }

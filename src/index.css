@@ -1070,3 +1070,29 @@ a{
     font-weight: 400;
     color:#475156;
 }
+.sectionTrusted{
+    background-image: url('/public/images/sectionAbout/Banner.png');
+    padding: 88px 0 150px 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 72px;
+    transform:translateX(-50%);
+    transition:all 1s ease;
+    opacity: 0;
+}
+.sectionTrusted--active{
+    opacity: 1;
+    transform:translateX(0);
+}
+.sectionTrusted__title{
+    max-width: 300px;
+    margin-bottom: 16px;
+    font-size: 32px;
+    font-weight: 600;
+}
+.sectionTrusted__text{
+    max-width: 423px;
+    font-size: 18px;
+    font-weight: 400;
+}
