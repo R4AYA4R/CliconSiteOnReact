@@ -1105,6 +1105,16 @@ a{
     font-weight: 400;
 }
 
+.mainCart{
+    transform:translateX(-50%);
+    transition:all 1s ease;
+    opacity: 0;
+}
+.mainCart--active{
+    transform:translateX(0);
+    opacity: 1;
+}
+
 .sectionTableCart{
     margin:72px 0 200px 0;
 }

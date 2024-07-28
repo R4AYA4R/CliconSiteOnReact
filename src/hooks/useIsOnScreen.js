@@ -13,6 +13,7 @@ export const useIsOnScreen=(ref)=>{
         sectionAboutIntersecting:false,
         sectionTeamIntersecting:false,
         sectionTrustedIntersecting:false,
+        sectionCartIntersecting:false,
     })
 
     // создаем функцию для intersectionObserver,принимает в параметре все элементы,за которыми следит,и сам observer
@@ -56,6 +57,10 @@ export const useIsOnScreen=(ref)=>{
                 }
                 if(entry.target.id === 'sectionTrusted'){
                     setIsIntersectingNow((prev)=>({...prev,sectionTrustedIntersecting:true}));
+                    observer.unobserve(entry.target);
+                }
+                if(entry.target.id === 'sectionCart'){
+                    setIsIntersectingNow((prev)=>({...prev,sectionCartIntersecting:true}));
                     observer.unobserve(entry.target);
                 }
             }
