@@ -85,7 +85,12 @@ a{
     text-align: center;
     line-height: 20px;
     background-color: #fff;
-    color:#000;
+    color:#1B6392;
+    transition:all .5s ease;
+}
+
+.menuList__item-linkCartActive .item__link-spanCart{
+    background-color: #85ccfc;
 }
 
 .sectionTop{
@@ -697,6 +702,9 @@ a{
 .sectionCatalog__top-textCenter{
     margin: 0 4px;
 }
+.sectionCatalog__top-textActive{
+    color:#2DA5F3;
+}
 
 .sectionCatalog__inner{
     margin-top: 40px;
@@ -1095,4 +1103,183 @@ a{
     max-width: 423px;
     font-size: 18px;
     font-weight: 400;
+}
+
+.sectionTableCart{
+    margin:72px 0 200px 0;
+}
+.sectionTableCart__inner{
+    display: flex;  
+    gap:24px;
+}
+.sectionTableCart__table{
+    border:1px solid #E4E7E9;
+    min-width: 872px;
+}
+.table__top{
+    padding: 20px 24px;
+}
+.sectionTableCart__title{
+    font-size: 18px;
+    font-weight: 500;
+    color:#191C1F;
+}
+.table__names{
+    padding: 10px 24px;
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    background-color: #F2F4F5;
+    border-top:1px solid #E4E7E9;
+    border-bottom:1px solid #E4E7E9;
+}
+.table__names-text{
+    text-transform: uppercase;
+    color:#475156;
+    font-size: 14px;
+    font-weight: 500;
+}
+.table__bottom{
+    padding: 24px;
+    display: grid;
+    border-top:1px solid #E4E7E9;
+}
+.table__bottom-btnUpdate{
+    border:2px solid #2DA5F3;
+    padding: 12px 24px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 700;
+    color:#2DA5F3;
+    background-color: #fff;
+    cursor:pointer;
+    opacity: 1;
+    transition:opacity .5s ease;
+    justify-self: end;
+}
+.table__bottom-btnUpdate:hover{
+    opacity: 0.5;
+}
+
+.sectionTableCart__totals{
+    border:1px solid #E4E7E9;
+    padding: 20px 24px;
+    min-width: 424px;
+}
+.totals__title{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color:#191C1F;
+}
+.totals__item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.totals__item-text{
+    color:#5F6C72;
+    font-size: 14px;
+    font-weight: 400;
+}
+.totals__item-textRight{
+    color:#191C1F;
+    font-size: 14px;
+    font-weight: 600;
+}
+.totals__itemTotal{
+    border-top:1px solid #E4E7E9;
+    padding: 16px 0 24px 0;
+}
+.totals__item-textTotal{
+    font-size: 16px;
+    font-weight: 500;
+}
+.totals__item-totalPrice{
+    color:#191C1F;
+    font-size: 16px;
+    font-weight: 700;
+}
+.table__items{
+    padding: 24px;
+}
+.totals__btn{
+    padding: 16px 70px;
+    color:#fff;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap:12px;
+    background-color: #FA8232;
+    font-family: 'Public Sans',sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    transition:opacity .5s ease;
+    border:none;
+    cursor:pointer;
+}
+.totals__btn:hover{
+    opacity: 0.8;
+}
+.totals__btn:hover .totals__btn-img{
+    animation:arrow 1s ease infinite;
+}
+.table__item-item{
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.table__item-info{
+    display: flex;
+    align-items: center;
+    gap:12px;
+}
+.table__item-deleteImg{
+    cursor:pointer;
+    transition:opacity .5s ease;
+    opacity: 1;
+}
+.table__item-deleteImg:hover{
+    opacity: 0.7;
+}
+.table__item-inputBlock{
+    max-width: 120px;
+    position: relative;
+}
+.inputBlock__minusBtn{
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    cursor:pointer;
+    background-color: #fff;
+    border:none;
+    outline:none;
+}
+.inputBlock__plusBtn{
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    cursor:pointer;
+    background-color: #fff;
+    border:none;
+    outline:none;
+}
+.table__item-desc{
+    font-size: 14px;
+    font-weight: 400;
+    max-width: 260px;
+}
+.inputBlock__input{
+    max-width: 120px;
+    padding: 12px 40px;
+    text-align: center;
+    border:1px solid #E4E7E9;
+    outline:none;
+}
+
+/* убираем стрелки вверх и вниз для инпута по умолчанию */
+.inputBlock__input::-webkit-inner-spin-button,
+.inputBlock__input::-webkit-outer-spin-button {
+  appearance: none;
 }

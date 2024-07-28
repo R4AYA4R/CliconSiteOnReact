@@ -20,10 +20,10 @@ const Header = () => {
                             <NavLink to="/about" className="menuList__item-link">About Us</NavLink>
                         </li>
                         <li className="menuList__item menuList__item-cart">
-                            <a href="#" className="menuList__item-link">
+                            <NavLink to="/cart" className={({ isActive }) => isActive ? "menuList__item-link menuList__item-linkCartActive" : "menuList__item-link"}>
                                 <img src="/images/header/ShoppingCartSimple.png" alt="" className="item__link-img" />
                                 <span className="item__link-spanCart">0</span>
-                            </a>
+                            </NavLink>
                         </li>
                     </ul>
                 </div>

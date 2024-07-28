@@ -33,7 +33,7 @@ const Catalog = () => {
                             <img src="/images/sectionCatalog/House.png" alt="" className="sectionCatalog__top-img" />
                             <p className="sectionCatalog__top-text">Home</p>
                             <p className="sectionCatalog__top-text sectionCatalog__top-textCenter">{'>'}</p>
-                            <p className="sectionCatalog__top-text"> Catalog</p>
+                            <p className="sectionCatalog__top-textActive"> Catalog</p>
                         </div>
                     </div>
                 </div>
