@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
 import ProductItem from "../components/ProductsItem";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { IProduct } from "../types/types";
 
 const Catalog = () => {
 
@@ -22,6 +25,16 @@ const Catalog = () => {
     const mainCatalogRef = useRef(null);
 
     const onScreen = useIsOnScreen(mainCatalogRef);
+
+    const {data} = useQuery({
+        queryKey:['catalogProducts'],
+        queryFn:async () => {
+            // указываем тип,который вернет сервер наш IProduct[],массив товаров
+            const response = await axios.get<IProduct[]>('http://localhost:5000/catalogProducts');
+
+            return response;
+        }
+    })
 
 
     return (
@@ -202,7 +215,11 @@ const Catalog = () => {
                                 </div>
                             </div>
                             <div className="sectionCatalog__productsBlock-products">
-                                    <ProductItem/>
+                                {data?.data.length ? data?.data.map(product =>
+                                    <ProductItem key={product.id} product={product}/>) 
+                                    : <h4>Not found</h4>
+                                }
+                                    
                             </div>
                         </div>
                     </div>

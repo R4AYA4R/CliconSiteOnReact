@@ -1,11 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
+import { IProduct } from "../types/types";
 
+interface ProductItem{
+    product:IProduct;
+}
 
-const ProductItem = () => {
+const ProductItem = ({product}:ProductItem) => {
+
+    const router = useNavigate(); // useNavigate может перемещатьтся на другую страницу вместо ссылок
 
     return (
-        <Link to="/catalog/1" className="products__item">
-            <img src="/images/sectionCatalog/Image.png" alt="" className="products__item-img" />
+        <div className="products__item" onClick={()=>router(`/catalog/${product.id}`)}>
+            <img src={product.image} alt="" className="products__item-img" />
             <div className="products__item-middleBlock">
                 <div className="products__item-stars">
                     <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
@@ -16,9 +22,9 @@ const ProductItem = () => {
                 </div>
                 <p className="item__middleBlock-text">(5)</p>
             </div>
-            <p className="products__item-desc">Samsung Electronics Samsung Galexy S21 5G</p>
-            <p className="products__item-price">$2,300</p>
-        </Link>
+            <p className="products__item-desc">{product.name}</p>
+            <p className="products__item-price">${product.price}</p>
+        </div>
     )
 }
 

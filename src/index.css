@@ -947,6 +947,7 @@ a{
     display: grid;
     grid-template-columns: repeat(4,1fr);
     gap:16px;
+    margin-bottom: 50px;
 }
 .item__stars-img{
     mix-blend-mode: multiply;
@@ -959,6 +960,7 @@ a{
     border:1px solid #E4E7E9;
     padding: 16px;
     transition:all .5s ease;
+    cursor:pointer;
 }
 .products__item:hover{
     background-color: rgba(0,0,0,0.15);
@@ -1311,6 +1313,7 @@ a{
 .sectionProductTop__inner{
     display: flex;
     gap:56px;
+    justify-content: space-around;
 }
 .infoBlock__title{
     font-size: 20px;
@@ -1368,4 +1371,7 @@ a{
 }
 .amountBlock__btn:hover .amountBlock__btn-img{
     animation:arrow 1s ease infinite;
+}
+.sectionProductTop__infoBlock{
+    min-width: 548px;
 }

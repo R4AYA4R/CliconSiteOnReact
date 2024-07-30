@@ -1,5 +1,9 @@
 import { useRef } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { IProduct } from "../types/types";
 
 
 
@@ -7,6 +11,18 @@ const ProductItemPage = () => {
 
     const sectionProductPage = useRef(null);
     const onScreen = useIsOnScreen(sectionProductPage);
+
+    const params = useParams(); //useParams выцепляет параметр из url (в данном случае id товара)
+
+    const {data} = useQuery({
+        queryKey:['productIdPage'],
+        queryFn:async ()=>{
+            // делаем запрос на сервер по конкретному id,который достали из url,указываем тип данных,которые вернет сервер(в данном случае наш IProduct для товара)
+            const response = await axios.get<IProduct>(`http://localhost:5000/catalogProducts/${params.id}`)
+
+            return response;
+        }
+    })
 
     return (
         <main className={onScreen.sectionProductPageIntersecting ? "main mainProductPage mainProductPage--active" : "main mainProductPage"} id="sectionProductPage" ref={sectionProductPage}>
@@ -19,7 +35,7 @@ const ProductItemPage = () => {
                             <p className="sectionCatalog__top-text sectionCatalog__top-textCenter">{'>'}</p>
                             <p className="sectionCatalog__top-text">Catalog</p>
                             <p className="sectionCatalog__top-text sectionCatalog__top-textCenter">{'>'}</p>
-                            <p className="sectionCatalog__top-textActive">Macbook Pro</p>
+                            <p className="sectionCatalog__top-textActive">{data?.data.name}</p>
                         </div>
                     </div>
                 </div>
@@ -28,7 +44,7 @@ const ProductItemPage = () => {
                 <div className="container">
                     <div className="sectionProductTop__inner">
                         <div className="sectionProductTop__imgBlock">
-                            <img src="/images/sectionProductPage/Main Image.png" alt="" className="sectionProductTop__imgBlock-img" />
+                            <img src={data?.data.image} alt="" className="sectionProductTop__imgBlock-img" />
                         </div>
                         <div className="sectionProductTop__infoBlock">
                             <div className="products__item-stars">
@@ -38,7 +54,7 @@ const ProductItemPage = () => {
                                 <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
                                 <img src="/images/sectionCatalog/StarGray.png" alt="" className="item__stars-img item__stars-imgGray" />
                             </div>
-                            <h2 className="infoBlock__title">2020 Apple MacBook Pro with Apple M1 Chip (13-inch, 8GB RAM, 256GB SSD Storage) - Space Gray</h2>
+                            <h2 className="infoBlock__title">{data?.data.name}</h2>
                             <div className="infoBlock__item">
                                 <div className="infoBlock__item-textBlock">
                                     <p className="infoBlock__item-textLeft">Brand:</p>
@@ -46,10 +62,10 @@ const ProductItemPage = () => {
                                 </div>
                                 <div className="infoBlock__item-textBlock">
                                     <p className="infoBlock__item-textLeft">Category:</p>
-                                    <p className="infoBlock__item-textRight">Electronics Devices</p>
+                                    <p className="infoBlock__item-textRight">{data?.data.category}</p>
                                 </div>
                             </div>
-                            <p className="infoBlock__price">$1699</p>
+                            <p className="infoBlock__price">${data?.data.price}</p>
                             <div className="infoBlock__amountBlock">
                                 <div className="table__item-inputBlock">
                                     <button className="inputBlock__minusBtn">

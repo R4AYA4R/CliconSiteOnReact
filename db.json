@@ -1,0 +1,59 @@
+{
+    "catalogProducts":[
+        {
+            "id":1,
+            "category":"SmartPhone",
+            "image":"/images/sectionCatalog/Image.png",
+            "name":"Samsung Electronics Samsung Galaxy S21 5G",
+            "price":2300,
+            "priceFilter":"Above $1,000",
+            "amount":1,
+            "rating":0,
+            "totalPrice":2300
+        },
+        {
+            "id":2,
+            "category":"Headphones",
+            "image":"/images/sectionCatalog/Image (5).png",
+            "name":"Portable Headphones, 11lbs capacity Model 18NMF",
+            "price":20,
+            "priceFilter":"Under $20",
+            "amount":1,
+            "rating":0,
+            "totalPrice":20
+        },
+        {
+            "id":3,
+            "category":"Electronics Devices",
+            "image":"/images/sectionCatalog/Image (1).png",
+            "name":"Wired Over-Ear Hyrocopter with USB",
+            "price":890,
+            "priceFilter":"$500 to $1,000",
+            "amount":1,
+            "rating":0,
+            "totalPrice":890
+        },
+        {
+            "id":4,
+            "category":"Electronics Devices",
+            "image":"/images/sectionCatalog/Image (2).png",
+            "name":"Dell Optiplex 7000x7480 All-in-One Printer",
+            "price":250,
+            "priceFilter":"$100 to $500",
+            "amount":1,
+            "rating":0,
+            "totalPrice":250
+        },
+        {
+            "id":5,
+            "category":"Electronics Devices",
+            "image":"/images/sectionCatalog/Image (4).png",
+            "name":"Dell All-in-One Computer Laptop",
+            "price":80,
+            "priceFilter":"$20 to $100",
+            "amount":1,
+            "rating":0,
+            "totalPrice":80
+        }
+    ]
+}
