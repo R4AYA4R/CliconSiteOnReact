@@ -1375,3 +1375,76 @@ a{
 .sectionProductTop__infoBlock{
     min-width: 548px;
 }
+.sectionDesc__desc{
+    margin-bottom: 72px;
+}
+.sectionDesc__top-tabs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:50px;
+    border:1px solid #E4E7E9;
+}
+.sectionDesc__desc{
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 24px;
+    border-left:1px solid #E4E7E9;
+    border-right:1px solid #E4E7E9;
+    border-bottom:1px solid #E4E7E9;
+}
+.desc__info__title{
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+.desc__info-text{
+    font-size: 14px;
+    font-weight: 400;
+    color:#5F6C72;
+    margin-bottom: 12px;
+}
+.top__tabs-text{
+    text-transform: uppercase;
+    color:#5F6C72;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 18px 0;
+    cursor:pointer;
+    transition:opacity .5s ease;
+    opacity: 1;
+}
+.top__tabs-text:hover{
+    opacity: 0.5;
+}
+.top__tabs-textActive{
+    color:#000;
+    font-weight: 600;
+    border-bottom:3px solid #FA8232;
+}
+.desc__feature-item{
+    display: flex;
+    align-items: center;
+    gap:8px;
+    margin-bottom: 14px;    
+}
+.desc__shipInfo{
+    border-left: 1px solid #E4E7E9;
+    padding-left: 24px;
+}
+.shipInfo__item{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 12px;
+}
+.shipInfo__item-title{
+    font-size: 14px;
+    font-weight: 500;
+}
+.shipInfo__item-text{
+    color:#5F6C72;
+    font-size: 14px;
+    font-weight: 400;
+}
