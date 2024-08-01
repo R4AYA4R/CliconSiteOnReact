@@ -54,6 +54,50 @@
             "amount":1,
             "rating":0,
             "totalPrice":80
+        },
+        {
+            "id":6,
+            "category":"Computer & Laptop",
+            "image":"/images/sectionCatalog/Image (6).png",
+            "name":"4K UHD LED Smart TV with Chromecast Built-in",
+            "price":1250,
+            "priceFilter":"Above $1,000",
+            "amount":1,
+            "rating":0,
+            "totalPrice":1250
+        },
+        {
+            "id":7,
+            "category":"Computer Accessories",
+            "image":"/images/sectionCatalog/Image (8).png",
+            "name":"TOZO T6 Keyboard True Bluetooth",
+            "price":580,
+            "priceFilter":"$500 to $1,000",
+            "amount":1,
+            "rating":0,
+            "totalPrice":580
+        },
+        {
+            "id":8,
+            "category":"SmartPhone",
+            "image":"/images/sectionCatalog/Image (7).png",
+            "name":"Sony DSCHX8 High Zoom",
+            "price":350,
+            "priceFilter":"$100 to $500",
+            "amount":1,
+            "rating":0,
+            "totalPrice":350
+        },
+        {
+            "id":9,
+            "category":"Computer & Laptop",
+            "image":"/images/sectionCatalog/Image (4).png",
+            "name":"Acer Aspire TC-1780-UA92",
+            "price":1760,
+            "priceFilter":"Above $1,000",
+            "amount":1,
+            "rating":0,
+            "totalPrice":1760
         }
     ]
 }

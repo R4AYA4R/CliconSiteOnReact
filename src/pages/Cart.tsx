@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import ProductItemCart from "../components/ProductItemCart";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import SectionSellers from "../components/SectionSellers";
 
 const Cart = () => {
 

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IProduct } from "../types/types";
+import SectionSellers from "../components/SectionSellers";
 
 
 
@@ -59,8 +60,8 @@ const ProductItemPage = () => {
                             <h2 className="infoBlock__title">{data?.data.name}</h2>
                             <div className="infoBlock__item">
                                 <div className="infoBlock__item-textBlock">
-                                    <p className="infoBlock__item-textLeft">Brand:</p>
-                                    <p className="infoBlock__item-textRight">Apple</p>
+                                    <p className="infoBlock__item-textLeft">Availability:</p>
+                                    <p className="infoBlock__item-textRight infoBlock__item-textRightStock">In Stock</p>
                                 </div>
                                 <div className="infoBlock__item-textBlock">
                                     <p className="infoBlock__item-textLeft">Category:</p>
@@ -159,6 +160,7 @@ const ProductItemPage = () => {
                     </div>
                 </div>
             </section>
+            <SectionSellers/>
         </main>
     )
 }

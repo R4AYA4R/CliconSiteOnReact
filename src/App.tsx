@@ -6,6 +6,7 @@ import Catalog from "./pages/Catalog";
 import ProductItemPage from "./pages/ProductItemPage";
 import AboutPage from "./pages/AboutPage";
 import Cart from "./pages/Cart";
+import ScrollToTop from "./utils/ScrollToTop";
 
 
 
@@ -13,6 +14,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ScrollToTop/>
         <Header/>
         <Routes>
           <Route path='/' element={<Home/>}/>

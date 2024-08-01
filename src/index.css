@@ -1309,11 +1309,15 @@ a{
 .sectionProductTop{
     padding: 32px 0 72px 0;
 }
-
+.sectionProductTop__imgBlock-img{
+    border:1px solid #E4E7E9;
+    padding: 20px;
+}
 .sectionProductTop__inner{
     display: flex;
     gap:56px;
     justify-content: space-around;
+    align-items: center;
 }
 .infoBlock__title{
     font-size: 20px;
@@ -1350,6 +1354,9 @@ a{
     justify-content: space-between;
     align-items: center;
 }
+.infoBlock__item-textRightStock{
+    color:#2DB224;
+}
 .amountBlock__btn{
     padding: 18px 80px;
     background-color: #FA8232;
@@ -1376,7 +1383,7 @@ a{
     min-width: 548px;
 }
 .sectionDesc__desc{
-    margin-bottom: 72px;
+    margin-bottom: 110px;
 }
 .sectionDesc__top-tabs{
     display: flex;
