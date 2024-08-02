@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
 import ProductItem from "../components/ProductsItem";
 import { useQuery } from "@tanstack/react-query";
@@ -15,6 +15,8 @@ const Catalog = () => {
 
     const [selectValue,setSelectValue] = useState('');
 
+    const [searchValue,setSearchValue] = useState('');
+
     const [filterBrands, setFilterBrands] = useState({
         appleBrand: false,
         samsungBrand: false,
@@ -26,15 +28,24 @@ const Catalog = () => {
 
     const onScreen = useIsOnScreen(mainCatalogRef);
 
-    const {data} = useQuery({
+    const {data,refetch} = useQuery({
         queryKey:['catalogProducts'],
         queryFn:async () => {
             // указываем тип,который вернет сервер наш IProduct[],массив товаров
-            const response = await axios.get<IProduct[]>('http://localhost:5000/catalogProducts');
+            const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}`);
 
             return response;
         }
     })
+
+    const inputChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
+        setSearchValue(e.target.value);
+    }
+
+
+    useEffect(()=>{
+        refetch(); // делаем запрос на сервер еще раз,чтобы переобновить данные
+    },[data?.data,searchValue]);
 
 
     return (
@@ -136,7 +147,7 @@ const Catalog = () => {
                         <div className="sectionCatalog__productsBlock">
                             <div className="productsBlock__top">
                                 <div className="productsBlock__top-inputBlock">
-                                    <input type="text" className="productsBlock__top-input" placeholder="Search for anything..." />
+                                    <input type="text" className="productsBlock__top-input" placeholder="Search for anything..." value={searchValue} onChange={inputChangeHandler}/>
                                     <img src="/images/sectionCatalog/glass.png" alt="" className="productsBlock__top-img" />
                                 </div>
                                 <div className="productsBlock__top-selectBlock">

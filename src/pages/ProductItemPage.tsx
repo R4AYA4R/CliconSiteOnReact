@@ -60,8 +60,8 @@ const ProductItemPage = () => {
                             <h2 className="infoBlock__title">{data?.data.name}</h2>
                             <div className="infoBlock__item">
                                 <div className="infoBlock__item-textBlock">
-                                    <p className="infoBlock__item-textLeft">Availability:</p>
-                                    <p className="infoBlock__item-textRight infoBlock__item-textRightStock">In Stock</p>
+                                    <p className="infoBlock__item-textLeft">Brand:</p>
+                                    <p className="infoBlock__item-textRight">{data?.data.brand}</p>
                                 </div>
                                 <div className="infoBlock__item-textBlock">
                                     <p className="infoBlock__item-textLeft">Category:</p>
