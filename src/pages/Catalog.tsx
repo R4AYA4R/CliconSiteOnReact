@@ -13,9 +13,9 @@ const Catalog = () => {
 
     const [selectActive, setSelectActive] = useState(false);
 
-    const [selectValue,setSelectValue] = useState('');
+    const [selectValue, setSelectValue] = useState('');
 
-    const [searchValue,setSearchValue] = useState('');
+    const [searchValue, setSearchValue] = useState('');
 
     const [filterBrands, setFilterBrands] = useState({
         appleBrand: false,
@@ -28,9 +28,9 @@ const Catalog = () => {
 
     const onScreen = useIsOnScreen(mainCatalogRef);
 
-    const {data,refetch} = useQuery({
-        queryKey:['catalogProducts'],
-        queryFn:async () => {
+    const { data, refetch } = useQuery({
+        queryKey: ['catalogProducts'],
+        queryFn: async () => {
             // указываем тип,который вернет сервер наш IProduct[],массив товаров
             const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}`);
 
@@ -38,14 +38,14 @@ const Catalog = () => {
         }
     })
 
-    const inputChangeHandler = (e:ChangeEvent<HTMLInputElement>)=>{
+    const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);
     }
 
 
-    useEffect(()=>{
+    useEffect(() => {
         refetch(); // делаем запрос на сервер еще раз,чтобы переобновить данные
-    },[data?.data,searchValue]);
+    }, [data?.data, searchValue]);
 
 
     return (
@@ -147,7 +147,7 @@ const Catalog = () => {
                         <div className="sectionCatalog__productsBlock">
                             <div className="productsBlock__top">
                                 <div className="productsBlock__top-inputBlock">
-                                    <input type="text" className="productsBlock__top-input" placeholder="Search for anything..." value={searchValue} onChange={inputChangeHandler}/>
+                                    <input type="text" className="productsBlock__top-input" placeholder="Search for anything..." value={searchValue} onChange={inputChangeHandler} />
                                     <img src="/images/sectionCatalog/glass.png" alt="" className="productsBlock__top-img" />
                                 </div>
                                 <div className="productsBlock__top-selectBlock">
@@ -158,7 +158,7 @@ const Catalog = () => {
                                             <img src="/images/sectionCatalog/arrowDown.png" alt="" className={selectActive ? "select__img select__img--active" : "select__img"} />
                                         </div>
                                         <div className={selectActive ? "select__optionsBlock select__optionsBlock--active" : "select__optionsBlock"}>
-                                            <div className="optionsBlock__item" onClick={()=>setSelectValue('Rating')}>
+                                            <div className="optionsBlock__item" onClick={() => setSelectValue('Rating')}>
                                                 <p className="optionsBlock__item-text">Rating</p>
                                             </div>
                                         </div>
@@ -215,7 +215,7 @@ const Catalog = () => {
                                         <div className="filters__left-filterItem">
                                             <p className="filterItem__text">Sort By: </p>
                                             <p className="filterItem__text">{selectValue}</p>
-                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() =>setSelectValue('')} />
+                                            <img src="/images/sectionCatalog/cross.png" alt="" className="filterItem-img" onClick={() => setSelectValue('')} />
                                         </div>
                                     }
 
@@ -227,10 +227,27 @@ const Catalog = () => {
                             </div>
                             <div className="sectionCatalog__productsBlock-products">
                                 {data?.data.length ? data?.data.map(product =>
-                                    <ProductItem key={product.id} product={product}/>) 
+                                    <ProductItem key={product.id} product={product} />)
                                     : <h4>Not found</h4>
                                 }
-                                    
+                            </div>
+                            <div className="sectionCatalog__productsBlock-pagination">
+                                <button className="pagination__btnArrow pagination__btnArrow-Left">
+                                    <img src="/images/sectionCatalog/Arrow Button.png" alt="" className="btnLeft__imgLeft" />
+                                </button>
+
+                                <button className="pagination__item pagination__item--active">1</button>
+
+                                <button className="pagination__item">2</button>
+
+                                <div className="pagination__dots">...</div>
+
+                                <button className="pagination__item">5</button>
+
+                                <button className="pagination__btnArrow pagination__btnArrow-Right">
+                                    <img src="/images/sectionCatalog/Arrow Button (1).png" alt="" className="btnLeft__imgRight" />
+                                </button>
+
                             </div>
                         </div>
                     </div>
