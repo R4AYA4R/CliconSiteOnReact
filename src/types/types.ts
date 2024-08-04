@@ -11,3 +11,12 @@ export interface IProduct{
     rating:number,
     totalPrice:number
 }
+
+export interface IInitialPagesState{
+    totalPages:number
+}
+
+export interface IPayloadPages{
+    totalCount:number,
+    limit:number
+}

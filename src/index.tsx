@@ -4,15 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 const queryClient = new QueryClient({
-  defaultOptions:{
-    queries:{
-      refetchOnWindowFocus:false
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
     }
   }
 })
@@ -20,7 +22,10 @@ const queryClient = new QueryClient({
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      {/* оборачиваем в Provider,чтобы состояние из redux toolkit было доступно во всех компонентах,указываем в store наш store */}
+      <Provider store={store}>
+          <App />
+      </Provider>
     </QueryClientProvider>
   </React.StrictMode>
 );

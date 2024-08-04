@@ -4,6 +4,9 @@ import ProductItem from "../components/ProductsItem";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IProduct } from "../types/types";
+import { useTypedSelector } from "../hooks/useTypedSelector";
+import { useActions } from "../hooks/useActions";
+import { getPagesArray } from "../utils/getPagesArray";
 
 const Catalog = () => {
 
@@ -16,6 +19,18 @@ const Catalog = () => {
     const [selectValue, setSelectValue] = useState('');
 
     const [searchValue, setSearchValue] = useState('');
+
+
+    const [limit, setLimit] = useState(2); // указываем лимит для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+
+    const [page, setPage] = useState(1); // указываем состояние текущей страницы
+
+    // const [totalPages, setTotalPages] = useState(0)
+
+    const { totalPages } = useTypedSelector(state => state.totalPagesReducer); // указываем наш слайс(редьюсер) под названием totalPagesReducer и деструктуризируем у него поле состояния totalPages(в данном случае для общего количества страниц,это не обязательно делать через redux,в данном случае просто для практики и чтобы не забыть),используя наш типизированный хук для useSelector
+
+    const { changeTotalPages } = useActions(); // берем action changeTotalPages для изменения totalPages у нашего хука useActions уже обернутый в диспатч,так как мы оборачивали это в самом хуке useActions
+
 
     const [filterBrands, setFilterBrands] = useState({
         appleBrand: false,
@@ -32,7 +47,19 @@ const Catalog = () => {
         queryKey: ['catalogProducts'],
         queryFn: async () => {
             // указываем тип,который вернет сервер наш IProduct[],массив товаров
-            const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}`);
+            const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}`, {
+                params: {
+                    _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+                    _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+                }
+            });
+
+            const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+
+            // setTotalPages(Math.ceil(totalCount / limit))
+
+            changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+
 
             return response;
         }
@@ -40,13 +67,32 @@ const Catalog = () => {
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchValue(e.target.value);
+        setPage(1);
     }
 
+    const prevPage = () => {
+        // если текущая страница больше или равна 2
+        if (page >= 2) {
+            setPage((prev) => prev - 1); // изменяем состояние текущей страницы на - 1(то есть в setPage берем prev(предыдущее значение,то есть текущее) и отнимаем 1)
+        }
+    }
 
+    const nextPage = () => {
+        // если текущая страница меньше или равна общему количеству страниц - 1(чтобы после последней страницы не переключалось дальше)
+        if (page <= totalPages - 1) {
+            setPage((prev) => prev + 1); // изменяем состояние текущей страницы на + 1(то есть в setPage берем prev(предыдущее значение,то есть текущее) и прибавляем 1)
+        }
+    }
+
+    // делаем запрос через useQuery еще раз,при изменении page(состояния текущей страницы),data?.data (массив товаров),изменении инпута поиска и других фильтров
     useEffect(() => {
-        refetch(); // делаем запрос на сервер еще раз,чтобы переобновить данные
-    }, [data?.data, searchValue]);
 
+        refetch(); // делаем запрос на сервер еще раз,чтобы переобновить данные
+
+    }, [data?.data, page, searchValue]);
+
+
+    let pagesArray = getPagesArray(totalPages, page); // помещаем в переменную pagesArray массив страниц пагинации,указываем переменную pagesArray как let,так как она будет меняться в зависимости от проверок в функции getPagesArray
 
     return (
         <main id="mainCatalog" className={onScreen.sectionMainCatalogIntersecting ? "main mainCatalog mainCatalog__active" : "main mainCatalog"} ref={mainCatalogRef}>
@@ -231,24 +277,42 @@ const Catalog = () => {
                                     : <h4>Not found</h4>
                                 }
                             </div>
-                            <div className="sectionCatalog__productsBlock-pagination">
-                                <button className="pagination__btnArrow pagination__btnArrow-Left">
-                                    <img src="/images/sectionCatalog/Arrow Button.png" alt="" className="btnLeft__imgLeft" />
-                                </button>
 
-                                <button className="pagination__item pagination__item--active">1</button>
+                            {/* если длина массива объектов true(то есть товары есть),то показывать пагинацию,в другом случае пустая строка(то есть ничего не показывать) */}
+                            {data?.data.length ?
+                                <div className="sectionCatalog__productsBlock-pagination">
+                                    <button className="pagination__btnArrow pagination__btnArrow-Left" onClick={prevPage}>
+                                        <img src="/images/sectionCatalog/Arrow Button.png" alt="" className="btnLeft__imgLeft" />
+                                    </button>
 
-                                <button className="pagination__item">2</button>
+                                    {pagesArray.map(p =>
+                                        <button
+                                            key={p}
 
-                                <div className="pagination__dots">...</div>
+                                            className={page === p ? "pagination__item pagination__item--active" : "pagination__item"} //если состояние номера текущей страницы page равно значению элементу массива pagesArray,то отображаем такие классы,в другом случае другие
 
-                                <button className="pagination__item">5</button>
+                                            onClick={() => setPage(p)} // отслеживаем на какую кнопку нажал пользователь и делаем ее активной,изменяем состояние текущей страницы page на значение элемента массива pagesArray(то есть страницу,на которую нажал пользователь)
 
-                                <button className="pagination__btnArrow pagination__btnArrow-Right">
-                                    <img src="/images/sectionCatalog/Arrow Button (1).png" alt="" className="btnLeft__imgRight" />
-                                </button>
+                                        >
+                                            {p}
+                                        </button>
+                                    )}
 
-                            </div>
+                                    {/* если общее количество страниц больше 4 и текущая страница меньше общего количества страниц - 2,то отображаем три точки */}
+                                    {totalPages > 4 && page < totalPages - 2 && <div className="pagination__dots">...</div>}
+
+                                    {/* если общее количество страниц больше 3 и текущая страница меньше общего количества страниц - 1,то отображаем кнопку последней страницы */}
+                                    {totalPages > 3 && page < totalPages - 1 &&
+                                        <button className="pagination__item" onClick={() => setPage(totalPages)}>{totalPages}</button>}
+
+                                    <button className="pagination__btnArrow pagination__btnArrow-Right" onClick={nextPage}>
+                                        <img src="/images/sectionCatalog/Arrow Button (1).png" alt="" className="btnLeft__imgRight" />
+                                    </button>
+
+                                </div>
+                                : ''
+                            }
+
                         </div>
                     </div>
                 </div>
