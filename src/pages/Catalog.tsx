@@ -43,25 +43,87 @@ const Catalog = () => {
 
     const onScreen = useIsOnScreen(mainCatalogRef);
 
-    const { data, refetch } = useQuery({
+    const { data, refetch, error } = useQuery({
         queryKey: ['catalogProducts'],
         queryFn: async () => {
-            // указываем тип,который вернет сервер наш IProduct[],массив товаров
-            const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}`, {
-                params: {
-                    _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
-                    _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
-                }
-            });
 
-            const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+            // делаем проверки, если category,price,brand равно пустой строке, то запрос на сервер без этих параметров в url,в другом случае,запрос с этими параметрами в url
+            if (filterCategories === '' && filterPrice === '') {
+                // указываем тип,который вернет сервер наш IProduct[],массив товаров
+                const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}`, {
+                    params: {
+                        _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+                        _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+                    }
+                });
 
-            // setTotalPages(Math.ceil(totalCount / limit))
+                const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
 
-            changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+                // setTotalPages(Math.ceil(totalCount / limit))
+
+                changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
 
 
-            return response;
+                return response;
+            }
+            
+            if (filterCategories !== '' && filterPrice !== '') {
+                // указываем тип,который вернет сервер наш IProduct[],массив товаров
+                const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}&category=${filterCategories}&priceFilter=${filterPrice}`, {
+                    params: {
+                        _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+                        _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+                    }
+                });
+
+                const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+
+                // setTotalPages(Math.ceil(totalCount / limit))
+
+                changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+
+
+                return response;
+            }
+
+            if (filterPrice !== '') {
+                // указываем тип,который вернет сервер наш IProduct[],массив товаров
+                const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}&priceFilter=${filterPrice}`, {
+                    params: {
+                        _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+                        _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+                    }
+                });
+
+                const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+
+                // setTotalPages(Math.ceil(totalCount / limit))
+
+                changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+
+
+                return response;
+            }
+
+            if (filterCategories !== '') {
+                // указываем тип,который вернет сервер наш IProduct[],массив товаров
+                const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}&category=${filterCategories}`, {
+                    params: {
+                        _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+                        _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+                    }
+                });
+
+                const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+
+                // setTotalPages(Math.ceil(totalCount / limit))
+
+                changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+
+
+                return response;
+            }
+
         }
     })
 
@@ -84,12 +146,31 @@ const Catalog = () => {
         }
     }
 
+    // при изменении searchValue,то есть когда пользователь что-то вводит в инпут поиска,то изменяем category на пустую строку,соответственно будет сразу идти поиск по всем товарам,а не в конкретной категории,но после поиска можно будет результат товаров по поиску уже отфильтровать по категориям и делаем повторный запрос на сервер уже с измененным значение searchValue(чтобы поиск число показвалось правильно,когда вводят что-то в поиск)
+    useEffect(() => {
+        setFilterCategories('');
+
+        setFilterBrands({
+            appleBrand: false,
+            lgBrand: false,
+            samsungBrand: false,
+            xiaomiBrand: false
+        });
+
+        setFilterPrice('');
+    }, [searchValue])
+
+    // при изменении фильтров изменяем состояние текущей страницы на первую
+    useEffect(() => {
+        setPage(1);
+    }, [filterBrands, filterCategories, filterPrice])
+
     // делаем запрос через useQuery еще раз,при изменении page(состояния текущей страницы),data?.data (массив товаров),изменении инпута поиска и других фильтров
     useEffect(() => {
 
         refetch(); // делаем запрос на сервер еще раз,чтобы переобновить данные
 
-    }, [data?.data, page, searchValue]);
+    }, [data?.data, page, searchValue, filterCategories,filterPrice]);
 
 
     let pagesArray = getPagesArray(totalPages, page); // помещаем в переменную pagesArray массив страниц пагинации,указываем переменную pagesArray как let,так как она будет меняться в зависимости от проверок в функции getPagesArray
@@ -115,12 +196,12 @@ const Catalog = () => {
                                 <label className="filterBar__categories-item" onClick={() => setFilterCategories('Electronics Devices')}>
                                     <input name="radio" type="radio" className="categories__item-radio" />
                                     <span className={filterCategories === 'Electronics Devices' ? "categories__item-radioStyle categories__item-radioStyleActive" : "categories__item-radioStyle"}></span>
-                                    <p className={filterCategories === 'Electronics Devices' ? "categories__item-text categories__item-textActive" : "categories__item-text"}>Electronics Devices</p>
+                                    <p className={filterCategories === 'Electronics Devices' ? "categories__item-text categories__item-textActive" : "categories__item-text"}>Electronic Devices</p>
                                 </label>
-                                <label className="filterBar__categories-item" onClick={() => setFilterCategories('Computer & Laptop')}>
+                                <label className="filterBar__categories-item" onClick={() => setFilterCategories('Laptop')}>
                                     <input name="radio" type="radio" className="categories__item-radio" />
-                                    <span className={filterCategories === 'Computer & Laptop' ? "categories__item-radioStyle categories__item-radioStyleActive" : "categories__item-radioStyle"}></span>
-                                    <p className={filterCategories === 'Computer & Laptop' ? "categories__item-text categories__item-textActive" : "categories__item-text"}>Computer & Laptop</p>
+                                    <span className={filterCategories === 'Laptop' ? "categories__item-radioStyle categories__item-radioStyleActive" : "categories__item-radioStyle"}></span>
+                                    <p className={filterCategories === 'Laptop' ? "categories__item-text categories__item-textActive" : "categories__item-text"}>Laptop</p>
                                 </label>
                                 <label className="filterBar__categories-item" onClick={() => setFilterCategories('Computer Accessories')}>
                                     <input name="radio" type="radio" className="categories__item-radio" />
@@ -271,10 +352,16 @@ const Catalog = () => {
                                     <p className="filters__right-desc">Results found.</p>
                                 </div>
                             </div>
+
+                            {error && <h3>{error.message}</h3>}
+
+                            {/* если data?.data.length(длина массива товаров) true(то есть они есть),выводим товары в другом случае если !error true(то есть error = false,ошибки нет),то выводим Not found,в другом случае,если ошибка есть,выводим пустую строку(то есть текст not found не выводим) */}
                             <div className="sectionCatalog__productsBlock-products">
                                 {data?.data.length ? data?.data.map(product =>
                                     <ProductItem key={product.id} product={product} />)
-                                    : <h4>Not found</h4>
+                                    : !error ?
+                                        <h4>Not found</h4>
+                                        : ''
                                 }
                             </div>
 
