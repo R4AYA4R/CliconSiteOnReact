@@ -31,7 +31,6 @@ const Catalog = () => {
 
     const { changeTotalPages } = useActions(); // берем action changeTotalPages для изменения totalPages у нашего хука useActions уже обернутый в диспатч,так как мы оборачивали это в самом хуке useActions
 
-
     const [filterBrands, setFilterBrands] = useState({
         appleBrand: false,
         samsungBrand: false,
@@ -47,82 +46,127 @@ const Catalog = () => {
         queryKey: ['catalogProducts'],
         queryFn: async () => {
 
-            // делаем проверки, если category,price,brand равно пустой строке, то запрос на сервер без этих параметров в url,в другом случае,запрос с этими параметрами в url
-            if (filterCategories === '' && filterPrice === '') {
-                // указываем тип,который вернет сервер наш IProduct[],массив товаров
-                const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}`, {
-                    params: {
-                        _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
-                        _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
-                    }
-                });
+            let url = `http://localhost:5000/catalogProducts?name_like=${searchValue}`;
 
-                const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+            // делаем проверки, если category,price,brand равны каким-то значениям,то добавляем их к общей переменной url
+            if(filterBrands.appleBrand){
+                url += '&brand=Apple';
+            }
+            if(filterBrands.samsungBrand){
+                url += '&brand=Samsung';
+            }
+            if(filterBrands.lgBrand){
+                url += '&brand=LG';
+            }
+            if(filterBrands.xiaomiBrand){
+                url += '&brand=Xiaomi';
+            }
 
-                // setTotalPages(Math.ceil(totalCount / limit))
-
-                changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
-
-
-                return response;
+            if(filterCategories !== ''){
+                url += `&category=${filterCategories}`;
             }
             
-            if (filterCategories !== '' && filterPrice !== '') {
-                // указываем тип,который вернет сервер наш IProduct[],массив товаров
-                const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}&category=${filterCategories}&priceFilter=${filterPrice}`, {
-                    params: {
-                        _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
-                        _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
-                    }
-                });
-
-                const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
-
-                // setTotalPages(Math.ceil(totalCount / limit))
-
-                changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
-
-
-                return response;
+            if(filterPrice !== ''){
+                url += `&priceFilter=${filterPrice}`;
             }
 
-            if (filterPrice !== '') {
-                // указываем тип,который вернет сервер наш IProduct[],массив товаров
-                const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}&priceFilter=${filterPrice}`, {
-                    params: {
-                        _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
-                        _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
-                    }
-                });
+            // указываем тип,который вернет сервер наш IProduct[],массив товаров,первым параметром в axios.get() указываем переменную url,которую изменяли проверками выше для фильтров
+            const response = await axios.get<IProduct[]>(url, {
+                params: {
+                    _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+                    _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+                }
+            });
 
-                const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+            const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
 
-                // setTotalPages(Math.ceil(totalCount / limit))
+            // setTotalPages(Math.ceil(totalCount / limit))
 
-                changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
-
-
-                return response;
-            }
-
-            if (filterCategories !== '') {
-                // указываем тип,который вернет сервер наш IProduct[],массив товаров
-                const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}&category=${filterCategories}`, {
-                    params: {
-                        _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
-                        _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
-                    }
-                });
-
-                const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
-
-                // setTotalPages(Math.ceil(totalCount / limit))
-
-                changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+            changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
 
 
-                return response;
-            }
+            return response;
+
+            // делаем проверки, если category,price,brand равно пустой строке, то запрос на сервер без этих параметров в url,в другом случае,запрос с этими параметрами в url
+            // if (filterCategories === '' && filterPrice === ''  && filterBrands.appleBrand === false && filterBrands.samsungBrand === false && filterBrands.lgBrand === false && filterBrands.xiaomiBrand === false) {
+            //     // указываем тип,который вернет сервер наш IProduct[],массив товаров
+            //     const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}`, {
+            //         params: {
+            //             _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+            //             _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+            //         }
+            //     });
+
+            //     const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+
+            //     // setTotalPages(Math.ceil(totalCount / limit))
+
+            //     changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+
+
+            //     return response;
+            // }
+            
+            // if (filterCategories !== '' && filterPrice !== '') {
+            //     // указываем тип,который вернет сервер наш IProduct[],массив товаров
+            //     const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}&category=${filterCategories}&priceFilter=${filterPrice}`, {
+            //         params: {
+            //             _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+            //             _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+            //         }
+            //     });
+
+            //     const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+
+            //     // setTotalPages(Math.ceil(totalCount / limit))
+
+            //     changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+
+
+            //     return response;
+            // }
+
+            // if (filterPrice !== '') {
+            //     // указываем тип,который вернет сервер наш IProduct[],массив товаров
+            //     const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}&priceFilter=${filterPrice}`, {
+            //         params: {
+            //             _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+            //             _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+            //         }
+            //     });
+
+            //     const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+
+            //     // setTotalPages(Math.ceil(totalCount / limit))
+
+            //     changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+
+
+            //     return response;
+            // }
+
+            // if (filterCategories !== '') {
+            //     // указываем тип,который вернет сервер наш IProduct[],массив товаров
+            //     const response = await axios.get<IProduct[]>(`http://localhost:5000/catalogProducts?name_like=${searchValue}&category=${filterCategories}`, {
+            //         params: {
+            //             _limit: limit, // указываем параметр limit для максимального количества объектов,которые сможет передать сервер за раз(для пагинации)
+            //             _page: page // указываем параметр page(параметр текущей страницы,для пагинации)
+            //         }
+            //     });
+
+            //     const totalCount = data?.headers['x-total-count']; // записываем общее количество объектов(в данном случае объектов для товаров),полученных от сервера в переменную
+
+            //     // setTotalPages(Math.ceil(totalCount / limit))
+
+            //     changeTotalPages({ totalCount: totalCount, limit: limit }); // используем наш action для изменения состояния redux,в данном случае она изменяет поле totalPages,в нее передаем объект с полями totalCount и limit(можно указать просто totalCount, вместо totalCount:totalCount,так как ключ и значение одинаковые,но можно и так),эта функция делит totalCount на limit с помощью Math.ceil(),чтобы округлить результат до большего целого числа,для пагинации
+
+
+            //     return response;
+            // }
+
+
+            
+
 
         }
     })
@@ -145,6 +189,8 @@ const Catalog = () => {
             setPage((prev) => prev + 1); // изменяем состояние текущей страницы на + 1(то есть в setPage берем prev(предыдущее значение,то есть текущее) и прибавляем 1)
         }
     }
+
+
 
     // при изменении searchValue,то есть когда пользователь что-то вводит в инпут поиска,то изменяем category на пустую строку,соответственно будет сразу идти поиск по всем товарам,а не в конкретной категории,но после поиска можно будет результат товаров по поиску уже отфильтровать по категориям и делаем повторный запрос на сервер уже с измененным значение searchValue(чтобы поиск число показвалось правильно,когда вводят что-то в поиск)
     useEffect(() => {
@@ -170,7 +216,7 @@ const Catalog = () => {
 
         refetch(); // делаем запрос на сервер еще раз,чтобы переобновить данные
 
-    }, [data?.data, page, searchValue, filterCategories,filterPrice]);
+    }, [data?.data, page, searchValue, filterCategories,filterPrice,filterBrands]);
 
 
     let pagesArray = getPagesArray(totalPages, page); // помещаем в переменную pagesArray массив страниц пагинации,указываем переменную pagesArray как let,так как она будет меняться в зависимости от проверок в функции getPagesArray
