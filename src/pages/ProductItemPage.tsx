@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -15,6 +15,14 @@ const ProductItemPage = () => {
     const [inputValue, setInputValue] = useState<number>(1);
 
     const [formActive,setFormActive] = useState(false);
+
+    const [activeStarsForm,setActiveStarsForm] = useState(0);
+
+    const [inputFormName,setInputFormName] = useState('');
+
+    const [textFormArea,setTextFormArea] = useState('');
+
+    const [errorFormMessage,setErrorFormMessage] = useState('');
 
     const sectionProductPage = useRef(null);
     const onScreen = useIsOnScreen(sectionProductPage);
@@ -63,8 +71,24 @@ const ProductItemPage = () => {
         }
     }
 
-    const formHandler =()=>{
-        setFormActive(false);
+    const formHandler =(e:FormEvent<HTMLButtonElement>)=>{
+        e.preventDefault();
+
+        // если значение textarea и input (.trim()-убирает из строки пробелы,чтобы нельзя было ввести только пробел) в форме комментария будет пустой строчкой(то есть пользователь ничего туда не ввел),будем изменять состояние ErrorFormMessage(то есть показывать ошибку и не отправлять комментарий),в другом случае очищаем поля textarea и input формы и убираем форму
+        if(inputFormName.trim() === '' || textFormArea.trim() === '' || activeStarsForm === 0){
+            setErrorFormMessage('Fill out all form fields and rating');
+        }else if(inputFormName.trim().length <= 3){
+            setErrorFormMessage('Name must be more than 3 characters');
+        }else if(textFormArea.trim().length <= 10){
+            setErrorFormMessage('Comment must be more than 10 characters');
+        }else{
+            setInputFormName('');
+            setTextFormArea('');
+            setActiveStarsForm(0);
+            setErrorFormMessage('');
+            setFormActive(false);
+        }
+
     }
 
     // при изменении inputValue и data?.data(в данном случае данные товара,полученные с сервера,чтобы при запуске страницы сайта уже было значение в priceProduct,без этого стартовое значение priceProduct не становится на data?.data.price) изменяем состояние priceProduct
@@ -224,18 +248,22 @@ const ProductItemPage = () => {
 
                                     <div className={formActive ? "reviews__rightBlock-form" : "reviews__rightBlock-form reviews__rightBlock-formNone"}>
                                         <div className="form__top">
-                                            <input type="text" className="form__top-inputName" placeholder="Name" />
+                                            <input type="text" className="form__top-inputName" placeholder="Name" value={inputFormName} onChange={(e)=>setInputFormName(e.target.value)}/>
                                             <div className="products__item-stars">
-                                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                                <img src="/images/sectionCatalog/StarGray.png" alt="" className="item__stars-img item__stars-imgGray" />
+                                                <img src={activeStarsForm === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={()=>setActiveStarsForm(1)}/>
+                                                <img src={activeStarsForm >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={()=>setActiveStarsForm(2)}/>
+                                                <img src={activeStarsForm >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={()=>setActiveStarsForm(3)}/>
+                                                <img src={activeStarsForm >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={()=>setActiveStarsForm(4)}/>
+                                                <img src={activeStarsForm >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray item__stars-imgForm" onClick={()=>setActiveStarsForm(5)}/>
                                             </div>
                                         </div>
                                         <div className="form__main">
-                                            <textarea className="form__textarea" placeholder="Enter your comment"></textarea>
+                                            <textarea className="form__textarea" placeholder="Enter your comment" value={textFormArea} onChange={(e)=>setTextFormArea(e.target.value)}></textarea>
                                         </div>
+
+                                        {/* если состояние ошибки формы не равно пустой строке,то показываем текст ошибки */}
+                                        {errorFormMessage !== '' && <p className="form__errorText">{errorFormMessage}</p>}
+                                
                                         <button className="rightBlock__top-btn" onClick={formHandler}>Save Comment</button>
                                     </div>
 

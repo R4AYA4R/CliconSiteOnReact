@@ -1790,3 +1790,16 @@ a {
     /* убираем возможность изменять размер textarea */
     min-height: 70px;
 }
+.item__stars-imgForm{
+    cursor:pointer;
+    margin-left: 3px;
+    opacity: 1;
+    transition:opacity .3s ease;
+}
+.item__stars-imgForm:hover{
+    opacity: 0.5;
+}
+.form__errorText{
+    margin-bottom: 10px;
+    color:#EE5858;
+}
