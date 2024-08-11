@@ -20,3 +20,11 @@ export interface IPayloadPages{
     totalCount:number,
     limit:number
 }
+
+export interface IComment{
+    id:number,
+    nameFor:string,
+    name:string,
+    text:string,
+    rating:number
+}

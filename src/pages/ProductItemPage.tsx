@@ -1,9 +1,9 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { IProduct } from "../types/types";
+import { IComment, IProduct } from "../types/types";
 import SectionSellers from "../components/SectionSellers";
 
 
@@ -14,15 +14,15 @@ const ProductItemPage = () => {
 
     const [inputValue, setInputValue] = useState<number>(1);
 
-    const [formActive,setFormActive] = useState(false);
+    const [formActive, setFormActive] = useState(false);
 
-    const [activeStarsForm,setActiveStarsForm] = useState(0);
+    const [activeStarsForm, setActiveStarsForm] = useState(0);
 
-    const [inputFormName,setInputFormName] = useState('');
+    const [inputFormName, setInputFormName] = useState('');
 
-    const [textFormArea,setTextFormArea] = useState('');
+    const [textFormArea, setTextFormArea] = useState('');
 
-    const [errorFormMessage,setErrorFormMessage] = useState('');
+    const [errorFormMessage, setErrorFormMessage] = useState('');
 
     const sectionProductPage = useRef(null);
     const onScreen = useIsOnScreen(sectionProductPage);
@@ -40,6 +40,30 @@ const ProductItemPage = () => {
     })
 
     const [priceProduct, setPriceProduct] = useState(data?.data.price);
+
+    // делаем запрос на получение комментариев
+    const { data: dataComments, refetch: refetchComments } = useQuery({
+        queryKey: ['comments'],
+        queryFn: async () => {
+
+            const response = await axios.get<IComment[]>(`http://localhost:5000/comments?nameFor=${data?.data.name}`); // получаем массив комментариев,у которых поле nameFor со значением как название товара
+
+            return response;
+        }
+    })
+
+    // функция для post запроса на сервер с помощью useMutation(react query),создаем комментарий на сервере,берем mutate у useMutation,чтобы потом вызвать эту функцию запроса на сервер в нужный момент
+    const { mutate } = useMutation({
+        mutationKey: ['create comment'],
+        mutationFn: async (comment: IComment) => {
+            // делаем запрос на сервер и добавляем данные на сервер,указываем тип данных,которые нужно добавить на сервер(в данном случае IComment),но здесь не обязательно указывать тип,делаем тип объекта,который мы передаем на сервер as IComment(id вручную не указываем,чтобы он сам генерировался автоматически на сервере)
+            await axios.post<IComment>('http://localhost:5000/comments', comment);
+        },
+        // при успешной мутации переобновляем массив комментариев
+        onSuccess() {
+            refetchComments();
+        }
+    })
 
     const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
         // если текущее значение инпута > 99,то изменяем состояние инпута цены на 99,указываем + перед e.target.value,чтобы перевести текущее значение инпута из строки в число
@@ -71,17 +95,21 @@ const ProductItemPage = () => {
         }
     }
 
-    const formHandler =(e:FormEvent<HTMLButtonElement>)=>{
+    const formHandler = (e: FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
         // если значение textarea и input (.trim()-убирает из строки пробелы,чтобы нельзя было ввести только пробел) в форме комментария будет пустой строчкой(то есть пользователь ничего туда не ввел),будем изменять состояние ErrorFormMessage(то есть показывать ошибку и не отправлять комментарий),в другом случае очищаем поля textarea и input формы и убираем форму
-        if(inputFormName.trim() === '' || textFormArea.trim() === '' || activeStarsForm === 0){
+        if (inputFormName.trim() === '' || textFormArea.trim() === '' || activeStarsForm === 0) {
             setErrorFormMessage('Fill out all form fields and rating');
-        }else if(inputFormName.trim().length <= 3){
-            setErrorFormMessage('Name must be more than 3 characters');
-        }else if(textFormArea.trim().length <= 10){
+        } else if (inputFormName.trim().length <= 2) {
+            setErrorFormMessage('Name must be more than 2 characters');
+        } else if (textFormArea.trim().length <= 10) {
             setErrorFormMessage('Comment must be more than 10 characters');
-        }else{
+        } else {
+
+            mutate({ name: inputFormName, nameFor: data?.data.name, text: textFormArea, rating: activeStarsForm } as IComment); // вызываем функцию post запроса на сервер,создавая комментарий,разворачивая в объект нужные поля для комментария и давая этому объекту тип as IComment(вручную не указываем id,чтобы он автоматически создавался на сервере)
+
+
             setInputFormName('');
             setTextFormArea('');
             setActiveStarsForm(0);
@@ -90,6 +118,12 @@ const ProductItemPage = () => {
         }
 
     }
+
+    useEffect(() => {
+
+        refetchComments();
+
+    }, [dataComments?.data,data?.data])
 
     // при изменении inputValue и data?.data(в данном случае данные товара,полученные с сервера,чтобы при запуске страницы сайта уже было значение в priceProduct,без этого стартовое значение priceProduct не становится на data?.data.price) изменяем состояние priceProduct
     useEffect(() => {
@@ -227,43 +261,51 @@ const ProductItemPage = () => {
                         {tab === 'review' &&
                             <div className="reviews__inner">
                                 <div className="reviews__leftBlock">
-                                    <div className="reviews__leftBlock-comment">
-                                        <div className="comment__top">
-                                            <h2 className="comment__top-title">Bob</h2>
-                                            <div className="products__item-stars">
-                                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                                <img src="/images/sectionCatalog/StarGray.png" alt="" className="item__stars-img item__stars-imgGray" />
+                                    {dataComments?.data.length ?
+                                        dataComments.data.map((comm) =>
+                                            <div className="reviews__leftBlock-comment"key={comm.id}>
+                                                <div className="comment__top">
+                                                    <h2 className="comment__top-title">{comm.name}</h2>
+                                                    <div className="products__item-stars">
+                                                        <img src={comm.rating === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img" />
+                                                        <img src={comm.rating >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                                        <img src={comm.rating >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                                        <img src={comm.rating >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                                        <img src={comm.rating >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray" />
+                                                    </div>
+                                                </div>
+                                                <p className="comment__desc">{comm.text}</p>
                                             </div>
-                                        </div>
-                                        <p className="comment__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. At, fugiat quam ut quos asperiores sint dicta ea alias hic labore.</p>
-                                    </div>
+                                        )
+                                        :
+                                        <h3>No comments yet.</h3>
+                                    }
+
+
                                 </div>
                                 <div className="reviews__rightBlock">
                                     <div className="reviews__rightBlock-top">
-                                        <button className={formActive ? "rightBlock__top-btn rightBlock__top-btnNone" : "rightBlock__top-btn"} onClick={()=>setFormActive(true)}>Add Comment</button>
+                                        <button className={formActive ? "rightBlock__top-btn rightBlock__top-btnNone" : "rightBlock__top-btn"} onClick={() => setFormActive(true)}>Add Comment</button>
                                     </div>
 
                                     <div className={formActive ? "reviews__rightBlock-form" : "reviews__rightBlock-form reviews__rightBlock-formNone"}>
                                         <div className="form__top">
-                                            <input type="text" className="form__top-inputName" placeholder="Name" value={inputFormName} onChange={(e)=>setInputFormName(e.target.value)}/>
+                                            <input type="text" className="form__top-inputName" placeholder="Name" value={inputFormName} onChange={(e) => setInputFormName(e.target.value)} />
                                             <div className="products__item-stars">
-                                                <img src={activeStarsForm === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={()=>setActiveStarsForm(1)}/>
-                                                <img src={activeStarsForm >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={()=>setActiveStarsForm(2)}/>
-                                                <img src={activeStarsForm >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={()=>setActiveStarsForm(3)}/>
-                                                <img src={activeStarsForm >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={()=>setActiveStarsForm(4)}/>
-                                                <img src={activeStarsForm >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray item__stars-imgForm" onClick={()=>setActiveStarsForm(5)}/>
+                                                <img src={activeStarsForm === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(1)} />
+                                                <img src={activeStarsForm >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(2)} />
+                                                <img src={activeStarsForm >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(3)} />
+                                                <img src={activeStarsForm >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(4)} />
+                                                <img src={activeStarsForm >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray item__stars-imgForm" onClick={() => setActiveStarsForm(5)} />
                                             </div>
                                         </div>
                                         <div className="form__main">
-                                            <textarea className="form__textarea" placeholder="Enter your comment" value={textFormArea} onChange={(e)=>setTextFormArea(e.target.value)}></textarea>
+                                            <textarea className="form__textarea" placeholder="Enter your comment" value={textFormArea} onChange={(e) => setTextFormArea(e.target.value)}></textarea>
                                         </div>
 
                                         {/* если состояние ошибки формы не равно пустой строке,то показываем текст ошибки */}
                                         {errorFormMessage !== '' && <p className="form__errorText">{errorFormMessage}</p>}
-                                
+
                                         <button className="rightBlock__top-btn" onClick={formHandler}>Save Comment</button>
                                     </div>
 

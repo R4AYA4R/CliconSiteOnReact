@@ -1723,6 +1723,9 @@ a {
     border-bottom: 1px solid #E4E7E9;
     margin-bottom: 110px;
 }
+.reviews__leftBlock-comment{
+    margin-bottom: 20px;
+}
 
 .comment__top {
     display: flex;
