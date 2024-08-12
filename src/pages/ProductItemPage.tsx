@@ -24,6 +24,8 @@ const ProductItemPage = () => {
 
     const [errorFormMessage, setErrorFormMessage] = useState('');
 
+    const [commentsRatingMain, setCommentsRatingMain] = useState(0);
+
     const sectionProductPage = useRef(null);
     const onScreen = useIsOnScreen(sectionProductPage);
 
@@ -64,6 +66,7 @@ const ProductItemPage = () => {
             refetchComments();
         }
     })
+
 
     const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
         // если текущее значение инпута > 99,то изменяем состояние инпута цены на 99,указываем + перед e.target.value,чтобы перевести текущее значение инпута из строки в число
@@ -123,7 +126,22 @@ const ProductItemPage = () => {
 
         refetchComments();
 
-    }, [dataComments?.data,data?.data])
+    }, [dataComments?.data, data?.data])
+
+    useEffect(() => {
+        const commentsRating = dataComments?.data.reduce((prev, curr) => prev + curr.rating, 0);
+
+        if (dataComments?.data.length && commentsRating) {
+            const commentsRatingMiddle = commentsRating / dataComments?.data.length;
+
+            setCommentsRatingMain(commentsRatingMiddle);
+
+        } else {
+            setCommentsRatingMain(0);
+        }
+
+    }, [dataComments?.data])
+
 
     // при изменении inputValue и data?.data(в данном случае данные товара,полученные с сервера,чтобы при запуске страницы сайта уже было значение в priceProduct,без этого стартовое значение priceProduct не становится на data?.data.price) изменяем состояние priceProduct
     useEffect(() => {
@@ -133,6 +151,7 @@ const ProductItemPage = () => {
         }
 
     }, [inputValue, data?.data])
+
 
     return (
         <main className={onScreen.sectionProductPageIntersecting ? "main mainProductPage mainProductPage--active" : "main mainProductPage"} id="sectionProductPage" ref={sectionProductPage}>
@@ -158,11 +177,13 @@ const ProductItemPage = () => {
                         </div>
                         <div className="sectionProductTop__infoBlock">
                             <div className="products__item-stars">
-                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                <img src="/images/sectionCatalog/Star.png" alt="" className="item__stars-img" />
-                                <img src="/images/sectionCatalog/StarGray.png" alt="" className="item__stars-img item__stars-imgGray" />
+
+                                <img src={commentsRatingMain === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img" />
+                                <img src={commentsRatingMain  >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                <img src={commentsRatingMain  >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                <img src={commentsRatingMain  >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                <img src={commentsRatingMain  >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray" />
+
                             </div>
                             <h2 className="infoBlock__title">{data?.data.name}</h2>
                             <div className="infoBlock__item">
@@ -263,7 +284,7 @@ const ProductItemPage = () => {
                                 <div className="reviews__leftBlock">
                                     {dataComments?.data.length ?
                                         dataComments.data.map((comm) =>
-                                            <div className="reviews__leftBlock-comment"key={comm.id}>
+                                            <div className="reviews__leftBlock-comment" key={comm.id}>
                                                 <div className="comment__top">
                                                     <h2 className="comment__top-title">{comm.name}</h2>
                                                     <div className="products__item-stars">
