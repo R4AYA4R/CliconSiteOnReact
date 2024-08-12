@@ -129,10 +129,12 @@ const ProductItemPage = () => {
     }, [dataComments?.data, data?.data])
 
     useEffect(() => {
-        const commentsRating = dataComments?.data.reduce((prev, curr) => prev + curr.rating, 0);
+        const commentsRating = dataComments?.data.reduce((prev, curr) => prev + curr.rating, 0); // проходимся по массиву объектов комментариев,отфильтрованных для каждого товара по имени и на каждой итерации увеличиваем переменную prev(это число,и мы указали,что в начале оно равно 0 и оно будет увеличиваться на каждой итерации массива объектов,запоминая старое состояние числа и увеличивая его на новое значение) на curr(текущий итерируемый объект).rating ,это чтобы посчитать общую сумму всего рейтинга от каждого комментария и потом вывести среднее значение
 
+        //если commentsRating true(эта переменная есть и равна чему-то) и dataComments?.data.length true(этот массив отфильтрованных комментариев есть),то считаем средний рейтинг всех комментариев и записываем его в переменную,а потом в состояние,чтобы отобразить рейтинг
         if (dataComments?.data.length && commentsRating) {
-            const commentsRatingMiddle = commentsRating / dataComments?.data.length;
+            
+            const commentsRatingMiddle = commentsRating / dataComments?.data.length; // считаем средний рейтинг комментариев для каждого товара,делим общее количество рейтинга каждого комменатрия на количество комментариев для каждого товара
 
             setCommentsRatingMain(commentsRatingMiddle);
 
