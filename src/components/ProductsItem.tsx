@@ -16,7 +16,7 @@ const ProductItem = ({product}:ProductItem) => {
 
     const [amountReviews,setAmountReviews]=useState<number | undefined>(0);
 
-    const {data:dataComments,refetch:refetchComments} = useQuery({
+    const {data:dataComments} = useQuery({
         queryKey:['commentsProduct'],
         queryFn: async ()=>{
             // делаем запрос на сервер для получения комментариев 
@@ -27,8 +27,6 @@ const ProductItem = ({product}:ProductItem) => {
     })
 
     useEffect(()=>{
-
-        refetchComments();
 
         const dataCommentsForName = dataComments?.data.filter(c => c.nameFor === product.name); // массив данных комментариев фильтруем для каджого товара по его имени
 
