@@ -9,7 +9,7 @@
       "price": 2300,
       "priceFilter": "Above $1,000",
       "amount": 1,
-      "rating": 0,
+      "rating": 2.7142857142857144,
       "totalPrice": 2300
     },
     {
@@ -21,7 +21,7 @@
       "price": 20,
       "priceFilter": "Under $20",
       "amount": 1,
-      "rating": 3,
+      "rating": 4,
       "totalPrice": 20
     },
     {
@@ -33,7 +33,7 @@
       "price": 890,
       "priceFilter": "$500 to $1,000",
       "amount": 1,
-      "rating": 0,
+      "rating": 4,
       "totalPrice": 890
     },
     {
@@ -45,7 +45,7 @@
       "price": 250,
       "priceFilter": "$100 to $500",
       "amount": 1,
-      "rating": 0,
+      "rating": 3,
       "totalPrice": 250
     },
     {
@@ -57,7 +57,7 @@
       "price": 80,
       "priceFilter": "$20 to $100",
       "amount": 1,
-      "rating": 0,
+      "rating": 3.3333333333333335,
       "totalPrice": 80
     },
     {
@@ -69,7 +69,7 @@
       "price": 1250,
       "priceFilter": "Above $1,000",
       "amount": 1,
-      "rating": 5,
+      "rating": 2.6666666666666665,
       "totalPrice": 1250
     },
     {
@@ -81,7 +81,7 @@
       "price": 580,
       "priceFilter": "$500 to $1,000",
       "amount": 1,
-      "rating": 0,
+      "rating": 2.75,
       "totalPrice": 580
     },
     {
@@ -93,7 +93,7 @@
       "price": 350,
       "priceFilter": "$100 to $500",
       "amount": 1,
-      "rating": 0,
+      "rating": 3.25,
       "totalPrice": 350
     },
     {
@@ -105,7 +105,7 @@
       "price": 1760,
       "priceFilter": "Above $1,000",
       "amount": 1,
-      "rating": 0,
+      "rating": 4,
       "totalPrice": 1760
     }
   ],
@@ -270,6 +270,97 @@
       "text": "adfadfaaaaaa",
       "rating": 5,
       "id": 23
+    },
+    {
+      "name": "adfadfasf",
+      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
+      "text": "adsfadfaaaaaaaaa",
+      "rating": 1,
+      "id": 24
+    },
+    {
+      "name": "asdfasdfafda",
+      "nameFor": "4K UHD LED Smart TV with Chromecast Built-in",
+      "text": "aaaaaaaaaaaaaaaaaaaaaaaaa",
+      "rating": 5,
+      "id": 25
+    },
+    {
+      "name": "bob",
+      "nameFor": "Acer Aspire TC-1780-UA92",
+      "text": "sadfafdadsfasf",
+      "rating": 1,
+      "id": 26
+    },
+    {
+      "name": "adsfasdfadsf",
+      "nameFor": "Dell Optiplex 7000x7480 All-in-One Printer",
+      "text": "aaaaaaaaaaaaaaaaaaaaaa",
+      "rating": 1,
+      "id": 27
+    },
+    {
+      "name": "dasfasdfa",
+      "nameFor": "Acer Aspire TC-1780-UA92",
+      "text": "aaaaaaaaaaaaaaaa",
+      "rating": 5,
+      "id": 28
+    },
+    {
+      "name": "adfadsfaaaaaaa",
+      "nameFor": "Acer Aspire TC-1780-UA92",
+      "text": "aaaaaaaaaaaaaaa",
+      "rating": 5,
+      "id": 29
+    },
+    {
+      "name": "adfadfadfadfa",
+      "nameFor": "Acer Aspire TC-1780-UA92",
+      "text": "aaaaaaaaaaaaaaaaaaaaa",
+      "rating": 5,
+      "id": 30
+    },
+    {
+      "name": "fdafadsfadfaa",
+      "nameFor": "4K UHD LED Smart TV with Chromecast Built-in",
+      "text": "aaaaaaaaaaa",
+      "rating": 1,
+      "id": 31
+    },
+    {
+      "name": "aadfafa",
+      "nameFor": "Portable Headphones, 11lbs capacity Model 18NMF",
+      "text": "aaaaaaaaaaa",
+      "rating": 5,
+      "id": 32
+    },
+    {
+      "name": "adfaaa",
+      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
+      "text": "aaaaaaaaaaaaaaa",
+      "rating": 1,
+      "id": 33
+    },
+    {
+      "name": "bacbaba",
+      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
+      "text": "aaaaaaaaaaaa",
+      "rating": 1,
+      "id": 34
+    },
+    {
+      "name": "john",
+      "nameFor": "TOZO T6 Keyboard True Bluetooth",
+      "text": "asdfafaaaaaaa",
+      "rating": 1,
+      "id": 35
+    },
+    {
+      "name": "adsfasf",
+      "nameFor": "TOZO T6 Keyboard True Bluetooth",
+      "text": "aaaaaaaaaaaaa",
+      "rating": 1,
+      "id": 36
     }
   ]
 }

@@ -118,6 +118,10 @@ const Catalog = () => {
                 url += `&priceFilter=${filterPrice}`;
             }
 
+            if(selectValue !== ''){
+                url += `&_sort=rating&_order=desc`;
+            }
+
             // указываем тип,который вернет сервер наш IProduct[],массив товаров,первым параметром в axios.get() указываем переменную url,которую изменяли проверками выше для фильтров,вторым параметром указываем объект с параметрами запроса
             const response = await axios.get<IProduct[]>(url, {
                 params: {
@@ -212,7 +216,7 @@ const Catalog = () => {
     // при изменении фильтров изменяем состояние текущей страницы на первую
     useEffect(() => {
         setPage(1);
-    }, [filterBrands, filterCategories, filterPrice])
+    }, [filterBrands, filterCategories, filterPrice,selectValue])
 
     // при изменении поиска и других фильтров делаем повторный запрос на сервер,чтобы переобновить данные для числа найденных товаров
     useEffect(()=>{
@@ -226,7 +230,7 @@ const Catalog = () => {
 
         refetch(); // делаем запрос на сервер еще раз,чтобы переобновить данные
 
-    }, [data?.data, page, searchValue, filterCategories,filterPrice,filterBrands]);
+    }, [data?.data, page, searchValue, filterCategories,filterPrice,filterBrands,selectValue]);
 
 
     let pagesArray = getPagesArray(totalPages, page); // помещаем в переменную pagesArray массив страниц пагинации,указываем переменную pagesArray как let,так как она будет меняться в зависимости от проверок в функции getPagesArray

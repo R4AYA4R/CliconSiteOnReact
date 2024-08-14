@@ -24,14 +24,14 @@ const ProductItemPage = () => {
 
     const [errorFormMessage, setErrorFormMessage] = useState('');
 
-    const [commentsRatingMain, setCommentsRatingMain] = useState(0);
+    // const [commentsRatingMain, setCommentsRatingMain] = useState(0);
 
     const sectionProductPage = useRef(null);
     const onScreen = useIsOnScreen(sectionProductPage);
 
     const params = useParams(); //useParams выцепляет параметр из url (в данном случае id товара)
 
-    const { data } = useQuery({
+    const { data,refetch } = useQuery({
         queryKey: ['productIdPage'],
         queryFn: async () => {
             // делаем запрос на сервер по конкретному id,который достали из url,указываем тип данных,которые вернет сервер(в данном случае наш IProduct для товара)
@@ -42,6 +42,21 @@ const ProductItemPage = () => {
     })
 
     const [priceProduct, setPriceProduct] = useState(data?.data.price);
+
+
+    // делаем запрос на изменение рейтинга у товара
+    const { mutate: mutateRating } = useMutation({
+        mutationKey: ['mutate ratingProduct'],
+        mutationFn: async (product: IProduct) => {
+            // в этом запросе для изменения рейтинга нужно указать id как у data?.data,а не params.id,иначе не работает нормально
+            await axios.put<any,any,IProduct>(`http://localhost:5000/catalogProducts/${data?.data.id}`, product);
+        },
+        // при успешной мутации(изменения) рейтинга,переобновляем данные товара
+        onSuccess(){
+            refetch();
+        }
+    })
+
 
     // делаем запрос на получение комментариев
     const { data: dataComments, refetch: refetchComments } = useQuery({
@@ -133,13 +148,16 @@ const ProductItemPage = () => {
 
         //если commentsRating true(эта переменная есть и равна чему-то) и dataComments?.data.length true(этот массив отфильтрованных комментариев есть),то считаем средний рейтинг всех комментариев и записываем его в переменную,а потом в состояние,чтобы отобразить рейтинг
         if (dataComments?.data.length && commentsRating) {
-            
+
             const commentsRatingMiddle = commentsRating / dataComments?.data.length; // считаем средний рейтинг комментариев для каждого товара,делим общее количество рейтинга каждого комменатрия на количество комментариев для каждого товара
 
-            setCommentsRatingMain(commentsRatingMiddle);
+            // делаем запрос на изменение рейтинга у товара
+            mutateRating({ ...data?.data, rating: commentsRatingMiddle } as IProduct);
+
+            // setCommentsRatingMain(commentsRatingMiddle);
 
         } else {
-            setCommentsRatingMain(0);
+            // setCommentsRatingMain(0);
         }
 
     }, [dataComments?.data])
@@ -179,12 +197,23 @@ const ProductItemPage = () => {
                         </div>
                         <div className="sectionProductTop__infoBlock">
                             <div className="products__item-stars">
-
+                                {/* 
                                 <img src={commentsRatingMain === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img" />
                                 <img src={commentsRatingMain  >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
                                 <img src={commentsRatingMain  >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
                                 <img src={commentsRatingMain  >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
                                 <img src={commentsRatingMain  >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray" />
+                                */}
+
+                                {data?.data && 
+                                    <>
+                                        <img src={data?.data.rating === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img" />
+                                        <img src={data?.data.rating >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                        <img src={data?.data.rating >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                        <img src={data?.data.rating >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                        <img src={data?.data.rating >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray" />
+                                    </>
+                                }
 
                             </div>
                             <h2 className="infoBlock__title">{data?.data.name}</h2>
