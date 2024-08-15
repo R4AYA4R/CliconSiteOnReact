@@ -5,6 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IComment, IProduct } from "../types/types";
 import SectionSellers from "../components/SectionSellers";
+import { apiBasket } from "../store/apiBasket";
 
 
 
@@ -31,7 +32,13 @@ const ProductItemPage = () => {
 
     const params = useParams(); //useParams выцепляет параметр из url (в данном случае id товара)
 
-    const { data,refetch } = useQuery({
+
+    const [addProductBasket] = apiBasket.useAddProductBasketMutation(); // берем функцию запроса на сервер из нашего api(apiBasket) с помощью нашего хука useAddProductBasketMutation,вторым элементом,который можно взять у этого хука,это все состояния,которые rtk query автоматически создает,а также data(данные запроса)
+
+    const { data: dataBasket } = apiBasket.useGetAllProductsBasketQuery(null); // делаем запрос на сервер для получения всех объектов в корзине,чтобы сделать проверку на существующий товар в корзине,указываем в параметре useGetAllProductsBasketQuery null,так как используем typescript
+
+
+    const { data, refetch } = useQuery({
         queryKey: ['productIdPage'],
         queryFn: async () => {
             // делаем запрос на сервер по конкретному id,который достали из url,указываем тип данных,которые вернет сервер(в данном случае наш IProduct для товара)
@@ -43,16 +50,17 @@ const ProductItemPage = () => {
 
     const [priceProduct, setPriceProduct] = useState(data?.data.price);
 
+    const isExistsBasket = dataBasket?.some(p => p.name === data?.data.name); // делаем проверку методом some и результат записываем в переменную isExistsBasket,если в dataBasket(в массиве объектов корзины) есть элемент name которого равен data?.data name(то есть name этого товара)
 
     // делаем запрос на изменение рейтинга у товара
     const { mutate: mutateRating } = useMutation({
         mutationKey: ['mutate ratingProduct'],
         mutationFn: async (product: IProduct) => {
             // в этом запросе для изменения рейтинга нужно указать id как у data?.data,а не params.id,иначе не работает нормально
-            await axios.put<any,any,IProduct>(`http://localhost:5000/catalogProducts/${data?.data.id}`, product);
+            await axios.put<any, any, IProduct>(`http://localhost:5000/catalogProducts/${data?.data.id}`, product);
         },
         // при успешной мутации(изменения) рейтинга,переобновляем данные товара
-        onSuccess(){
+        onSuccess() {
             refetch();
         }
     })
@@ -173,6 +181,10 @@ const ProductItemPage = () => {
     }, [inputValue, data?.data])
 
 
+    const addToCart = async () => {
+        await addProductBasket({name:data?.data.name,category:data?.data.category,image:data?.data.image,price:data?.data.price,rating:data?.data.rating,priceFilter:data?.data.priceFilter,amount:inputValue,totalPrice:priceProduct} as IProduct); // передаем в addProductBasket объект типа IProduct только таким образом,разворачивая в объект все необходимые поля(то есть наш product,в котором полe name,делаем поле name со значением,как и у этого товара name(data?.data.name) и остальные поля также,кроме поля amount и totalPrice,их мы изменяем и указываем как значения inputValue(инпут с количеством) и priceProduct(состояние цены,которое изменяется при изменении inputValue)),указываем тип этого объекта, созданный нами тип IProduct,при создании на сервере не указываем конкретное значение id,чтобы он сам автоматически генерировался на сервере и потом можно было удалить этот объект
+    }
+
     return (
         <main className={onScreen.sectionProductPageIntersecting ? "main mainProductPage mainProductPage--active" : "main mainProductPage"} id="sectionProductPage" ref={sectionProductPage}>
             <section className="sectionProductSuperTop">
@@ -205,7 +217,7 @@ const ProductItemPage = () => {
                                 <img src={commentsRatingMain  >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray" />
                                 */}
 
-                                {data?.data && 
+                                {data?.data &&
                                     <>
                                         <img src={data?.data.rating === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img" />
                                         <img src={data?.data.rating >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
@@ -228,21 +240,27 @@ const ProductItemPage = () => {
                                 </div>
                             </div>
                             <p className="infoBlock__price">${priceProduct}</p>
-                            <div className="infoBlock__amountBlock">
-                                <div className="table__item-inputBlock">
-                                    <button className="inputBlock__minusBtn" onClick={handlerMinusBtn}>
-                                        <img src="/images/sectionCart/Minus.png" alt="" className="inputBlock__minusImg" />
-                                    </button>
-                                    <input type="number" className="inputBlock__input" value={inputValue} onChange={changeInputValue} />
-                                    <button className="inputBlock__plusBtn" onClick={handlerPlusBtn}>
-                                        <img src="/images/sectionCart/Plus.png" alt="" className="inputBlock__plusImg" />
+
+                            {isExistsBasket ?
+                                <h3>Already in Cart</h3>
+                                :
+                                <div className="infoBlock__amountBlock">
+                                    <div className="table__item-inputBlock">
+                                        <button className="inputBlock__minusBtn" onClick={handlerMinusBtn}>
+                                            <img src="/images/sectionCart/Minus.png" alt="" className="inputBlock__minusImg" />
+                                        </button>
+                                        <input type="number" className="inputBlock__input" value={inputValue} onChange={changeInputValue} />
+                                        <button className="inputBlock__plusBtn" onClick={handlerPlusBtn}>
+                                            <img src="/images/sectionCart/Plus.png" alt="" className="inputBlock__plusImg" />
+                                        </button>
+                                    </div>
+                                    <button className="amountBlock__btn" onClick={addToCart}>
+                                        <p className="amountBlock__btn-text">ADD TO CART</p>
+                                        <img src="/images/sectionProductPage/ShoppingCartSimple.png" alt="" className="amountBlock__btn-img" />
                                     </button>
                                 </div>
-                                <button className="amountBlock__btn">
-                                    <p className="amountBlock__btn-text">ADD TO CART</p>
-                                    <img src="/images/sectionProductPage/ShoppingCartSimple.png" alt="" className="amountBlock__btn-img" />
-                                </button>
-                            </div>
+                            }
+
                         </div>
                     </div>
                 </div>

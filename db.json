@@ -33,7 +33,7 @@
       "price": 890,
       "priceFilter": "$500 to $1,000",
       "amount": 1,
-      "rating": 4,
+      "rating": 3.5,
       "totalPrice": 890
     },
     {
@@ -69,7 +69,7 @@
       "price": 1250,
       "priceFilter": "Above $1,000",
       "amount": 1,
-      "rating": 2.6666666666666665,
+      "rating": 3.25,
       "totalPrice": 1250
     },
     {
@@ -361,6 +361,44 @@
       "text": "aaaaaaaaaaaaa",
       "rating": 1,
       "id": 36
+    },
+    {
+      "name": "adsfadsf",
+      "nameFor": "4K UHD LED Smart TV with Chromecast Built-in",
+      "text": "aaaaaaaaaaaaa",
+      "rating": 5,
+      "id": 37
+    },
+    {
+      "name": "dasfasd",
+      "nameFor": "Wired Over-Ear Hyrocopter with USB",
+      "text": "asdfadsfasdf",
+      "rating": 2,
+      "id": 38
+    }
+  ],
+  "productsBasket": [
+    {
+      "name": "Samsung Electronics Samsung Galaxy S21 5G",
+      "category": "SmartPhone",
+      "image": "/images/sectionCatalog/Image.png",
+      "price": 2300,
+      "rating": 2.7142857142857144,
+      "priceFilter": "Above $1,000",
+      "amount": 3,
+      "totalPrice": 6900,
+      "id": 1
+    },
+    {
+      "name": "Wired Over-Ear Hyrocopter with USB",
+      "category": "Electronics Devices",
+      "image": "/images/sectionCatalog/Image (1).png",
+      "price": 890,
+      "rating": 4,
+      "priceFilter": "$500 to $1,000",
+      "amount": 1,
+      "totalPrice": 890,
+      "id": 2
     }
   ]
 }

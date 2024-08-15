@@ -2,8 +2,11 @@ import { useRef } from "react";
 import ProductItemCart from "../components/ProductItemCart";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
 import SectionSellers from "../components/SectionSellers";
+import { apiBasket } from "../store/apiBasket";
 
 const Cart = () => {
+
+    const { data } = apiBasket.useGetAllProductsBasketQuery(null);
 
     const sectionCartRef = useRef(null);
     const onScreen = useIsOnScreen(sectionCartRef);
@@ -35,12 +38,23 @@ const Cart = () => {
                                 <p className="table__names-text">Quantity</p>
                                 <p className="table__names-text">Sub-Total</p>
                             </div>
-                            <div className="table__items">
-                                <ProductItemCart/>
-                            </div>
-                            <div className="table__bottom">
-                                <button className="table__bottom-btnUpdate">Update cart</button>
-                            </div>
+
+                            {data?.length ?
+                                <>
+                                    <div className="table__items">
+                                        {data?.map(product =>
+                                            <ProductItemCart key={product.id} product={product}/>
+                                        )}
+                                    </div>
+                                    <div className="table__bottom">
+                                        <button className="table__bottom-btnUpdate">Update cart</button>
+                                    </div>
+                                </>
+                                :
+                                <h3>Cart is empty</h3>
+                            }
+
+
                         </div>
                         <div className="sectionTableCart__totals">
                             <h3 className="totals__title">Card Totals</h3>

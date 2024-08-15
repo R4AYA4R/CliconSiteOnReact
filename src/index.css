@@ -1806,3 +1806,6 @@ a {
     margin-bottom: 10px;
     color:#EE5858;
 }
+.table__item-itemImg{
+    max-width: 82px;
+}
