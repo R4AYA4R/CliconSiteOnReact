@@ -57,7 +57,7 @@
       "price": 80,
       "priceFilter": "$20 to $100",
       "amount": 1,
-      "rating": 3.3333333333333335,
+      "rating": 2.75,
       "totalPrice": 80
     },
     {
@@ -375,6 +375,13 @@
       "text": "asdfadsfasdf",
       "rating": 2,
       "id": 38
+    },
+    {
+      "name": "bob",
+      "nameFor": "Dell All-in-One Computer Laptop",
+      "text": "adsfadsfaaaaa",
+      "rating": 1,
+      "id": 39
     }
   ],
   "productsBasket": [
@@ -399,6 +406,17 @@
       "amount": 1,
       "totalPrice": 890,
       "id": 2
+    },
+    {
+      "name": "Dell All-in-One Computer Laptop",
+      "category": "Electronics Devices",
+      "image": "/images/sectionCatalog/Image (4).png",
+      "price": 80,
+      "rating": 2.75,
+      "priceFilter": "$20 to $100",
+      "amount": 2,
+      "totalPrice": 160,
+      "id": 3
     }
   ]
 }
