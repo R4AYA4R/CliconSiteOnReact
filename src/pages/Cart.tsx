@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import ProductItemCart from "../components/ProductItemCart";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
 import SectionSellers from "../components/SectionSellers";
@@ -47,11 +47,11 @@ const Cart = () => {
                                         )}
                                     </div>
                                     <div className="table__bottom">
-                                        <button className="table__bottom-btnUpdate">Update cart</button>
+                                        <button className="table__bottom-btnUpdate">Clear cart</button>
                                     </div>
                                 </>
                                 :
-                                <h3>Cart is empty</h3>
+                                <h3 className="table__emptyCartText">Cart is empty</h3>
                             }
 
 

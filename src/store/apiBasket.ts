@@ -36,6 +36,21 @@ export const apiBasket = createApi({
             invalidatesTags:()=>[{
                 type:'productsBasket'
             }]
+        }),
+
+        updateProductBasket:builder.mutation<null,IProduct>({
+            query:(product)=>({
+                url:`/${product.id}`, // указываем тут id product,которого хотим обновить
+
+                method:'PUT', // указываем тут метод PUT для обновления данных на сервере
+
+                body:product // указываем тело запроса(те данные,которые будут изменены на сервере)
+
+            }),
+
+            invalidatesTags:()=>[{
+                type:'productsBasket'
+            }]
         })
 
     })

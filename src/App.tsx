@@ -9,22 +9,22 @@ import Cart from "./pages/Cart";
 import ScrollToTop from "./utils/ScrollToTop";
 
 
-
 function App() {
+
   return (
     <>
       <BrowserRouter>
-        <ScrollToTop/>
-        <Header/>
+        <ScrollToTop />
+        <Header />
         <Routes>
-          <Route path='/' element={<Home/>}/>
-          <Route path='/catalog' element={<Catalog/>}/>
-          <Route path='/about' element={<AboutPage/>}/>
-          <Route path='/cart' element={<Cart/>}/>
-          <Route path='/catalog/:id' element={<ProductItemPage/>}/> {/* указываем после /catalog/ :id,для динамического id,чтобы потом открывалась отдельная страница товара по конкретному id  */}
+          <Route path='/' element={<Home />} />
+          <Route path='/catalog' element={<Catalog />} />
+          <Route path='/about' element={<AboutPage />} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/catalog/:id' element={<ProductItemPage />} /> {/* указываем после /catalog/ :id,для динамического id,чтобы потом открывалась отдельная страница товара по конкретному id  */}
           <Route path='/*' element={<Navigate to='/' />} /> {/* если пользователь введет в url несуществующую страницу,то его перекинет на главную */}
         </Routes>
-        <Footer/>
+        <Footer />
       </BrowserRouter>
     </>
   );

@@ -1809,3 +1809,9 @@ a {
 .table__item-itemImg{
     max-width: 82px;
 }
+.table__item-subTotalPrice{
+    font-weight: 600;
+}
+.table__emptyCartText{
+    margin: 22px;
+}

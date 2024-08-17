@@ -392,8 +392,8 @@
       "price": 2300,
       "rating": 2.7142857142857144,
       "priceFilter": "Above $1,000",
-      "amount": 3,
-      "totalPrice": 6900,
+      "amount": 7,
+      "totalPrice": 16100,
       "id": 1
     },
     {
@@ -403,8 +403,8 @@
       "price": 890,
       "rating": 4,
       "priceFilter": "$500 to $1,000",
-      "amount": 1,
-      "totalPrice": 890,
+      "amount": 2,
+      "totalPrice": 1780,
       "id": 2
     },
     {
@@ -414,9 +414,20 @@
       "price": 80,
       "rating": 2.75,
       "priceFilter": "$20 to $100",
-      "amount": 2,
-      "totalPrice": 160,
+      "amount": 10,
+      "totalPrice": 800,
       "id": 3
+    },
+    {
+      "name": "4K UHD LED Smart TV with Chromecast Built-in",
+      "category": "Laptop",
+      "image": "/images/sectionCatalog/Image (6).png",
+      "price": 1250,
+      "rating": 3.25,
+      "priceFilter": "Above $1,000",
+      "amount": 5,
+      "totalPrice": 6250,
+      "id": 4
     }
   ]
 }

@@ -1,5 +1,7 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { IProduct } from "../types/types";
+import { apiBasket } from "../store/apiBasket";
+
 
 interface IProductItemCart{
     product:IProduct
@@ -10,6 +12,8 @@ const ProductItemCart = ({product}:IProductItemCart) => {
     const [inputValue,setInputValue] = useState(product.amount);
 
     const [priceProduct,setPriceProduct] = useState(product.totalPrice);
+
+    const [updateProductBasket] = apiBasket.useUpdateProductBasketMutation();
 
     const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
         // если текущее значение инпута > 99,то изменяем состояние инпута цены на 99,указываем + перед e.target.value,чтобы перевести текущее значение инпута из строки в число
@@ -47,6 +51,12 @@ const ProductItemCart = ({product}:IProductItemCart) => {
         setPriceProduct(product.price * inputValue);
 
     },[inputValue])
+
+    useEffect(()=>{
+        
+        updateProductBasket({...product,amount:inputValue,totalPrice:priceProduct}); // обновляем данные товара корзины при изменении priceProduct
+        
+    },[priceProduct])
 
     return (
         <div className="table__item-item">
