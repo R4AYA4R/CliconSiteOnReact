@@ -15,6 +15,8 @@ const ProductItemCart = ({product}:IProductItemCart) => {
 
     const [updateProductBasket] = apiBasket.useUpdateProductBasketMutation();
 
+    const [deleteProductBasket] = apiBasket.useDeleteProductBasketMutation();
+
     const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
         // если текущее значение инпута > 99,то изменяем состояние инпута цены на 99,указываем + перед e.target.value,чтобы перевести текущее значение инпута из строки в число
         if (+e.target.value > 99) {
@@ -61,7 +63,7 @@ const ProductItemCart = ({product}:IProductItemCart) => {
     return (
         <div className="table__item-item">
             <div className="table__item-info">
-                <img src="/images/sectionCart/crossImg.png" alt="" className="table__item-deleteImg" />
+                <img src="/images/sectionCart/crossImg.png" alt="" className="table__item-deleteImg" onClick={()=>deleteProductBasket(product)}/>
                 <img src={product.image} alt="" className="table__item-itemImg" />
                 <p className="table__item-desc">{product.name}</p>
             </div>

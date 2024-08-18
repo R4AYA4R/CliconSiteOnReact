@@ -11,6 +11,7 @@ const Cart = () => {
     const sectionCartRef = useRef(null);
     const onScreen = useIsOnScreen(sectionCartRef);
 
+
     return (
         <main className={onScreen.sectionCartIntersecting ? "main mainCart mainCart--active" : "main mainCart"} ref={sectionCartRef} id="sectionCart">
             <section className="sectionCartTop">

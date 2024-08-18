@@ -392,20 +392,9 @@
       "price": 2300,
       "rating": 2.7142857142857144,
       "priceFilter": "Above $1,000",
-      "amount": 7,
-      "totalPrice": 16100,
-      "id": 1
-    },
-    {
-      "name": "Wired Over-Ear Hyrocopter with USB",
-      "category": "Electronics Devices",
-      "image": "/images/sectionCatalog/Image (1).png",
-      "price": 890,
-      "rating": 4,
-      "priceFilter": "$500 to $1,000",
       "amount": 2,
-      "totalPrice": 1780,
-      "id": 2
+      "totalPrice": 4600,
+      "id": 1
     },
     {
       "name": "Dell All-in-One Computer Laptop",
@@ -414,20 +403,9 @@
       "price": 80,
       "rating": 2.75,
       "priceFilter": "$20 to $100",
-      "amount": 10,
-      "totalPrice": 800,
-      "id": 3
-    },
-    {
-      "name": "4K UHD LED Smart TV with Chromecast Built-in",
-      "category": "Laptop",
-      "image": "/images/sectionCatalog/Image (6).png",
-      "price": 1250,
-      "rating": 3.25,
-      "priceFilter": "Above $1,000",
       "amount": 5,
-      "totalPrice": 6250,
-      "id": 4
+      "totalPrice": 400,
+      "id": 3
     }
   ]
 }

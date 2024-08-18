@@ -7,6 +7,7 @@ import ProductItemPage from "./pages/ProductItemPage";
 import AboutPage from "./pages/AboutPage";
 import Cart from "./pages/Cart";
 import ScrollToTop from "./utils/ScrollToTop";
+import { createContext, useState } from "react";
 
 
 function App() {

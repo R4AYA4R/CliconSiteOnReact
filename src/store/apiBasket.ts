@@ -51,6 +51,18 @@ export const apiBasket = createApi({
             invalidatesTags:()=>[{
                 type:'productsBasket'
             }]
+        }),
+
+        deleteProductBasket:builder.mutation<null,IProduct>({
+            query:(product)=>({
+                url:`/${product.id}`, // указываем тут id user,которого хотим удалить
+
+                method:'DELETE' // указываем тут метод DELETE для удаления данных на сервере
+            }),
+
+            invalidatesTags:()=>[{
+                type:'productsBasket'
+            }]
         })
 
     })
