@@ -386,26 +386,26 @@
   ],
   "productsBasket": [
     {
+      "name": "Wired Over-Ear Hyrocopter with USB",
+      "category": "Electronics Devices",
+      "image": "/images/sectionCatalog/Image (1).png",
+      "price": 890,
+      "rating": 3.5,
+      "priceFilter": "$500 to $1,000",
+      "amount": 4,
+      "totalPrice": 3560,
+      "id": 1
+    },
+    {
       "name": "Samsung Electronics Samsung Galaxy S21 5G",
       "category": "SmartPhone",
       "image": "/images/sectionCatalog/Image.png",
       "price": 2300,
       "rating": 2.7142857142857144,
       "priceFilter": "Above $1,000",
-      "amount": 2,
-      "totalPrice": 4600,
-      "id": 1
-    },
-    {
-      "name": "Dell All-in-One Computer Laptop",
-      "category": "Electronics Devices",
-      "image": "/images/sectionCatalog/Image (4).png",
-      "price": 80,
-      "rating": 2.75,
-      "priceFilter": "$20 to $100",
-      "amount": 5,
-      "totalPrice": 400,
-      "id": 3
+      "amount": 1,
+      "totalPrice": 2300,
+      "id": 2
     }
   ]
 }
