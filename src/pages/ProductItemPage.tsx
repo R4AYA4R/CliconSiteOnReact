@@ -182,7 +182,7 @@ const ProductItemPage = () => {
 
 
     const addToCart = async () => {
-        await addProductBasket({name:data?.data.name,category:data?.data.category,image:data?.data.image,price:data?.data.price,rating:data?.data.rating,priceFilter:data?.data.priceFilter,amount:inputValue,totalPrice:priceProduct} as IProduct); // передаем в addProductBasket объект типа IProduct только таким образом,разворачивая в объект все необходимые поля(то есть наш product,в котором полe name,делаем поле name со значением,как и у этого товара name(data?.data.name) и остальные поля также,кроме поля amount и totalPrice,их мы изменяем и указываем как значения inputValue(инпут с количеством) и priceProduct(состояние цены,которое изменяется при изменении inputValue)),указываем тип этого объекта, созданный нами тип IProduct,при создании на сервере не указываем конкретное значение id,чтобы он сам автоматически генерировался на сервере и потом можно было удалить этот объект
+        await addProductBasket({ name: data?.data.name, category: data?.data.category, image: data?.data.image, price: data?.data.price, rating: data?.data.rating, priceFilter: data?.data.priceFilter, amount: inputValue, totalPrice: priceProduct, id: data?.data.id } as IProduct); // передаем в addProductBasket объект типа IProduct только таким образом,разворачивая в объект все необходимые поля(то есть наш product,в котором полe name,делаем поле name со значением,как и у этого товара name(data?.data.name) и остальные поля также,кроме поля amount и totalPrice,их мы изменяем и указываем как значения inputValue(инпут с количеством) и priceProduct(состояние цены,которое изменяется при изменении inputValue)),указываем тип этого объекта, созданный нами тип IProduct,при создании на сервере не указываем конкретное значение id,чтобы он сам автоматически генерировался на сервере и потом можно было удалить этот объект,в данном случае указываем id как у data?.data.id(id как у этого товара),чтобы потом в корзине при клике на название товара можно было перейти на страницу этого товара с этим id,в данном случае удаление работает
     }
 
     return (
@@ -209,13 +209,6 @@ const ProductItemPage = () => {
                         </div>
                         <div className="sectionProductTop__infoBlock">
                             <div className="products__item-stars">
-                                {/* 
-                                <img src={commentsRatingMain === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img" />
-                                <img src={commentsRatingMain  >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
-                                <img src={commentsRatingMain  >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
-                                <img src={commentsRatingMain  >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
-                                <img src={commentsRatingMain  >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray" />
-                                */}
 
                                 {data?.data &&
                                     <>
@@ -275,54 +268,56 @@ const ProductItemPage = () => {
 
                         {tab === 'desc' &&
                             <div className="sectionDesc__desc">
-                                <div className="desc__info">
-                                    <h3 className="desc__info__title">Description</h3>
-                                    <p className="desc__info-text">The most powerful MacBook Pro ever is here. With the blazing-fast M1 Pro or M1 Max chip — the first Apple silicon designed for pros — you get groundbreaking performance and amazing battery life. Add to that a stunning Liquid Retina XDR display, the best camera and audio ever in a Mac notebook, and all the ports you need. The first notebook of its kind, this MacBook Pro is a beast. M1 Pro takes the exceptional performance of the M1 architecture to a whole new level for pro users.</p>
-                                    <p className="desc__info-text">Even the most ambitious projects are easily handled with up to 10 CPU cores, up to 16 GPU cores, a 16‑core Neural Engine, and dedicated encode and decode media engines that support H.264, HEVC, and ProRes codecs.
-                                    </p>
-                                </div>
-                                <div className="desc__feature">
-                                    <h3 className="desc__info__title">Feature</h3>
-                                    <div className="desc__feature-item">
-                                        <img src="/images/sectionProductPage/medal.png" alt="" className="feature__item-img" />
-                                        <p className="feature__item-text">Free 1 Year Warranty</p>
+                                <div className="sectionDesc__innerMain">
+                                    <div className="desc__info">
+                                        <h3 className="desc__info__title">Description</h3>
+                                        <p className="desc__info-text">The most powerful MacBook Pro ever is here. With the blazing-fast M1 Pro or M1 Max chip — the first Apple silicon designed for pros — you get groundbreaking performance and amazing battery life. Add to that a stunning Liquid Retina XDR display, the best camera and audio ever in a Mac notebook, and all the ports you need. The first notebook of its kind, this MacBook Pro is a beast. M1 Pro takes the exceptional performance of the M1 architecture to a whole new level for pro users.</p>
+                                        <p className="desc__info-text">Even the most ambitious projects are easily handled with up to 10 CPU cores, up to 16 GPU cores, a 16‑core Neural Engine, and dedicated encode and decode media engines that support H.264, HEVC, and ProRes codecs.
+                                        </p>
                                     </div>
-                                    <div className="desc__feature-item">
-                                        <img src="/images/sectionProductPage/truck.png" alt="" className="feature__item-img" />
-                                        <p className="feature__item-text">Free Shipping & Fasted Delivery</p>
-                                    </div>
-                                    <div className="desc__feature-item">
-                                        <img src="/images/sectionProductPage/handshake.png" alt="" className="feature__item-img" />
-                                        <p className="feature__item-text">100% Money-back guarantee</p>
-                                    </div>
-                                    <div className="desc__feature-item">
-                                        <img src="/images/sectionProductPage/headphones.png" alt="" className="feature__item-img" />
-                                        <p className="feature__item-text">24/7 Customer support</p>
-                                    </div>
-                                    <div className="desc__feature-item">
-                                        <img src="/images/sectionProductPage/card.png" alt="" className="feature__item-img" />
-                                        <p className="feature__item-text">Secure payment method</p>
-                                    </div>
-                                </div>
-                                <div className="desc__shipInfo">
-                                    <h3 className="desc__info__title">Shipping Information</h3>
-                                    <div className="shipInfo__item">
-                                        <p className="shipInfo__item-title">Courier:</p>
-                                        <div className="shipInfo__item-text"> 2 - 4 days, free shipping</div>
-                                    </div>
-                                    <div className="shipInfo__item">
-                                        <p className="shipInfo__item-title">Local Shipping:</p>
-                                        <div className="shipInfo__item-text">  up to one week, $19.00
+                                    <div className="desc__feature">
+                                        <h3 className="desc__info__title">Feature</h3>
+                                        <div className="desc__feature-item">
+                                            <img src="/images/sectionProductPage/medal.png" alt="" className="feature__item-img" />
+                                            <p className="feature__item-text">Free 1 Year Warranty</p>
+                                        </div>
+                                        <div className="desc__feature-item">
+                                            <img src="/images/sectionProductPage/truck.png" alt="" className="feature__item-img" />
+                                            <p className="feature__item-text">Free Shipping & Fasted Delivery</p>
+                                        </div>
+                                        <div className="desc__feature-item">
+                                            <img src="/images/sectionProductPage/handshake.png" alt="" className="feature__item-img" />
+                                            <p className="feature__item-text">100% Money-back guarantee</p>
+                                        </div>
+                                        <div className="desc__feature-item">
+                                            <img src="/images/sectionProductPage/headphones.png" alt="" className="feature__item-img" />
+                                            <p className="feature__item-text">24/7 Customer support</p>
+                                        </div>
+                                        <div className="desc__feature-item">
+                                            <img src="/images/sectionProductPage/card.png" alt="" className="feature__item-img" />
+                                            <p className="feature__item-text">Secure payment method</p>
                                         </div>
                                     </div>
-                                    <div className="shipInfo__item">
-                                        <p className="shipInfo__item-title">UPS Ground Shipping:</p>
-                                        <div className="shipInfo__item-text">  4 - 6 days, $29.00
+                                    <div className="desc__shipInfo">
+                                        <h3 className="desc__info__title">Shipping Information</h3>
+                                        <div className="shipInfo__item">
+                                            <p className="shipInfo__item-title">Courier:</p>
+                                            <div className="shipInfo__item-text"> 2 - 4 days, free shipping</div>
                                         </div>
-                                    </div>
-                                    <div className="shipInfo__item">
-                                        <p className="shipInfo__item-title">Unishop Global Export:</p>
-                                        <div className="shipInfo__item-text">  3 - 4 days, $39.00</div>
+                                        <div className="shipInfo__item">
+                                            <p className="shipInfo__item-title">Local Shipping:</p>
+                                            <div className="shipInfo__item-text">  up to one week, $19.00
+                                            </div>
+                                        </div>
+                                        <div className="shipInfo__item">
+                                            <p className="shipInfo__item-title">UPS Ground Shipping:</p>
+                                            <div className="shipInfo__item-text">  4 - 6 days, $29.00
+                                            </div>
+                                        </div>
+                                        <div className="shipInfo__item">
+                                            <p className="shipInfo__item-title">Unishop Global Export:</p>
+                                            <div className="shipInfo__item-text">  3 - 4 days, $39.00</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -330,55 +325,57 @@ const ProductItemPage = () => {
 
                         {tab === 'review' &&
                             <div className="reviews__inner">
-                                <div className="reviews__leftBlock">
-                                    {dataComments?.data.length ?
-                                        dataComments.data.map((comm) =>
-                                            <div className="reviews__leftBlock-comment" key={comm.id}>
-                                                <div className="comment__top">
-                                                    <h2 className="comment__top-title">{comm.name}</h2>
-                                                    <div className="products__item-stars">
-                                                        <img src={comm.rating === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img" />
-                                                        <img src={comm.rating >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
-                                                        <img src={comm.rating >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
-                                                        <img src={comm.rating >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
-                                                        <img src={comm.rating >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray" />
+                                <div className="reviews__innerMain">
+                                    <div className="reviews__leftBlock">
+                                        {dataComments?.data.length ?
+                                            dataComments.data.map((comm) =>
+                                                <div className="reviews__leftBlock-comment" key={comm.id}>
+                                                    <div className="comment__top">
+                                                        <h2 className="comment__top-title">{comm.name}</h2>
+                                                        <div className="products__item-stars">
+                                                            <img src={comm.rating === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img" />
+                                                            <img src={comm.rating >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                                            <img src={comm.rating >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                                            <img src={comm.rating >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img" />
+                                                            <img src={comm.rating >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray" />
+                                                        </div>
                                                     </div>
+                                                    <p className="comment__desc">{comm.text}</p>
                                                 </div>
-                                                <p className="comment__desc">{comm.text}</p>
-                                            </div>
-                                        )
-                                        :
-                                        <h3>No comments yet.</h3>
-                                    }
+                                            )
+                                            :
+                                            <h3>No comments yet.</h3>
+                                        }
 
 
-                                </div>
-                                <div className="reviews__rightBlock">
-                                    <div className="reviews__rightBlock-top">
-                                        <button className={formActive ? "rightBlock__top-btn rightBlock__top-btnNone" : "rightBlock__top-btn"} onClick={() => setFormActive(true)}>Add Comment</button>
                                     </div>
-
-                                    <div className={formActive ? "reviews__rightBlock-form" : "reviews__rightBlock-form reviews__rightBlock-formNone"}>
-                                        <div className="form__top">
-                                            <input type="text" className="form__top-inputName" placeholder="Name" value={inputFormName} onChange={(e) => setInputFormName(e.target.value)} />
-                                            <div className="products__item-stars">
-                                                <img src={activeStarsForm === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(1)} />
-                                                <img src={activeStarsForm >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(2)} />
-                                                <img src={activeStarsForm >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(3)} />
-                                                <img src={activeStarsForm >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(4)} />
-                                                <img src={activeStarsForm >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray item__stars-imgForm" onClick={() => setActiveStarsForm(5)} />
-                                            </div>
-                                        </div>
-                                        <div className="form__main">
-                                            <textarea className="form__textarea" placeholder="Enter your comment" value={textFormArea} onChange={(e) => setTextFormArea(e.target.value)}></textarea>
+                                    <div className="reviews__rightBlock">
+                                        <div className="reviews__rightBlock-top">
+                                            <button className={formActive ? "rightBlock__top-btn rightBlock__top-btnNone" : "rightBlock__top-btn"} onClick={() => setFormActive(true)}>Add Comment</button>
                                         </div>
 
-                                        {/* если состояние ошибки формы не равно пустой строке,то показываем текст ошибки */}
-                                        {errorFormMessage !== '' && <p className="form__errorText">{errorFormMessage}</p>}
+                                        <div className={formActive ? "reviews__rightBlock-form" : "reviews__rightBlock-form reviews__rightBlock-formNone"}>
+                                            <div className="form__top">
+                                                <input type="text" className="form__top-inputName" placeholder="Name" value={inputFormName} onChange={(e) => setInputFormName(e.target.value)} />
+                                                <div className="products__item-stars">
+                                                    <img src={activeStarsForm === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(1)} />
+                                                    <img src={activeStarsForm >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(2)} />
+                                                    <img src={activeStarsForm >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(3)} />
+                                                    <img src={activeStarsForm >= 4 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(4)} />
+                                                    <img src={activeStarsForm >= 5 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgGray item__stars-imgForm" onClick={() => setActiveStarsForm(5)} />
+                                                </div>
+                                            </div>
+                                            <div className="form__main">
+                                                <textarea className="form__textarea" placeholder="Enter your comment" value={textFormArea} onChange={(e) => setTextFormArea(e.target.value)}></textarea>
+                                            </div>
 
-                                        <button className="rightBlock__top-btn" onClick={formHandler}>Save Comment</button>
+                                            {/* если состояние ошибки формы не равно пустой строке,то показываем текст ошибки */}
+                                            {errorFormMessage !== '' && <p className="form__errorText">{errorFormMessage}</p>}
+
+                                            <button className="rightBlock__top-btn" onClick={formHandler}>Save Comment</button>
+                                        </div>
+
                                     </div>
-
                                 </div>
                             </div>
                         }

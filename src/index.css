@@ -1457,6 +1457,13 @@ a {
     font-size: 14px;
     font-weight: 400;
     max-width: 260px;
+    cursor: pointer;
+    opacity: 1;
+    transition:all .5s ease;
+}
+.table__item-desc:hover{
+    opacity: 0.7;
+    color:#FA8232;
 }
 
 .inputBlock__input {
@@ -1575,9 +1582,15 @@ a {
     min-width: 548px;
 }
 
-.sectionDesc__desc {
-    margin-bottom: 110px;
-}
+@keyframes appearDesc {
+    0%{
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 1;
+    }
+}   
 
 .sectionDesc__top-tabs {
     display: flex;
@@ -1586,15 +1599,18 @@ a {
     gap: 50px;
     border: 1px solid #E4E7E9;
 }
-
-.sectionDesc__desc {
-    padding: 40px;
+.sectionDesc__innerMain{
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     gap: 24px;
+    animation: appearDesc 1s ease forwards;
+}
+.sectionDesc__desc {
     border-left: 1px solid #E4E7E9;
     border-right: 1px solid #E4E7E9;
     border-bottom: 1px solid #E4E7E9;
+    padding: 40px;
+    margin-bottom: 110px;
 }
 
 .desc__info__title {
@@ -1715,13 +1731,17 @@ a {
 
 .reviews__inner {
     padding: 40px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 80px;
     border-left: 1px solid #E4E7E9;
     border-right: 1px solid #E4E7E9;
     border-bottom: 1px solid #E4E7E9;
     margin-bottom: 110px;
+}
+.reviews__innerMain{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 80px;
+    animation: appearDesc 1s ease forwards;
+
 }
 .reviews__leftBlock-comment{
     margin-bottom: 20px;
@@ -1808,6 +1828,12 @@ a {
 }
 .table__item-itemImg{
     max-width: 82px;
+    opacity: 1;
+    transition:opacity .5s ease;
+    cursor:pointer;
+}
+.table__item-itemImg:hover{
+    opacity: 0.7;
 }
 .table__item-subTotalPrice{
     font-weight: 600;
