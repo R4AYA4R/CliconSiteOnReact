@@ -629,6 +629,7 @@ a {
     border: 1px solid #E4E7E9;
     margin-bottom: 16px;
     transition: all .3s ease;
+    cursor:pointer;
 }
 
 .sectionSellers__flash-item:hover {
@@ -650,6 +651,8 @@ a {
 .flash__item-img {
     mix-blend-mode: multiply;
     /* убираем задний белый фон картинки */
+
+    max-width: 72px;
 }
 
 .footer {

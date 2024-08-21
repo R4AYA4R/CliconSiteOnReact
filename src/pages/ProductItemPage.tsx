@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IComment, IProduct } from "../types/types";
@@ -31,6 +31,8 @@ const ProductItemPage = () => {
     const onScreen = useIsOnScreen(sectionProductPage);
 
     const params = useParams(); //useParams выцепляет параметр из url (в данном случае id товара)
+
+    const {pathname} = useLocation(); // берем pathname(url страницы) из useLocation()
 
 
     const [addProductBasket] = apiBasket.useAddProductBasketMutation(); // берем функцию запроса на сервер из нашего api(apiBasket) с помощью нашего хука useAddProductBasketMutation,вторым элементом,который можно взять у этого хука,это все состояния,которые rtk query автоматически создает,а также data(данные запроса)
@@ -150,6 +152,17 @@ const ProductItemPage = () => {
         refetchComments();
 
     }, [dataComments?.data, data?.data])
+
+    // при изменении pathname(url страницы),делаем запрос на обновление данных о товаре(иначе не меняются данные) и изменяем таб на desc(описание товара),если вдруг был включен другой таб,то при изменении url страницы будет включен опять дефолтный таб,также изменяем значение количества товара,если было выбрано уже какое-то,чтобы поставить первоначальное
+    useEffect(()=>{
+
+        refetch();
+
+        setTab('desc');
+
+        setInputValue(1);
+
+    },[pathname])
 
     useEffect(() => {
         const commentsRating = dataComments?.data.reduce((prev, curr) => prev + curr.rating, 0); // проходимся по массиву объектов комментариев,отфильтрованных для каждого товара по имени и на каждой итерации увеличиваем переменную prev(это число,и мы указали,что в начале оно равно 0 и оно будет увеличиваться на каждой итерации массива объектов,запоминая старое состояние числа и увеличивая его на новое значение) на curr(текущий итерируемый объект).rating ,это чтобы посчитать общую сумму всего рейтинга от каждого комментария и потом вывести среднее значение
