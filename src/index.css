@@ -366,13 +366,19 @@ a {
 .sectionDeals__deals {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border: 1px solid #E4E7E9;
+    border-left: 1px solid #E4E7E9;
+    border-bottom: 1px solid #E4E7E9;
+    border-top: 1px solid #E4E7E9;
 }
 
 .deals__item {
     padding: 16px;
-    border-right: 1px solid #E4E7E9;
     transition: all .5s ease;
+    border-right: 1px solid #E4E7E9;
+}
+
+.deals__item-borderTop{
+    border-top: 1px solid #E4E7E9;
 }
 
 .deals__item:hover {
@@ -385,6 +391,7 @@ a {
     justify-content: space-between;
     min-height: 302px;
     position: relative;
+    cursor:pointer;
 }
 
 .deals__item-discount {

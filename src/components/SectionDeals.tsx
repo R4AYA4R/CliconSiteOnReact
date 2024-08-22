@@ -1,9 +1,27 @@
 import { useRef } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import SectionDealsItem from "./SectionDealsItem";
+import { IProduct } from "../types/types";
 
 const SectionDeals = () => {
     const sectionDealsRef = useRef(null);
     const onScreen = useIsOnScreen(sectionDealsRef);
+
+    const {data} = useQuery({
+        queryKey:['getAllProducts'],
+        queryFn:async ()=>{
+            const response = await axios.get<IProduct[]>('http://localhost:5000/catalogProducts',{
+                params:{
+                    _limit:8
+                }
+            });
+
+            return response;
+        }
+    })
+
     return (
         <section id="sectionDeals" ref={sectionDealsRef} className={onScreen.sectionDealsIntersecting ? "sectionDeals sectionDeals__active" : "sectionDeals"}>
             <div className="container">
@@ -16,29 +34,15 @@ const SectionDeals = () => {
                         </a>
                     </div>
                     <div className="sectionDeals__deals">
-                        <div className="deals__item">
+
+                        {/* <div className="deals__item">
                             <a href="#" className="sectionDeals__link">
                                 <img src="/images/sectionDeals/Image.png" alt="" className="deals__item-img" />
                                 <p className="deals__item-desc">Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
                                 <p className="deals__item-price">$2,300</p>
                             </a>
                         </div>
-                        <div className="deals__item">
-                            <a href="#" className="sectionDeals__link">
-                                <div className="sectionTop__right-sale deals__item-discount">
-                                    <p className="right__sale-text">35% OFF</p>
-                                </div>
-                                <div className="deals__item-hot">
-                                    <p className="right__sale-text">HOT</p>
-                                </div>
-                                <img src="/images/sectionDeals/Image (1).png" alt="" className="deals__item-img" />
-                                <p className="deals__item-desc">Simple Mobile 4G LTE Prepaid Smartphone</p>
-                                <div className="deals__item-priceBlock">
-                                    <p className="deals__item-pricePrev">$220</p>
-                                    <p className="deals__item-price">$160</p>
-                                </div>
-                            </a>
-                        </div>
+                        
                         <div className="deals__item">
                             <a href="#" className="sectionDeals__link">
                                 <img src="/images/sectionDeals/Image (2).png" alt="" className="deals__item-img" />
@@ -95,7 +99,12 @@ const SectionDeals = () => {
                                 <p className="deals__item-desc">JBL FLIP 4 - Waterproof Portable Bluetooth Speaker - Black</p>
                                 <p className="deals__item-price">$250</p>
                             </a>
-                        </div>
+                        </div> */}
+
+                        {data?.data.map(product => 
+                            <SectionDealsItem product={product} key={product.id}/>
+                        )}
+
                     </div>
                 </div>
             </div>
