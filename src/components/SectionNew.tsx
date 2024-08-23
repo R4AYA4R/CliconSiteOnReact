@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import { Link } from "react-router-dom";
 
 const SectionNew = () => {
     const sectionNewRef=useRef(null);
@@ -14,10 +15,10 @@ const SectionNew = () => {
                             <h1 className="sectionNew__left-title">New Apple
                                 Homepod Mini</h1>
                             <p className="sectionNew__text">Jam-packed with innovation, HomePod mini delivers unexpectedly.</p>
-                            <a href="#" className="info__link right__info-link sectionNew__info-link">
+                            <Link to="/catalog" className="info__link right__info-link sectionNew__info-link">
                                 <p className="info__link-text">Shop Now</p>
                                 <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
-                            </a>
+                            </Link>
                         </div>
                         <img src="/images/sectionNew/Image 6.png" alt="" className="sectionNew__left-img" />
                     </div>
@@ -27,10 +28,10 @@ const SectionNew = () => {
                             <h1 className="sectionNew__right-title">Xiaomi Mi 11 Ultra
                                 12GB+256GB</h1>
                             <p className="sectionNew__right-text">*Data provided by internal laboratories. Industry measurment.</p>
-                            <a href="#" className="info__link right__info-link sectionNew__info-link">
+                            <Link to="/catalog" className="info__link right__info-link sectionNew__info-link">
                                 <p className="info__link-text">Shop Now</p>
                                 <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

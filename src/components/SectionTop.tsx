@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import { Link } from "react-router-dom";
 
 const SectionTop = () => {
     const sectionTopRef = useRef(null); // создаем ссылку на html элемент и помещаем ее в переменную sectionTopRef, указываем в useRef null,так как используем typeScript
@@ -15,10 +16,10 @@ const SectionTop = () => {
                             <p className="info__subtitle">THE BEST PLACE TO PLAY</p>
                             <h1 className="info__title">Xbox Consoles</h1>
                             <p className="info__desc">Save up to 50% on select Xbox games. Get 3 months of PC Game Pass for $2 USD.</p>
-                            <a href="#" className="info__link">
+                            <Link to="/catalog" className="info__link">
                                 <p className="info__link-text">Shop Now</p>
                                 <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
-                            </a>
+                            </Link>
                         </div>
                         <img src="/images/sectionTop/Image.png" alt="" className="sectionTop__left-img" />
                     </div>
@@ -27,10 +28,10 @@ const SectionTop = () => {
                             <div className="sectionTop__right-info">
                                 <p className="right__info-subtitle">Summer Sales</p>
                                 <h2 className="right__info-title">New Google Pixel 6 Pro</h2>
-                                <a href="#" className="info__link right__info-link">
+                                <Link to="/catalog" className="info__link right__info-link">
                                     <p className="info__link-text">Shop Now</p>
                                     <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
-                                </a>
+                                </Link>
                             </div>
                             <div className="sectionTop__right-sale">
                                 <p className="right__sale-text">29% OFF</p>
@@ -41,10 +42,10 @@ const SectionTop = () => {
                             <div className="right__bottomBlock-info">
                                 <h3 className="right__bottomBlock-title">Xiaomi FlipBuds Pro</h3>
                                 <p className="right__bottomBlock-price">$299 USD</p>
-                                <a href="#" className="info__link right__bottomBlock-link">
+                                <Link to='/catalog' className="info__link right__bottomBlock-link">
                                     <p className="info__link-text">Shop Now</p>
                                     <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

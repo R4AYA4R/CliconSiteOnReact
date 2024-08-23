@@ -400,26 +400,26 @@
   ],
   "productsBasket": [
     {
-      "name": "Sony DSCHX8 High Zoom",
+      "name": "Samsung Electronics Samsung Galaxy S21 5G",
       "category": "SmartPhone",
-      "image": "/images/sectionCatalog/Image (7).png",
-      "price": 350,
-      "rating": 3.6,
-      "priceFilter": "$100 to $500",
-      "amount": 4,
-      "totalPrice": 1400,
-      "id": 8
+      "image": "/images/sectionCatalog/Image.png",
+      "price": 2300,
+      "rating": 2.7142857142857144,
+      "priceFilter": "Above $1,000",
+      "amount": 1,
+      "totalPrice": 2300,
+      "id": 1
     },
     {
-      "name": "Portable Headphones, 11lbs capacity Model 18NMF",
-      "category": "Headphones",
-      "image": "/images/sectionCatalog/Image (5).png",
-      "price": 20,
-      "rating": 4.2,
-      "priceFilter": "Under $20",
-      "amount": 10,
-      "totalPrice": 200,
-      "id": 2
+      "name": "4K UHD LED Smart TV with Chromecast Built-in",
+      "category": "Laptop",
+      "image": "/images/sectionCatalog/Image (6).png",
+      "price": 1250,
+      "rating": 3.25,
+      "priceFilter": "Above $1,000",
+      "amount": 2,
+      "totalPrice": 2500,
+      "id": 6
     }
   ]
 }

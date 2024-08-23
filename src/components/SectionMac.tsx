@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import { Link } from "react-router-dom";
 
 const SectionMac = () => {
     const sectionMacRef=useRef(null);
@@ -12,10 +13,10 @@ const SectionMac = () => {
                         <p className="sectionMac__info-subtitle">SAVE UP TO $200.00</p>
                         <h1 className="sectionMac__info-title">Macbook Pro</h1>
                         <p className="sectionMac__info-text">Apple M1 Max Chip. 32GB Unified Memory, 1TB SSD Storage</p>
-                        <a href="#" className="info__link right__info-link sectionNew__info-link">
+                        <Link to="/catalog" className="info__link right__info-link sectionNew__info-link">
                             <p className="info__link-text">Shop Now</p>
                             <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
-                        </a>
+                        </Link>
                     </div>
                     <img src="/images/sectionMac/Image.png" alt="" className="sectionMac__info-img" />
                 </div>
