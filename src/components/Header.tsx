@@ -29,6 +29,11 @@ const Header = () => {
                                 <span className="item__link-spanCart">{data?.length}</span>
                             </NavLink>
                         </li>
+                        <li className="menuList__item menuList__item-cart">
+                            <NavLink to="/form" className={({ isActive }) => isActive ? "menuList__item-link menuList__item-linkActive" : "menuList__item-link"}>
+                                <img src="/images/header/User.png" alt="" className="item__link-img" />
+                            </NavLink>
+                        </li>
                     </ul>
                 </div>
             </div>
