@@ -420,6 +420,17 @@
       "amount": 4,
       "totalPrice": 3560,
       "id": 3
+    },
+    {
+      "name": "TOZO T6 Keyboard True Bluetooth",
+      "category": "Computer Accessories",
+      "image": "/images/sectionCatalog/Image (8).png",
+      "price": 580,
+      "rating": 2.75,
+      "priceFilter": "$500 to $1,000",
+      "amount": 10,
+      "totalPrice": 5800,
+      "id": 7
     }
   ]
 }

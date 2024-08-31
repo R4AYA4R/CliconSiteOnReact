@@ -1861,3 +1861,94 @@ a {
 .table__emptyCartText{
     margin: 22px;
 }
+.sectionForm__inner{
+    padding: 100px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sectionForm__formBlock{
+    /* какие значение что значат в данном box-shadow по порядку, offset-x | offset-y | blur-radius | spread-radius | color */
+    box-shadow: 0 8px 40px 0 rgba(0,0,0,0.1);
+    border-radius: 4px;
+    border:1px solid #E4E7E9;
+}
+.formBlock__top{
+    display: flex;
+    align-items: center;
+}
+.formBlock__top-titleBtn{
+    font-family: "Public Sans", sans-serif;
+    padding: 16px 65px;
+    color:#77878F;
+    font-size: 20px;
+    font-weight: 600;
+    background-color: #fff;
+    border:none;
+    cursor:pointer;
+    opacity: 1;
+    transition:opacity .5s ease;
+}
+.formBlock__top-titleBtnActive{
+    color:#191C1F;
+    border-bottom:3px solid #FA8232;
+}
+.formBlock__top-titleBtn:hover{
+    opacity: 0.5;
+}
+.formBlock__signInMain{
+    padding: 24px 32px 32px 32px;
+}
+.emailBlock__text{
+    font-size: 14px;
+    font-weight: 500;
+    color:#191C1F;
+    margin-bottom: 8px;
+}
+.emailBlock__input{
+    margin-bottom: 20px;
+    border:1px solid #E4E7E9;
+    outline:none;
+    padding:15px 40px 15px 15px;
+    width: 100%;
+}
+.formBlock__passwordBlock{
+    position: relative;
+}
+.passwordBlock__eyeBtn{
+    position: absolute;
+    top:37px;
+    right: 12px;
+    background-color: #fff;
+    border:none;
+    cursor:pointer;
+    opacity: 1;
+    transition:opacity .5s ease;
+}
+.passwordBlock__eyeBtn:hover{
+    opacity: 0.7;
+}
+.formBlock__btn{
+    border:none;
+    cursor:pointer;
+    padding: 16px 32px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background-color: #FA8232;
+    font-family: 'Public Sans', sans-serif;
+    transition: opacity .5s ease;
+    width: 100%;
+}
+.formBlock__btn:hover{
+    opacity: 0.8;
+}
+.formBlock__btn:hover .info__link-img{
+    animation: arrow 1s ease infinite;
+}   
+.formBlock__btn .info__link-text{
+    font-size: 14px;
+    font-weight: 600;
+}
