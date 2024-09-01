@@ -1,13 +1,38 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import { Link } from "react-router-dom";
 
 const FormPage = () => {
 
-    const [typePass,setTypePass] = useState<boolean>(true); // состояние для показа типа инпута для пароля(password или text)
+    const [typePass, setTypePass] = useState<boolean>(true); // состояние для показа типа инпута для пароля(password или text)
+
+    const [typePassSignUp, setTypePassSignUp] = useState<boolean>(true); // состояние для показа типа инпута для пароля(password или text) в форме sign up
+
+    const [typePassConfirm, setTypePassConfirm] = useState<boolean>(true); // состояние для показа типа инпута для подтверждения пароля(password или text) в форме sign up
+
+    const [checkBox, setCheckBox] = useState<boolean>(false); // состояние для чекбокса политики конфиденциальности
+
+    const [tab, setTab] = useState<string>('signIn'); // состояние для переключения формы sing in и sing up
+
+
+    const [inputEmailSignIn,setInputEmailSignIn] = useState<string>(''); // состояние для инпута почты в форме singIn
+
+    const [inputPassSignIn,setInputPassSignIn] = useState<string>(''); // состояние для инпута пароля в форме singIn
+
+
+    // состояния для остальных инпутов формы singUp
+    const [inputPassSignUp,setInputPassSignUp] = useState<string>('');
+
+    const [inputPassConfirmSignUp,setInputPassConfirmSignUp] = useState<string>('');
+
+    const [inputEmailSignUp,setInputEmailSignUp] = useState<string>('');
+
+    const [inputNameSignUp,setInputNameSignUp] = useState<string>('');
 
     const mainFormPageRef = useRef(null);
 
     const onScreen = useIsOnScreen(mainFormPageRef);
+
 
     return (
         <main className={onScreen.sectionMainFormPageIntersecting ? "main mainCatalog mainCatalog__active" : "main mainCatalog"} ref={mainFormPageRef} id="formPage">
@@ -16,7 +41,7 @@ const FormPage = () => {
                     <div className="sectionCatalog__top-inner">
                         <img src="/images/sectionCatalog/House.png" alt="" className="sectionCatalog__top-img" />
                         <p className="sectionCatalog__top-text">Home</p>
-                        <p className="sectionCatalog__top-text sectionCatalog__top-textCenter">{'>'}</p>
+                        <img src="/images/header/CareRight.png" className="sectionCatalog__top-text sectionCatalog__top-textCenter"></img>
                         <p className="sectionCatalog__top-textActive"> Sign in</p>
                     </div>
                 </div>
@@ -26,27 +51,72 @@ const FormPage = () => {
                     <div className="sectionForm__inner">
                         <div className="sectionForm__formBlock">
                             <div className="formBlock__top">
-                                <button className="formBlock__top-titleBtn formBlock__top-titleBtnActive">Sign In</button>
-                                <button className="formBlock__top-titleBtn">Sign Up</button>
+                                <button className={tab === 'signIn' ? "formBlock__top-titleBtn formBlock__top-titleBtnActive" : "formBlock__top-titleBtn"} onClick={() => setTab('signIn')}>Sign In</button>
+                                <button className={tab === 'signUp' ? "formBlock__top-titleBtn formBlock__top-titleBtnActive" : "formBlock__top-titleBtn"} onClick={() => setTab('signUp')}>Sign Up</button>
                             </div>
 
-                            <div className="formBlock__signInMain">
-                                <div className="formBlock__emailBlock">
-                                    <p className="emailBlock__text">Email Address</p>
-                                    <input type="text" className="emailBlock__input" />
-                                </div>
-                                <div className="formBlock__passwordBlock">
-                                    <p className="emailBlock__text">Password</p>
-                                    <input type={typePass ? "password" : "text"} className="emailBlock__input" />
-                                    <button className="passwordBlock__eyeBtn" onClick={()=>setTypePass((prev)=>!prev)}>
-                                        <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
+                            {tab === 'signIn' &&
+                                <div className="formBlock__signInMain">
+                                    <div className="formBlock__emailBlock">
+                                        <p className="emailBlock__text">Email Address</p>
+                                        <input type="text" className="emailBlock__input" value={inputEmailSignIn} onChange={(e)=>setInputEmailSignIn(e.target.value)}/>
+                                    </div>
+                                    <div className="formBlock__passwordBlock">
+                                        <p className="emailBlock__text">Password</p>
+                                        <input type={typePass ? "password" : "text"} className="emailBlock__input" value={inputPassSignIn} onChange={(e)=>setInputPassSignIn(e.target.value)}/>
+                                        <button className="passwordBlock__eyeBtn" onClick={() => setTypePass((prev) => !prev)}>
+                                            <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
+                                        </button>
+                                    </div>
+                                    <button className="formBlock__btn">
+                                        <p className="info__link-text">Sign in</p>
+                                        <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
                                     </button>
                                 </div>
-                                <button className="formBlock__btn">
-                                    <p className="info__link-text">Sign in</p>
-                                    <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
-                                </button>
-                            </div>
+                            }
+
+
+                            {tab === 'signUp' &&
+                                <div className="formBlock__signInMain">
+                                    <div className="formBlock__emailBlock">
+                                        <p className="emailBlock__text">Name</p>
+                                        <input type="text" className="emailBlock__input" value={inputNameSignUp} onChange={(e)=>setInputNameSignUp(e.target.value)}/>
+                                    </div>
+                                    <div className="formBlock__emailBlock">
+                                        <p className="emailBlock__text">Email Address</p>
+                                        <input type="text" className="emailBlock__input" value={inputEmailSignUp} onChange={(e)=>setInputEmailSignUp(e.target.value)}/>
+                                    </div>
+                                    <div className="formBlock__passwordBlock">
+                                        <p className="emailBlock__text">Password</p>
+                                        <input type={typePassSignUp ? "password" : "text"} className="emailBlock__input" placeholder="8 - 32 characters" value={inputPassSignUp} onChange={(e)=>setInputPassSignUp(e.target.value)}/>
+                                        <button className="passwordBlock__eyeBtn" onClick={() => setTypePassSignUp((prev) => !prev)}>
+                                            <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
+                                        </button>
+                                    </div>
+                                    <div className="formBlock__passwordBlock">
+                                        <p className="emailBlock__text">Confirm Password</p>
+                                        <input type={typePassConfirm ? "password" : "text"} className="emailBlock__input" value={inputPassConfirmSignUp} onChange={(e)=>setInputPassConfirmSignUp(e.target.value)} />
+                                        <button className="passwordBlock__eyeBtn" onClick={() => setTypePassConfirm((prev) => !prev)}>
+                                            <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
+                                        </button>
+                                    </div>
+
+                                    <div className="formBlock__checkBlock">
+                                        <label className="filterBar__categories-item formBlock__checkBlock-label" >
+                                            <input type="checkbox" className="categories__item-radio" onClick={() => setCheckBox((prev) => !prev)} />
+                                            <span className={checkBox ? "categories__item-checkBoxStyle categories__item-checkBoxStyleActive" : "categories__item-checkBoxStyle"}></span>
+                                        </label>
+                                        <p className="categories__item-text">I agree to Clicon <span><Link to='/' className="formBlock__checkBlock-termLink">Terms of Condition</Link></span> and <span><Link to='/' className="formBlock__checkBlock-termLink">Privacy Policy</Link></span>.
+                                        </p>
+                                    </div>
+
+                                    <button className="formBlock__btn">
+                                        <p className="info__link-text">Sign Up</p>
+                                        <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
+                                    </button>
+                                </div>
+                            }
+
 
                         </div>
                     </div>

@@ -42,7 +42,7 @@ const Cart = () => {
                         <div className="sectionCatalog__top-inner">
                             <img src="/images/sectionCatalog/House.png" alt="" className="sectionCatalog__top-img" />
                             <p className="sectionCatalog__top-text">Home</p>
-                            <p className="sectionCatalog__top-text sectionCatalog__top-textCenter">{'>'}</p>
+                            <img src="/images/header/CareRight.png" className="sectionCatalog__top-text sectionCatalog__top-textCenter"></img>
                             <p className="sectionCatalog__top-textActive"> Shopping Cart</p>
                         </div>
                     </div>

@@ -1888,6 +1888,8 @@ a {
     cursor:pointer;
     opacity: 1;
     transition:opacity .5s ease;
+    width: 100%;
+    min-width: 209px;
 }
 .formBlock__top-titleBtnActive{
     color:#191C1F;
@@ -1898,7 +1900,19 @@ a {
 }
 .formBlock__signInMain{
     padding: 24px 32px 32px 32px;
+    animation: formAppear 1s ease forwards;
 }
+
+@keyframes formAppear {
+    0%{
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 1;
+    }
+}
+
 .emailBlock__text{
     font-size: 14px;
     font-weight: 500;
@@ -1951,4 +1965,20 @@ a {
 .formBlock__btn .info__link-text{
     font-size: 14px;
     font-weight: 600;
+}
+.formBlock__checkBlock{
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+}
+.formBlock__checkBlock-termLink{
+    color:#2DA5F3;
+    opacity: 1;
+    transition:opacity .5s ease;
+}
+.formBlock__checkBlock-termLink:hover{
+    opacity: 0.7;
+}
+.formBlock__checkBlock-label{
+    margin-bottom: 0;
 }
