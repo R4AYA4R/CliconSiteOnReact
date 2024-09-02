@@ -1,13 +1,16 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { totalPagesSlice } from "./totalPagesSlice";
 import { apiBasket } from "./apiBasket";
+import { userSlice } from "./userSlice";
 
 // если несколько редьюсеров на сайте,то можно их объединить с помощью combineReducers и передать потом в store
 const reducers = combineReducers({
 
     totalPagesReducer: totalPagesSlice.reducer, // даем название редьюсеру и указываем этот слайс totalPagesSlice(редьюсер),указываем через точку редьюсер из нашего слайса,так как не эспортировали его отдельно,но и так можно
 
-    [apiBasket.reducerPath]: apiBasket.reducer // указываем наш api для rtk query,указываем его reducerPath(название) и его редьюсер
+    [apiBasket.reducerPath]: apiBasket.reducer, // указываем наш api для rtk query,указываем его reducerPath(название) и его редьюсер
+
+    userSlice:userSlice.reducer, // указываем еще один слайс(редьюсер) для авторизации пользователя
 
 })
 
