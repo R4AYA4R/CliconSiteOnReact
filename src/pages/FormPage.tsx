@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
 import { Link } from "react-router-dom";
+import AuthService from "../services/AuthService";
+import { useActions } from "../hooks/useActions";
 
 const FormPage = () => {
 
@@ -32,6 +34,27 @@ const FormPage = () => {
     const mainFormPageRef = useRef(null);
 
     const onScreen = useIsOnScreen(mainFormPageRef);
+
+
+    const { loginForUser } = useActions(); // берем action loginForUser для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутый в диспатч,так как мы оборачивали это в самом хуке useActions
+
+
+    // функция для логина
+    const login = async (email:string,password:string) => {
+        // оборачиваем в try catch,чтобы отлавливать ошибки
+        try{
+            const response = await AuthService.login(email,password); // вызываем нашу функцию login() у AuthService,передаем туда email и password,если запрос прошел успешно,то в ответе от сервера будут находиться токены и поле user с объектом пользователя(с полями isActivated,email,id),их и помещаем в переменную response
+
+            console.log(response);
+
+            loginForUser(response.data); // вызываем нашу функцию(action) для изменения состояния пользователя и передаем туда response.data(в данном случае это объект с полями accessToken,refreshToken и user,которые пришли от сервера)
+    
+    
+        }catch(e:any){
+            console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e
+        }
+
+    }
 
 
     return (

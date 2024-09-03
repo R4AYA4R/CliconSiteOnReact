@@ -50,3 +50,9 @@ export interface AuthResponse{
     refreshToken:string;
     user:IUser; // указываем в поле user объект(с теми полями, которые описаны в IUser) на основе нашего интерфеса IUser
 }
+
+// создаем и экспортируем наш интерфейс IRegistrationLogin для типа объекта,который будем указываем функции registration и login в userSlice
+export interface IRegistrationLogin{
+    email:string,
+    password:string
+}
