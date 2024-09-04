@@ -19,7 +19,7 @@ export const userSlice = createSlice({
     // создаем здесь actions,которые потом смогут изменять состояние redux toolkit
     reducers: {
 
-        // в параметре функции можно указать состояние(state) и action payload(данные,которые будем передавать этому action при вызове его в другом файле),указываем тип action payload(второму параметру этого action) PayloadAction и указываем в generic какой тип данных будем передавать потом при вызове этого action(в данном случае IUser)
+        // в параметре функции можно указать состояние(state) и action payload(данные,которые будем передавать этому action при вызове его в другом файле),указываем тип action payload(второму параметру этого action) PayloadAction и указываем в generic какой тип данных будем передавать потом при вызове этого action(в данном случае IUser),в данном случае в payload передаем объект response(ответ от сервера),который пришел от сервера
         loginForUser:(state, action: PayloadAction<AuthResponse>) => {
 
             localStorage.setItem('token', action.payload.accessToken); // сохраняем accessToken в localStorage по ключу token,чтобы мы могли добавлять его к каждому запросу
@@ -27,6 +27,17 @@ export const userSlice = createSlice({
             state.isAuth = true;  // изменяем поле isAuth у состояния на true,так как уже авторизованы
 
             state.user = action.payload.user; // изменяем поле user у состояния на action.payload.user(данные пользователя,которые пришли от сервера,в данном случае мы передали в эту функцию loginForUser объект с данными,которые уже пришли от сервера),так как уже авторизованы
+
+        },
+
+        registrationForUser:(state, action: PayloadAction<AuthResponse>)=>{
+
+            localStorage.setItem('token',action.payload.accessToken); // сохраняем accessToken в localStorage по ключу token,чтобы мы могли добавлять его к каждому запросу
+
+            state.isAuth = true; // изменяем поле isAuth этого класса на true,так как уже авторизованы
+
+            state.user = action.payload.user; // изменяем поле user у состояния на action.payload.user(данные пользователя,которые пришли от сервера,в данном случае мы передали в эту функцию loginForUser объект с данными,которые уже пришли от сервера),так как уже авторизованы
+
 
         }
 
