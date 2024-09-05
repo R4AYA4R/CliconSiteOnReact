@@ -36,7 +36,7 @@ const FormPage = () => {
     const onScreen = useIsOnScreen(mainFormPageRef);
 
 
-    const { loginForUser,registrationForUser } = useActions(); // берем action loginForUser для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутый в диспатч,так как мы оборачивали это в самом хуке useActions
+    const { loginForUser,registrationForUser,logoutUser } = useActions(); // берем action loginForUser для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутый в диспатч,так как мы оборачивали это в самом хуке useActions
 
 
     // функция для логина
@@ -71,6 +71,21 @@ const FormPage = () => {
             console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e 
         }
     } 
+
+    // функция для выхода из аккаунта
+    const logout = async () => {
+        // оборачиваем в try catch,чтобы отлавливать ошибки 
+        try{
+
+            const response = await AuthService.logout(); // вызываем нашу функцию logout() у AuthService
+
+            logoutUser(); // вызываем нашу функцию(action) для изменения состояния пользователя и в данном случае не передаем туда ничего
+
+
+        }catch(e:any){
+            console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e 
+        }
+    }
 
 
     return (
