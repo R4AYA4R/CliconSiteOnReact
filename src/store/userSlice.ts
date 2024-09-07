@@ -64,6 +64,10 @@ export const userSlice = createSlice({
             state.isAuth = true; // изменяем поле isAuth у состояния на true,так как уже авторизованы
 
             state.user = action.payload.user; // изменяем поле user у состояния на action.payload.user(данные пользователя,которые пришли от сервера,в данном случае мы передали в эту функцию checkAuthUser объект с данными,которые уже пришли от сервера),так как уже авторизованы
+        },
+
+        setAuthUser:(state,action:PayloadAction<boolean>)=>{
+            state.isAuth = action.payload;
         }
 
 

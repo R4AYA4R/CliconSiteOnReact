@@ -1,18 +1,19 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { apiBasket } from "../store/apiBasket";
 import { useActions } from "../hooks/useActions";
 import { AuthResponse } from "../types/types";
 import axios from "axios";
 import { API_URL } from "../http/http";
 import { useEffect, useState } from "react";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 
 const Header = () => {
 
     const {data} = apiBasket.useGetAllProductsBasketQuery(null);
 
-    const [authLink,setAuthLink] = useState<boolean>(true); // состояния для проверки,куда вести пользователя,если он авторизован или нет
+    const {checkAuthUser,setLoadingUser,setAuthUser} = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
 
-    const {checkAuthUser,setLoadingUser} = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
+    const {isAuth} = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния isAuth для проверки,авторизован ли пользователь,используя наш типизированный хук для useSelector
 
 
     // функция для проверки авторизован ли пользователь
@@ -32,8 +33,6 @@ const Header = () => {
 
         }catch(e:any){
 
-            setAuthLink(false); // изменяем состояния authLink на false,то есть если при запросе на сервер на эндпоинт /refresh будет ошибка(то есть пользователь не авторизован),то будем изменять это состояние на false,и ссылка на аккаунт пользователя будет вести на страницу авторизации или регистрации в аккаунт,а не на сам аккаунт пользователя
-
             console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e
 
         }finally{
@@ -44,15 +43,13 @@ const Header = () => {
     }
 
 
-    // при запуске сайта будет отработан код в этом useEffect,так как этот useEffect с пустым массивом зависимостей
+    // при запуске сайта будет отработан код в этом useEffect,а также при изменении объекта пользователя из userSlice
     useEffect(()=>{
         // если localStorage.getItem('token') true,то есть по ключу token в localStorage что-то есть,в другом случа(если ничего нет по ключу 'token' в localStorage) изменяем состояние authLink на false,чтобы ссылка на аккаунт пользователя вела на страницу авторизации или регистрации в аккаунт,а не на сам аккаунт пользователя
         if(localStorage.getItem('token')){
 
             checkAuth(); // вызываем нашу функцию checkAuth(),которую описали выше для проверки авторизован ли пользователь
 
-        }else{
-            setAuthLink(false); // изменяем состояния authLink на false,то есть если при запросе на сервер на эндпоинт /refresh будет ошибка(то есть пользователь не авторизован),то будем изменять это состояние на false,и ссылка на аккаунт пользователя будет вести на страницу авторизации или регистрации в аккаунт,а не на сам аккаунт пользователя
         }
 
     },[])
@@ -82,8 +79,8 @@ const Header = () => {
                             </NavLink>
                         </li>
                         <li className="menuList__item menuList__item-cart">
-                            {/* если authLink true,то эта ссылка будет вести на страницу /user,в другом случае на страницу /form для регистрации или входа в аккаунт */}
-                            <NavLink to={authLink ? "/user" : "/form"} className={({ isActive }) => isActive ? "menuList__item-link menuList__item-linkActive" : "menuList__item-link"}>
+                            {/* если isAuth true,то эта ссылка будет вести на страницу /user,в другом случае на страницу /form для регистрации или входа в аккаунт */}
+                            <NavLink to={isAuth ? "/user" : "/form"} className={({ isActive }) => isActive ? "menuList__item-link menuList__item-linkActive" : "menuList__item-link"}>
                                 <img src="/images/header/User.png" alt="" className="item__link-img" />
                             </NavLink>
 

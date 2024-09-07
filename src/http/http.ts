@@ -26,10 +26,10 @@ $api.interceptors.response.use((config)=>{
 
     const originalRequest = error.config; // указываем этот originalRequest и проверки ниже на error.config._isRetry,чтобы не зациклились запросы
 
-    // если status код у response у error равен 401(то есть пользователь не авторизован), и если error.config true,и если error.config._isRetry false
+    // если status код у response у error равен 401(то есть пользователь не авторизован), и если error.config true,и если error.config._isRetry false(то есть повторный запрос мы еще не делали,это мы проверяем,чтобы эти запросы не зациклились и чтобы повторный запрос можно было сделать только 1 раз)
     if(error.response.status === 401 && error.config && !error.config._isRetry){
 
-        originalRequest._isRetry = true;
+        originalRequest._isRetry = true; // указываем,что это уже повторный запрос,соответственно после этого запроса,других таких же уже не будет
 
         // оборачиваем здесь в try catch для отлавливания ошибок
         try{

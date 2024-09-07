@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import { useActions } from "../hooks/useActions";
 import axios from "axios";
@@ -8,6 +8,8 @@ import { AuthResponse } from "../types/types";
 import { API_URL } from "../http/http";
 
 const FormPage = () => {
+
+    const router = useNavigate(); // используем useNavigate,чтобы перенаправлять пользователя на другие страницы
 
     const [typePass, setTypePass] = useState<boolean>(true); // состояние для показа типа инпута для пароля(password или text)
 
@@ -18,6 +20,10 @@ const FormPage = () => {
     const [checkBox, setCheckBox] = useState<boolean>(false); // состояние для чекбокса политики конфиденциальности
 
     const [tab, setTab] = useState<string>('signIn'); // состояние для переключения формы sing in и sing up
+
+    const [signUpError,setSignUpError] = useState<string>(''); // состояние для ошибки в форме регистрации
+
+    const [signInError,setSignInError] = useState<string>(''); // состояние для ошибки в форме входа в аккаунт
 
 
     const [inputEmailSignIn,setInputEmailSignIn] = useState<string>(''); // состояние для инпута почты в форме singIn
@@ -51,10 +57,14 @@ const FormPage = () => {
             console.log(response);
 
             loginForUser(response.data); // вызываем нашу функцию(action) для изменения состояния пользователя и передаем туда response.data(в данном случае это объект с полями accessToken,refreshToken и user,которые пришли от сервера)
+
+            router('/user'); // перенаправляем на страницу пользователя,так как уже зарегестрировались
     
     
         }catch(e:any){
             console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e
+
+            setSignInError(e.response?.data?.message); // помещаем в состояние ошибки формы авторизации текст ошибки,которая пришла от сервера
         }
 
     }
@@ -70,8 +80,13 @@ const FormPage = () => {
 
             registrationForUser(response.data); // вызываем нашу функцию(action) для изменения состояния пользователя и передаем туда response.data(в данном случае это объект с полями accessToken,refreshToken и user,которые пришли от сервера)
 
+            
+            router('/user'); // перенаправляем на страницу пользователя,так как уже зарегестрировались
+
         }catch(e:any){
             console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e 
+
+            setSignUpError(e.response?.data?.message + '. Fill in all fields correctly'); // помещаем в состояние ошибки формы регистрации текст ошибки,которая пришла от сервера(в данном случае еще и допольнительный текст)
         }
     } 
 
@@ -83,10 +98,64 @@ const FormPage = () => {
             const response = await AuthService.logout(); // вызываем нашу функцию logout() у AuthService
 
             logoutUser(); // вызываем нашу функцию(action) для изменения состояния пользователя и в данном случае не передаем туда ничего
-
+            
 
         }catch(e:any){
             console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e 
+        }
+    }
+
+
+    // функция для кнопки регистрации аккаунта
+    const signUpBtn=()=>{
+
+        // если checkBox false,то есть чекбокс с политикой конфиденциальности не прожат
+        if(!checkBox){
+
+            setSignUpError('You must agree with privacy policy'); // помещаем в состояние ошибки текст ошибки,соответственно показываем ошибку
+
+        }else if(inputPassSignUp !== inputPassConfirmSignUp){
+            // если состояние инпута пароля не равно состоянию инпута подтверждения пароля,то показываем ошибку,что пароли не совпадают
+
+            setSignUpError('Passwords don`t match'); // помещаем в состояние ошибки текст ошибки,соответственно показываем ошибку
+        }else if(inputEmailSignUp.trim() === '' || inputPassSignUp === '' || inputNameSignUp.trim() === ''){
+            // если состояние инпута почты,отфильтрованое без пробелов(с помощью trim(),то есть из этой строки убираются пробелы) равно пустой строке или инпут пароля равен пустой строке,или инпут имени равен пустой строке,то показываем ошибку
+
+            setSignUpError('Fill in all fields');
+
+        }else if(inputPassSignUp.valueOf().length < 3 || inputPassSignUp.valueOf().length > 32){
+            // если значение инпута по длине символов меньше 3 или больше 32,то показываем ошибку
+
+            setSignUpError('Password must be 3 - 32 characters');
+        }else if(!inputEmailSignUp.includes('@') || !inputEmailSignUp.includes('.') || inputEmailSignUp.valueOf().length < 5){
+            // если инпут почты includes('@') false(то есть инпут почты не включает в себя символ @ собаки или не включает в себя точку) или значение инпута почты по количеству символов меньше 5,то показываем ошибку
+
+            setSignUpError('Enter email correctly');
+
+        }else{
+
+            setSignUpError(''); // указываем значение состоянию ошибку пустою строку,то есть ошибки нет
+
+            registration(inputEmailSignUp,inputPassSignUp); // вызываем нашу функцию регистрации и передаем туда состояния инпутов почты и пароля
+
+            
+
+        }
+    }
+
+    // функция для кнопки входа в аккаунт,указываем e такой тип
+    const signInBtn=()=>{
+
+        if(!inputEmailSignIn.includes('@') || !inputEmailSignIn.includes('.') || inputEmailSignIn.valueOf().length < 5){
+            // если инпут почты includes('@') false(то есть инпут почты не включает в себя символ @ собаки или не включает в себя точку) или значение инпута почты по количеству символов меньше 5,то показываем ошибку
+
+            setSignInError('Enter email correctly');
+        }else{
+
+            setSignInError(''); // указываем значение состоянию ошибку пустою строку,то есть ошибки нет
+
+            login(inputEmailSignIn,inputPassSignIn); // вызываем нашу функцию авторизации и передаем туда состояния инпутов почты и пароля
+
         }
     }
 
@@ -125,16 +194,20 @@ const FormPage = () => {
                                             <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
                                         </button>
                                     </div>
-                                    <button className="formBlock__btn">
+
+                                    {/* если signInError не равна пустой строке,то есть в signInError что-то есть,то есть есть ошибка,то показываем текст с ошибкой */}
+                                    {signInError !== '' && <p className="formBlock__textError">{signInError}</p>}
+                                    
+
+                                    <button className="formBlock__btn" onClick={signInBtn}>
                                         <p className="info__link-text">Sign in</p>
                                         <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
                                     </button>
                                 </div>
                             }
 
-
                             {tab === 'signUp' &&
-                                <div className="formBlock__signInMain">
+                                <div className="formBlock__signInMain" >
                                     <div className="formBlock__emailBlock">
                                         <p className="emailBlock__text">Name</p>
                                         <input type="text" className="emailBlock__input" value={inputNameSignUp} onChange={(e)=>setInputNameSignUp(e.target.value)}/>
@@ -145,7 +218,7 @@ const FormPage = () => {
                                     </div>
                                     <div className="formBlock__passwordBlock">
                                         <p className="emailBlock__text">Password</p>
-                                        <input type={typePassSignUp ? "password" : "text"} className="emailBlock__input" placeholder="8 - 32 characters" value={inputPassSignUp} onChange={(e)=>setInputPassSignUp(e.target.value)}/>
+                                        <input type={typePassSignUp ? "password" : "text"} className="emailBlock__input" placeholder="3 - 32 characters" value={inputPassSignUp} onChange={(e)=>setInputPassSignUp(e.target.value)}/>
                                         <button className="passwordBlock__eyeBtn" onClick={() => setTypePassSignUp((prev) => !prev)}>
                                             <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
                                         </button>
@@ -167,7 +240,10 @@ const FormPage = () => {
                                         </p>
                                     </div>
 
-                                    <button className="formBlock__btn">
+                                    {/* если signUpError не равна пустой строке,то есть в signUpError что-то есть,то есть есть ошибка,то показываем текст с ошибкой */}
+                                    {signUpError !== '' && <p className="formBlock__textError">{signUpError}</p>}
+
+                                    <button className="formBlock__btn" onClick={signUpBtn}>
                                         <p className="info__link-text">Sign Up</p>
                                         <img src="/images/sectionTop/ArrowRight.png" alt="" className="info__link-img" />
                                     </button>
