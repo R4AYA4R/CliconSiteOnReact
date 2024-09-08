@@ -7,9 +7,7 @@ import axios from "axios";
 import { AuthResponse } from "../types/types";
 import { API_URL } from "../http/http";
 
-const FormPage = () => {
-
-    const router = useNavigate(); // используем useNavigate,чтобы перенаправлять пользователя на другие страницы
+const FormComponent = () => {
 
     const [typePass, setTypePass] = useState<boolean>(true); // состояние для показа типа инпута для пароля(password или text)
 
@@ -57,8 +55,6 @@ const FormPage = () => {
             console.log(response);
 
             loginForUser(response.data); // вызываем нашу функцию(action) для изменения состояния пользователя и передаем туда response.data(в данном случае это объект с полями accessToken,refreshToken и user,которые пришли от сервера)
-
-            router('/user'); // перенаправляем на страницу пользователя,так как уже зарегестрировались
     
     
         }catch(e:any){
@@ -81,7 +77,6 @@ const FormPage = () => {
             registrationForUser(response.data); // вызываем нашу функцию(action) для изменения состояния пользователя и передаем туда response.data(в данном случае это объект с полями accessToken,refreshToken и user,которые пришли от сервера)
 
             
-            router('/user'); // перенаправляем на страницу пользователя,так как уже зарегестрировались
 
         }catch(e:any){
             console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e 
@@ -259,4 +254,4 @@ const FormPage = () => {
     )
 }
 
-export default FormPage;
+export default FormComponent;

@@ -8,7 +8,7 @@ import AboutPage from "./pages/AboutPage";
 import Cart from "./pages/Cart";
 import ScrollToTop from "./utils/ScrollToTop";
 import { createContext, useState } from "react";
-import FormPage from "./pages/FormPage";
+import FormPage from "./components/FormComponent";
 import UserPage from "./pages/UserPage";
 
 
@@ -25,7 +25,6 @@ function App() {
             <Route path='/catalog' element={<Catalog />} />
             <Route path='/about' element={<AboutPage />} />
             <Route path='/cart' element={<Cart />} />
-            <Route path='/form' element={<FormPage />} />
             <Route path='/user' element={<UserPage />} />
             <Route path='/catalog/:id' element={<ProductItemPage />} /> {/* указываем после /catalog/ :id,для динамического id,чтобы потом открывалась отдельная страница товара по конкретному id  */}
             <Route path='/*' element={<Navigate to='/' />} /> {/* если пользователь введет в url несуществующую страницу,то его перекинет на главную */}

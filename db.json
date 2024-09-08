@@ -431,6 +431,17 @@
       "amount": 15,
       "totalPrice": 8700,
       "id": 7
+    },
+    {
+      "name": "Sony DSCHX8 High Zoom",
+      "category": "SmartPhone",
+      "image": "/images/sectionCatalog/Image (7).png",
+      "price": 350,
+      "rating": 3.6,
+      "priceFilter": "$100 to $500",
+      "amount": 2,
+      "totalPrice": 700,
+      "id": 8
     }
   ]
 }

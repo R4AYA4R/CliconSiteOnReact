@@ -46,11 +46,11 @@ const Header = () => {
     // при запуске сайта будет отработан код в этом useEffect,а также при изменении объекта пользователя из userSlice
     useEffect(()=>{
         // если localStorage.getItem('token') true,то есть по ключу token в localStorage что-то есть,в другом случа(если ничего нет по ключу 'token' в localStorage) изменяем состояние authLink на false,чтобы ссылка на аккаунт пользователя вела на страницу авторизации или регистрации в аккаунт,а не на сам аккаунт пользователя
-        if(localStorage.getItem('token')){
+        // if(localStorage.getItem('token')){
 
-            checkAuth(); // вызываем нашу функцию checkAuth(),которую описали выше для проверки авторизован ли пользователь
+        //     checkAuth(); // вызываем нашу функцию checkAuth(),которую описали выше для проверки авторизован ли пользователь
 
-        }
+        // }
 
     },[])
 
@@ -79,8 +79,7 @@ const Header = () => {
                             </NavLink>
                         </li>
                         <li className="menuList__item menuList__item-cart">
-                            {/* если isAuth true,то эта ссылка будет вести на страницу /user,в другом случае на страницу /form для регистрации или входа в аккаунт */}
-                            <NavLink to={isAuth ? "/user" : "/form"} className={({ isActive }) => isActive ? "menuList__item-link menuList__item-linkActive" : "menuList__item-link"}>
+                            <NavLink to='/user' className={({ isActive }) => isActive ? "menuList__item-link menuList__item-linkActive" : "menuList__item-link"}>
                                 <img src="/images/header/User.png" alt="" className="item__link-img" />
                             </NavLink>
 
