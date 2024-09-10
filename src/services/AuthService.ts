@@ -21,5 +21,11 @@ export default class AuthService{
         return $api.post('/logout'); // используем наш instance axios(наш axios с определенными настройками для работы) и указываем здесь post(post запрос) на эндпоинт /logout для выхода из аккаунта
     }
 
+    // static async auth():Promise<void>{
+
+    //     return $api.get('/auth'); // возвращаем get запрос с помощью нашего axios($api) на эндпоинт /users,указываем тип возвращаемых данных этого запроса(IUser[] в данном случае,массив пользователей)
+
+    // }
+
 
 }
