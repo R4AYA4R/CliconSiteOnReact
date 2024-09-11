@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useNavigate } from "react-router-dom";
 import { AuthResponse } from "../types/types";
@@ -7,8 +7,11 @@ import { useActions } from "../hooks/useActions";
 import axios from "axios";
 import FormComponent from "../components/FormComponent";
 import AuthService from "../services/AuthService";
+import { useIsOnScreen } from "../hooks/useIsOnScreen";
 
 const UserPage = () => {
+
+    const [tab, setTab] = useState<string>('dashboard');
 
     const { user, isAuth, isLoading } = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния user,используя наш типизированный хук для useSelector
 
@@ -81,18 +84,72 @@ const UserPage = () => {
     }
 
     return (
-        <main className="main">
+        <main className="main"  id="userPage">
             <section className="sectionCatalog__top">
                 <div className="container">
                     <div className="sectionCatalog__top-inner">
                         <img src="/images/sectionCatalog/House.png" alt="" className="sectionCatalog__top-img" />
                         <p className="sectionCatalog__top-text">Home</p>
-                        <img src="/images/header/CareRight.png" className="sectionCatalog__top-text sectionCatalog__top-textCenter"/>
+                        <img src="/images/header/CareRight.png" className="sectionCatalog__top-text sectionCatalog__top-textCenter" />
                         <p className="sectionCatalog__top-textActive">User Account</p>
                     </div>
                 </div>
             </section>
-            userPage for {user.email}
+            <section className="userPage">
+                <div className="container">
+                    <div className="userPage__inner">
+                        <div className="userPage__leftBar">
+                            <ul className="userPage__leftBar-list">
+                                <li className="leftBar__list-item">
+                                    <button className={tab === 'dashboard' ? "leftBar__item-btn leftBar__item-btn--active" : "leftBar__item-btn"} onClick={() => setTab('dashboard')}>
+                                        <img src="/images/sectionUserPage/DashImg (1).png" alt="" className="leftBar__btn-img" />
+                                        <p className={tab === 'dashboard' ? "leftBar__btn-text leftBar__btn-text--active" : "leftBar__btn-text"}>Dashboard</p>
+                                    </button>
+                                </li>
+                                <li className="leftBar__list-item">
+                                    <button className={tab === 'settings' ? "leftBar__item-btn leftBar__item-btn--active" : "leftBar__item-btn"} onClick={() => setTab('settings')}>
+                                        <img src="/images/sectionUserPage/Gear.png" alt="" className="leftBar__btn-img" />
+                                        <p className={tab === 'settings' ? "leftBar__btn-text leftBar__btn-text--active" : "leftBar__btn-text"}>Setting</p>
+                                    </button>
+                                </li>
+                                <li className="leftBar__list-item">
+                                    <button className="leftBar__item-btn">
+                                        <img src="/images/sectionUserPage/Logout.png" alt="" className="leftBar__btn-img" />
+                                        <p className="leftBar__btn-text">Logout</p>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="userPage__mainBlock">
+
+                            {tab === 'dashboard' &&
+                                <div className="userPage__mainBlock-dashboard">
+                                    <h2 className="dashboard__title">Hello, Name</h2>
+                                    <p className="dashboard__text">From your account dashboard. you can easily check & view your <span className="dashboard__text-span" onClick={()=>setTab('settings')}>Recent Orders</span>, manage your <span className="dashboard__text-span" onClick={()=>setTab('settings')}>Shipping and Billing Addresses</span> and edit your <span className="dashboard__text-span" onClick={()=>setTab('settings')}>Password</span> and <span className="dashboard__text-span" onClick={()=>setTab('settings')}>Account Details</span>.</p>
+                                    <div className="dashboard__accInfo">
+                                        <p className="accInfo__title">Account Info</p>
+                                        <div className="accInfo__main">
+                                            <h3 className="accInfo__main-title">Kevin Gilbert</h3>
+                                            <div className="accInfo__main-textBlock">
+                                                <p className="accInfo__textBlock-bold">Email:</p>
+                                                <p className="accInfo__textBlock-default"> kevin.gilbert@gmail.com</p>
+                                            </div>
+                                            <button className="accInfo__main-btn" onClick={()=>setTab('settings')}>Edit Account</button>
+                                        </div>
+                                    </div>
+
+                                    userPage for {user.email}
+                                </div>
+                            }
+
+                            {tab === 'settings' && 
+                                <div className="userPage__mainBlock-settings">Settings, userPage for {user.email}</div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     )
 }

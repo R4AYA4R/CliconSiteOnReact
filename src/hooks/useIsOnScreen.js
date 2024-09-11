@@ -16,6 +16,7 @@ export const useIsOnScreen=(ref)=>{
         sectionCartIntersecting:false,
         sectionProductPageIntersecting:false,
         sectionMainFormPageIntersecting:false,
+        sectionUserPageIntersecting:false,
     })
 
     // создаем функцию для intersectionObserver,принимает в параметре все элементы,за которыми следит,и сам observer
@@ -71,6 +72,10 @@ export const useIsOnScreen=(ref)=>{
                 }
                 if(entry.target.id === 'formPage'){
                     setIsIntersectingNow((prev)=>({...prev,sectionMainFormPageIntersecting:true}));
+                    observer.unobserve(entry.target);
+                }
+                if(entry.target.id === 'userPage'){
+                    setIsIntersectingNow((prev)=>({...prev,sectionUserPageIntersecting:true}));
                     observer.unobserve(entry.target);
                 }
             }

@@ -2013,3 +2013,138 @@ a {
     align-items: center;
     justify-content: center;
 }
+
+.userPage__inner{
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap:72px;
+    margin-top: 40px;
+    margin-bottom: 72px;
+}
+.userPage__leftBar{
+    /* какие значение что значат в данном box-shadow по порядку, offset-x | offset-y | blur-radius | spread-radius | color */
+    box-shadow: 0 8px 40px 0 rgba(0,0,0,0.1);
+    border-radius: 4px;
+    border:1px solid #E4E7E9;
+    padding-top: 16px;
+}
+.leftBar__item-btn{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap:12px;
+    padding: 10px 136px 10px 24px;
+    border:none;
+    background-color: #fff;
+    cursor: pointer;
+    transition:all .5s ease;
+}
+
+.leftBar__item-btn:hover{
+    background-color: #FA8232;
+    opacity: 0.8;
+}
+
+.leftBar__item-btn--active{
+    color:#fff;
+    background-color: #FA8232;
+}
+
+.leftBar__item-btn:hover .leftBar__btn-text{
+    color:#fff;
+}
+.userPage__mainBlock-dashboard{
+    animation:appearDesc 1s ease forwards;
+}
+.leftBar__btn-text{
+    color:#5F6C72;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Public Sans',sans-serif;
+    transition:color .5s ease;
+}
+
+.leftBar__btn-text--active{
+    color:#fff;
+}
+
+.dashboard__title{
+    color:#191C1F;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.dashboard__text{
+    color:#475156;
+    font-size: 16px;
+    font-weight: 400;
+    max-width: 523px;
+    margin-bottom: 24px;
+}
+
+.dashboard__text-span{
+    color:#2DA5F3;
+    cursor: pointer;
+    transition: opacity .5s ease;
+}
+.dashboard__text-span:hover{
+    opacity: 0.5;
+}
+
+.dashboard__accInfo{
+    border-radius: 4px;
+    border:1px solid #E4E7E9;
+    max-width: 312px;
+}
+.accInfo__title{
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color:#191C1F;
+    padding: 16px 24px;
+    border-bottom: 1px solid #E4E7E9;
+}
+.accInfo__main{
+    padding: 22px 24px 24px 24px;
+}
+.accInfo__main-title{
+    color:#191C1F;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.accInfo__main-textBlock{
+    display: flex;
+    align-items: center;
+    gap:4px;
+    margin-bottom: 22px;
+}
+.accInfo__textBlock-bold{
+    color:#191C1F;
+    font-size: 14px;
+    font-weight: 600;
+}
+.accInfo__textBlock-default{
+    color:#5F6C72;
+    font-size: 14px;
+    font-weight: 400;
+}
+.accInfo__main-btn{
+    background-color: #fff;
+    border: 2px solid #D5EDFD;
+    text-transform: uppercase;
+    color:#2DA5F3;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition:opacity .5s ease;
+}
+
+.accInfo__main-btn:hover{
+    opacity: 0.7;
+}
+.userPage__mainBlock-settings{
+    animation: appearDesc 1s ease forwards;
+}
