@@ -43,7 +43,7 @@ const FormComponent = () => {
     const onScreen = useIsOnScreen(mainFormPageRef);
 
 
-    const { loginForUser,registrationForUser,logoutUser,setLoadingUser,checkAuthUser } = useActions(); // берем action loginForUser для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутый в диспатч,так как мы оборачивали это в самом хуке useActions
+    const { loginForUser,registrationForUser,logoutUser,setLoadingUser,checkAuthUser} = useActions(); // берем action loginForUser для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутый в диспатч,так как мы оборачивали это в самом хуке useActions
 
 
     // функция для логина
@@ -70,12 +70,16 @@ const FormComponent = () => {
     const registration = async (email:string,password:string)=>{
         // оборачиваем в try catch,чтобы отлавливать ошибки
         try{
-            const response = await AuthService.registration(email,password); // вызываем нашу функцию registration() у AuthService,передаем туда email и password,если запрос прошел успешно,то в ответе от сервера будут находиться токены поле user с объектом пользователя(с полями isActivated,email,id),их и помещаем в переменную response
+
+            let name = inputNameSignUp; // помещаем в переменную name(указываем ей именно let,чтобы можно было изменять) значение инпута имени
+
+            name = name.trim().replace(name[0],name[0].toUpperCase()); // убираем пробелы из переменной имени и заменяем первую букву этой строки инпута имени на первую букву этой строки инпута имени только в верхнем регистре,чтобы имя начиналось с большой буквы,даже если написали с маленькой
+
+            const response = await AuthService.registration(email,password,name); // вызываем нашу функцию registration() у AuthService,передаем туда email и password,если запрос прошел успешно,то в ответе от сервера будут находиться токены поле user с объектом пользователя(с полями isActivated,email,id),их и помещаем в переменную response
 
             console.log(response);
 
             registrationForUser(response.data); // вызываем нашу функцию(action) для изменения состояния пользователя и передаем туда response.data(в данном случае это объект с полями accessToken,refreshToken и user,которые пришли от сервера)
-
             
 
         }catch(e:any){
@@ -84,21 +88,6 @@ const FormComponent = () => {
             setSignUpError(e.response?.data?.message + '. Fill in all fields correctly'); // помещаем в состояние ошибки формы регистрации текст ошибки,которая пришла от сервера(в данном случае еще и допольнительный текст)
         }
     } 
-
-    // функция для выхода из аккаунта
-    const logout = async () => {
-        // оборачиваем в try catch,чтобы отлавливать ошибки 
-        try{
-
-            const response = await AuthService.logout(); // вызываем нашу функцию logout() у AuthService
-
-            logoutUser(); // вызываем нашу функцию(action) для изменения состояния пользователя и в данном случае не передаем туда ничего
-            
-
-        }catch(e:any){
-            console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e 
-        }
-    }
 
 
     // функция для кнопки регистрации аккаунта

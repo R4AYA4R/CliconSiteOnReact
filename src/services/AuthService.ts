@@ -10,9 +10,9 @@ export default class AuthService{
 
     }
 
-    static async registration(email:string,password:string):Promise<AxiosResponse<AuthResponse>>{
+    static async registration(email:string,password:string,userName:string):Promise<AxiosResponse<AuthResponse>>{
 
-        return $api.post<AuthResponse>('/registration',{email,password}); // используем наш instance axios(наш axios с определенными настройками для работы) и указываем здесь post(post запрос),первым параметром указываем адрес эндпоинта (/registration),вторым параметром указываем тело запроса,указываем тип данных,который возвращает этот post запрос(AuthResponse в данном случае)
+        return $api.post<AuthResponse>('/registration',{email,password,userName}); // используем наш instance axios(наш axios с определенными настройками для работы) и указываем здесь post(post запрос),первым параметром указываем адрес эндпоинта (/registration),вторым параметром указываем тело запроса,указываем тип данных,который возвращает этот post запрос(AuthResponse в данном случае)
 
     }
 

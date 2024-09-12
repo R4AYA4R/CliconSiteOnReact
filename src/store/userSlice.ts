@@ -7,7 +7,7 @@ const initialState: IInitialUserState = {
 
     isAuth: false, // переменная для проверки,авторизован пользователь или нет
 
-    isLoading: false // переменная для проверки загрузки
+    isLoading: false, // переменная для проверки загрузки
 }
 
 // создаем и экспортируем slice(то есть редьюсер)

@@ -433,15 +433,15 @@
       "id": 7
     },
     {
-      "name": "Sony DSCHX8 High Zoom",
-      "category": "SmartPhone",
-      "image": "/images/sectionCatalog/Image (7).png",
-      "price": 350,
-      "rating": 3.6,
+      "name": "Dell Optiplex 7000x7480 All-in-One Printer",
+      "category": "Electronics Devices",
+      "image": "/images/sectionCatalog/Image (2).png",
+      "price": 250,
+      "rating": 3,
       "priceFilter": "$100 to $500",
-      "amount": 4,
-      "totalPrice": 1400,
-      "id": 8
+      "amount": 8,
+      "totalPrice": 2000,
+      "id": 4
     }
   ]
 }

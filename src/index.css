@@ -2027,7 +2027,15 @@ a {
     border-radius: 4px;
     border:1px solid #E4E7E9;
     padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
+
+.leftBar__list-itemLogout{
+    margin-bottom: 16px;
+}
+
 .leftBar__item-btn{
     width: 100%;
     display: flex;
@@ -2147,4 +2155,44 @@ a {
 }
 .userPage__mainBlock-settings{
     animation: appearDesc 1s ease forwards;
+}
+
+.settings__accSettings{
+    border: 1px solid #E4E7E9;
+    border-radius: 4px;
+}
+.settings__accSettings-title{
+    font-size: 16px;
+    font-weight: 500;
+    color: #191C1F;
+    text-transform: uppercase;
+    padding:16px 24px;
+    border-bottom: 1px solid #E4E7E9;
+}
+
+.accSettings__form{
+    padding: 24px;
+}
+
+.accSettings__form-input{
+    max-width: 360px;
+}
+.accSettings__form-btn{
+    padding: 16px 24px;
+    background-color: #FA8232;
+    border:none;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color:#fff;
+    font-family: 'Public Sans',sans-serif;
+    transition:opacity .5s ease;
+    cursor: pointer;
+}
+.accSettings__form-btn:hover{
+    opacity: 0.7;
+}
+
+.settings__passSettings{
+    margin-top: 24px;
 }

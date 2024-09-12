@@ -20,14 +20,15 @@ export interface IInitialPagesState{
 export interface IUser{
     email:string,
     isActivated:boolean,
-    id:string
+    id:string,
+    userName:string
 }
 
 // создаем и экспортируем интерфейс для объекта состояния редьюсера для пользователя,указываем ему поле user на основе нашего интерфейса IUser,и остальные поля
 export interface IInitialUserState{
     user:IUser, 
     isAuth:boolean,
-    isLoading:boolean
+    isLoading:boolean,
 }
 
 export interface IPayloadPages{

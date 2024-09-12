@@ -13,9 +13,31 @@ const UserPage = () => {
 
     const [tab, setTab] = useState<string>('dashboard');
 
+    const [typePasses, setTypePasses] = useState({
+        typeCurrentPass: true,
+        typeNewPass: true,
+        typeConfirmPass: true
+    })
+
     const { user, isAuth, isLoading } = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния user,используя наш типизированный хук для useSelector
 
-    const { checkAuthUser, setLoadingUser } = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
+    const { checkAuthUser, setLoadingUser,logoutUser } = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
+
+
+    // функция для выхода из аккаунта
+    const logout = async () => {
+        // оборачиваем в try catch,чтобы отлавливать ошибки 
+        try {
+
+            const response = await AuthService.logout(); // вызываем нашу функцию logout() у AuthService
+
+            logoutUser(); // вызываем нашу функцию(action) для изменения состояния пользователя и в данном случае не передаем туда ничего
+
+
+        } catch (e: any) {
+            console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e 
+        }
+    }
 
 
     // функция для проверки авторизован ли пользователь(валиден ли его refresh токен)
@@ -83,8 +105,9 @@ const UserPage = () => {
         )
     }
 
+
     return (
-        <main className="main"  id="userPage">
+        <main className="main" id="userPage">
             <section className="sectionCatalog__top">
                 <div className="container">
                     <div className="sectionCatalog__top-inner">
@@ -109,41 +132,81 @@ const UserPage = () => {
                                 <li className="leftBar__list-item">
                                     <button className={tab === 'settings' ? "leftBar__item-btn leftBar__item-btn--active" : "leftBar__item-btn"} onClick={() => setTab('settings')}>
                                         <img src="/images/sectionUserPage/Gear.png" alt="" className="leftBar__btn-img" />
-                                        <p className={tab === 'settings' ? "leftBar__btn-text leftBar__btn-text--active" : "leftBar__btn-text"}>Setting</p>
-                                    </button>
-                                </li>
-                                <li className="leftBar__list-item">
-                                    <button className="leftBar__item-btn">
-                                        <img src="/images/sectionUserPage/Logout.png" alt="" className="leftBar__btn-img" />
-                                        <p className="leftBar__btn-text">Logout</p>
+                                        <p className={tab === 'settings' ? "leftBar__btn-text leftBar__btn-text--active" : "leftBar__btn-text"}>Settings</p>
                                     </button>
                                 </li>
                             </ul>
+                            <div className="leftBar__list-item leftBar__list-itemLogout">
+                                <button className="leftBar__item-btn" onClick={logout}>
+                                    <img src="/images/sectionUserPage/Logout.png" alt="" className="leftBar__btn-img" />
+                                    <p className="leftBar__btn-text">Logout</p>
+                                </button>
+                            </div>
                         </div>
                         <div className="userPage__mainBlock">
 
                             {tab === 'dashboard' &&
                                 <div className="userPage__mainBlock-dashboard">
-                                    <h2 className="dashboard__title">Hello, Name</h2>
-                                    <p className="dashboard__text">From your account dashboard. you can easily check & view your <span className="dashboard__text-span" onClick={()=>setTab('settings')}>Recent Orders</span>, manage your <span className="dashboard__text-span" onClick={()=>setTab('settings')}>Shipping and Billing Addresses</span> and edit your <span className="dashboard__text-span" onClick={()=>setTab('settings')}>Password</span> and <span className="dashboard__text-span" onClick={()=>setTab('settings')}>Account Details</span>.</p>
+                                    <h2 className="dashboard__title">Hello, {user.userName}</h2>
+                                    <p className="dashboard__text">From your account dashboard. you can easily check & view your <span className="dashboard__text-span" onClick={() => setTab('settings')}>Recent Orders</span>, manage your <span className="dashboard__text-span" onClick={() => setTab('settings')}>Shipping and Billing Addresses</span> and edit your <span className="dashboard__text-span" onClick={() => setTab('settings')}>Password</span> and <span className="dashboard__text-span" onClick={() => setTab('settings')}>Account Details</span>.</p>
                                     <div className="dashboard__accInfo">
                                         <p className="accInfo__title">Account Info</p>
                                         <div className="accInfo__main">
-                                            <h3 className="accInfo__main-title">Kevin Gilbert</h3>
+                                            <h3 className="accInfo__main-title">{user.userName}</h3>
                                             <div className="accInfo__main-textBlock">
                                                 <p className="accInfo__textBlock-bold">Email:</p>
-                                                <p className="accInfo__textBlock-default"> kevin.gilbert@gmail.com</p>
+                                                <p className="accInfo__textBlock-default"> {user.email}</p>
                                             </div>
-                                            <button className="accInfo__main-btn" onClick={()=>setTab('settings')}>Edit Account</button>
+                                            <button className="accInfo__main-btn" onClick={() => setTab('settings')}>Edit Account</button>
                                         </div>
                                     </div>
-
-                                    userPage for {user.email}
                                 </div>
                             }
 
-                            {tab === 'settings' && 
-                                <div className="userPage__mainBlock-settings">Settings, userPage for {user.email}</div>
+                            {tab === 'settings' &&
+                                <div className="userPage__mainBlock-settings">
+                                    <div className="settings__accSettings">
+                                        <h2 className="settings__accSettings-title">Account Settings</h2>
+                                        <div className="accSettings__form">
+                                            <div className="formBlock__emailBlock accSettings__form-input">
+                                                <p className="emailBlock__text">Name</p>
+                                                <input type="text" className="emailBlock__input" />
+                                            </div>
+                                            <div className="formBlock__emailBlock accSettings__form-input">
+                                                <p className="emailBlock__text">Email</p>
+                                                <input type="text" className="emailBlock__input" />
+                                            </div>
+                                            <button className="accSettings__form-btn">Save Changes</button>
+                                        </div>
+                                    </div>
+                                    <div className="settings__passSettings settings__accSettings">
+                                        <h2 className="settings__accSettings-title">Change Password</h2>
+                                        <div className="accSettings__form">
+                                            <div className="formBlock__passwordBlock">
+                                                <p className="emailBlock__text">Current Password</p>
+                                                <input type={typePasses.typeCurrentPass ? "password" : "text"} className="emailBlock__input" />
+                                                <button className="passwordBlock__eyeBtn" onClick={() => setTypePasses((prev) => ({ ...prev, typeCurrentPass: !prev.typeCurrentPass }))}>
+                                                    <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
+                                                </button>
+                                            </div>
+                                            <div className="formBlock__passwordBlock">
+                                                <p className="emailBlock__text">New Password</p>
+                                                <input placeholder="3-32 characters" type={typePasses.typeNewPass ? "password" : "text"} className="emailBlock__input" />
+                                                <button className="passwordBlock__eyeBtn" onClick={() => setTypePasses((prev) => ({ ...prev, typeNewPass: !prev.typeNewPass }))}>
+                                                    <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
+                                                </button>
+                                            </div>
+                                            <div className="formBlock__passwordBlock">
+                                                <p className="emailBlock__text">Confirm Password</p>
+                                                <input type={typePasses.typeConfirmPass ? "password" : "text"} className="emailBlock__input" />
+                                                <button className="passwordBlock__eyeBtn" onClick={() => setTypePasses((prev) => ({ ...prev, typeConfirmPass: !prev.typeConfirmPass }))}>
+                                                    <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
+                                                </button>
+                                            </div>
+                                            <button className="accSettings__form-btn">Change Password</button>
+                                        </div>
+                                    </div>
+                                </div>
                             }
 
                         </div>
