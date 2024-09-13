@@ -19,10 +19,33 @@ const UserPage = () => {
         typeConfirmPass: true
     })
 
+    const [inputName, setInputName] = useState<string>('');
+
+    const [inputEmail, setInputEmail] = useState<string>('');
+
+    const [changeAccInfoError, setChangeAccInfoError] = useState<string>('');
+
+
+    const [inputCurrentPass, setInputCurrentPass] = useState<string>('');
+
+    const [inputNewPass, setInputNewPass] = useState<string>('');
+
+    const [inputConfirmPass, setInputConfirmPass] = useState<string>('');
+
+    const [changePassError, setChangePassError] = useState<string>('');
+
+
     const { user, isAuth, isLoading } = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния user,используя наш типизированный хук для useSelector
 
-    const { checkAuthUser, setLoadingUser,logoutUser } = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
+    const { checkAuthUser, setLoadingUser, logoutUser, setUser } = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
 
+
+    // фукнция для запроса на сервер на изменение информации пользователя в базе данных
+    const changeAccInfoInDb = async (userId: string, name: string, email: string) => {
+
+        return axios.post(`${API_URL}/changeAccInfo`, { userId, name, email });
+
+    }
 
     // функция для выхода из аккаунта
     const logout = async () => {
@@ -78,6 +101,53 @@ const UserPage = () => {
         }
 
     }, [])
+
+
+    // функция для кнопки изменения имени и почты пользователя
+    const changeAccInfo = async () => {
+
+        if (inputName.length < 3 || inputName.length > 20) {
+            setChangeAccInfoError('Name must be 3 - 20 characters');
+        } else if (!inputEmail.includes('@') || !inputEmail.includes('.') || inputEmail.valueOf().length < 5) {
+            // если инпут почты includes('@') false(то есть инпут почты не включает в себя символ @ собаки или не включает в себя точку) или значение инпута почты по количеству символов меньше 5,то показываем ошибку
+
+            setChangeAccInfoError('Enter email correctly');
+        } else {
+
+            setChangeAccInfoError(''); // изменяем состояние ошибки на пустую строку,то есть убираем ошибку
+
+            // оборачиваем в try catch,чтобы отлавливать ошибки
+            try {
+
+                let name = inputName.trim(); // помещаем в переменную значение инпута имени и убираем у него пробелы с помощю trim() (указываем ей именно let,чтобы можно было изменять)
+
+                name = name.replace(name[0], name[0].toUpperCase()); // заменяем первую букву этой строки инпута имени на первую букву этой строки инпута имени только в верхнем регистре,чтобы имя начиналось с большой буквы,даже если написали с маленькой
+
+                const response = await changeAccInfoInDb(user.id, name, inputEmail); // вызываем нашу функцию запроса на сервер для изменения данных пользователя,передаем туда user.id(id пользователя) и инпуты имени и почты
+
+                console.log(response.data);
+
+                setUser(response.data); // изменяем сразу объект пользователя на данные,которые пришли от сервера,чтобы не надо было обновлять страницу для обновления данных
+
+            } catch (e: any) {
+                console.log(e.response?.data?.message);
+
+                return setChangeAccInfoError(e.response?.data?.message); // возвращаем и показываем ошибку,используем тут return чтобы если будет ошибка,чтобы код ниже не работал дальше,то есть на этой строчке завершим функцию,чтобы не очищались поля инпутов,если есть ошибка
+            }
+
+            setInputEmail(''); // изменяем состояние почты на пустую строку,чтобы убирался текст в инпуте после успешного запроса
+            setInputName('');
+
+        }
+
+    }
+
+
+    // функция для кнопки изменения пароля пользователя
+    const changePass = () => {
+
+    }
+
 
     // если состояние загрузки true,то есть идет загрузка,то показываем лоадер(загрузку),если не отслеживать загрузку при функции checkAuth(для проверки на refresh токен при запуске страницы),то будет не правильно работать(только через некоторое время,когда запрос на /refresh будет отработан,поэтому нужно отслеживать загрузку и ее возвращать как разметку страницы,пока грузится запрос на /refresh)
     if (isLoading) {
@@ -170,13 +240,17 @@ const UserPage = () => {
                                         <div className="accSettings__form">
                                             <div className="formBlock__emailBlock accSettings__form-input">
                                                 <p className="emailBlock__text">Name</p>
-                                                <input type="text" className="emailBlock__input" />
+                                                <input type="text" className="emailBlock__input" value={inputName} onChange={(e) => setInputName(e.target.value)} />
                                             </div>
                                             <div className="formBlock__emailBlock accSettings__form-input">
                                                 <p className="emailBlock__text">Email</p>
-                                                <input type="text" className="emailBlock__input" />
+                                                <input type="text" className="emailBlock__input" value={inputEmail} onChange={(e) => setInputEmail(e.target.value)} />
                                             </div>
-                                            <button className="accSettings__form-btn">Save Changes</button>
+
+                                            {/* если changeAccInfoError не равна пустой строке,то есть в changeAccInfoError что-то есть,то есть есть ошибка,то показываем текст с ошибкой */}
+                                            {changeAccInfoError !== '' && <p className="formBlock__textError">{changeAccInfoError}</p>}
+
+                                            <button className="accSettings__form-btn" onClick={changeAccInfo}>Save Changes</button>
                                         </div>
                                     </div>
                                     <div className="settings__passSettings settings__accSettings">
@@ -184,26 +258,30 @@ const UserPage = () => {
                                         <div className="accSettings__form">
                                             <div className="formBlock__passwordBlock">
                                                 <p className="emailBlock__text">Current Password</p>
-                                                <input type={typePasses.typeCurrentPass ? "password" : "text"} className="emailBlock__input" />
+                                                <input type={typePasses.typeCurrentPass ? "password" : "text"} className="emailBlock__input" value={inputCurrentPass} onChange={(e) => setInputCurrentPass(e.target.value)} />
                                                 <button className="passwordBlock__eyeBtn" onClick={() => setTypePasses((prev) => ({ ...prev, typeCurrentPass: !prev.typeCurrentPass }))}>
                                                     <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
                                                 </button>
                                             </div>
                                             <div className="formBlock__passwordBlock">
                                                 <p className="emailBlock__text">New Password</p>
-                                                <input placeholder="3-32 characters" type={typePasses.typeNewPass ? "password" : "text"} className="emailBlock__input" />
+                                                <input placeholder="3-32 characters" type={typePasses.typeNewPass ? "password" : "text"} className="emailBlock__input" value={inputNewPass} onChange={(e) => setInputNewPass(e.target.value)} />
                                                 <button className="passwordBlock__eyeBtn" onClick={() => setTypePasses((prev) => ({ ...prev, typeNewPass: !prev.typeNewPass }))}>
                                                     <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
                                                 </button>
                                             </div>
                                             <div className="formBlock__passwordBlock">
                                                 <p className="emailBlock__text">Confirm Password</p>
-                                                <input type={typePasses.typeConfirmPass ? "password" : "text"} className="emailBlock__input" />
+                                                <input type={typePasses.typeConfirmPass ? "password" : "text"} className="emailBlock__input" value={inputConfirmPass} onChange={(e) => setInputConfirmPass(e.target.value)} />
                                                 <button className="passwordBlock__eyeBtn" onClick={() => setTypePasses((prev) => ({ ...prev, typeConfirmPass: !prev.typeConfirmPass }))}>
                                                     <img src="/images/formPage/Eye.png" alt="" className="passwordBlock__img" />
                                                 </button>
                                             </div>
-                                            <button className="accSettings__form-btn">Change Password</button>
+
+                                            {/* если changePassError не равна пустой строке,то есть в changePassError что-то есть,то есть есть ошибка,то показываем текст с ошибкой */}
+                                            {changePassError !== '' && <p className="formBlock__textError">{changePassError}</p>}
+
+                                            <button className="accSettings__form-btn" onClick={changePass}>Change Password</button>
                                         </div>
                                     </div>
                                 </div>

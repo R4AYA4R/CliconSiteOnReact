@@ -68,6 +68,10 @@ export const userSlice = createSlice({
 
         setAuthUser:(state,action:PayloadAction<boolean>)=>{
             state.isAuth = action.payload;
+        },
+
+        setUser:(state,action:PayloadAction<IUser>)=>{
+            state.user = action.payload; // изменяем объект пользователя на action.payload(данные пользователя,которые пришли от сервера)
         }
 
 

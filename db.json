@@ -439,8 +439,8 @@
       "price": 250,
       "rating": 3,
       "priceFilter": "$100 to $500",
-      "amount": 8,
-      "totalPrice": 2000,
+      "amount": 5,
+      "totalPrice": 1250,
       "id": 4
     }
   ]
