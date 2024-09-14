@@ -40,10 +40,17 @@ const UserPage = () => {
     const { checkAuthUser, setLoadingUser, logoutUser, setUser } = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
 
 
-    // фукнция для запроса на сервер на изменение информации пользователя в базе данных
+    // фукнция для запроса на сервер на изменение информации пользователя в базе данных,лучше описать эту функцию в сервисе(отдельном файле для запросов типа AuthService),например, но в данном случае уже описали здесь
     const changeAccInfoInDb = async (userId: string, name: string, email: string) => {
 
-        return axios.post(`${API_URL}/changeAccInfo`, { userId, name, email });
+        return axios.post(`${API_URL}/changeAccInfo`, { userId, name, email }); // возвращаем пост запрос на сервер на эндпоинт /changeAccInfo для изменения данных пользователя и передаем вторым параметром объект с полями
+
+    }
+
+    // фукнция для запроса на сервер на изменение пароля пользователя в базе данных
+    const changePassInDb = async (userId:string, currentPass:string, newPass:string) => {
+
+        return axios.post(`${API_URL}/changePass`, {userId, currentPass, newPass}); // возвращаем пост запрос на сервер на эндпоинт /changePass для изменения данных пользователя и передаем вторым параметром объект с полями
 
     }
 
@@ -130,7 +137,7 @@ const UserPage = () => {
                 setUser(response.data); // изменяем сразу объект пользователя на данные,которые пришли от сервера,чтобы не надо было обновлять страницу для обновления данных
 
             } catch (e: any) {
-                console.log(e.response?.data?.message);
+                console.log(e.response?.data?.message); // выводим ошибку в логи
 
                 return setChangeAccInfoError(e.response?.data?.message); // возвращаем и показываем ошибку,используем тут return чтобы если будет ошибка,чтобы код ниже не работал дальше,то есть на этой строчке завершим функцию,чтобы не очищались поля инпутов,если есть ошибка
             }
@@ -143,8 +150,42 @@ const UserPage = () => {
     }
 
 
-    // функция для кнопки изменения пароля пользователя
-    const changePass = () => {
+    // функция для кнопки изменения пароля пользователя,лучше сделать еще authMiddleware на эту функцию на бэкэнде,чтобы проверка была на accessToken
+    const changePass = async () => {
+
+        // если инпут текущего пароля равен пустой строке,то показываем ошибку
+        if(inputCurrentPass === ''){
+            setChangePassError('Enter current password');
+        }else if(inputNewPass.length < 3 || inputNewPass.length > 32){
+            // если инпут нового пароля меньше 3 или больше 32,то показываем ошибку
+            setChangePassError('New password must be 3 - 32 characters');
+
+        }else if(inputConfirmPass !== inputNewPass){
+            // если значение инпута подтвержденного пароля не равно значению инпута нового пароля,то показываем ошибку
+            setChangePassError('Passwords don`t match');
+        }else{
+
+            setChangePassError(''); // изменяем состояние ошибки на пустую строку,то есть убираем ошибку
+
+            // оборачиваем в try catch,чтобы отлавливать ошибки
+            try{
+
+                const response = await changePassInDb(user.id, inputCurrentPass, inputNewPass); // вызываем нашу функцию запроса на сервер для изменения пароля пользователя,передаем туда user.id(id пользователя) и значения инпутов текущего пароля и нового пароля
+
+                console.log(response.data);
+
+
+            }catch(e:any){
+                console.log(e.response?.data?.message); // выводим ошибку в логи
+
+                return setChangePassError(e.response?.data?.message); // возвращаем и показываем ошибку,используем тут return чтобы если будет ошибка,чтобы код ниже не работал дальше,то есть на этой строчке завершим функцию,чтобы не очищались поля инпутов,если есть ошибка
+            }
+
+            // изменяем состояния инпутов на пустые строки
+            setInputConfirmPass('');
+            setInputCurrentPass('');
+            setInputNewPass('');
+        }
 
     }
 
