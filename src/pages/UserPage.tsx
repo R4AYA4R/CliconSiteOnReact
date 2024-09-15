@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useNavigate } from "react-router-dom";
 import { AuthResponse } from "../types/types";
-import { API_URL } from "../http/http";
+import $api, { API_URL } from "../http/http";
 import { useActions } from "../hooks/useActions";
 import axios from "axios";
 import FormComponent from "../components/FormComponent";
@@ -43,14 +43,14 @@ const UserPage = () => {
     // фукнция для запроса на сервер на изменение информации пользователя в базе данных,лучше описать эту функцию в сервисе(отдельном файле для запросов типа AuthService),например, но в данном случае уже описали здесь
     const changeAccInfoInDb = async (userId: string, name: string, email: string) => {
 
-        return axios.post(`${API_URL}/changeAccInfo`, { userId, name, email }); // возвращаем пост запрос на сервер на эндпоинт /changeAccInfo для изменения данных пользователя и передаем вторым параметром объект с полями
+        return $api.post('/changeAccInfo', { userId, name, email }); // возвращаем пост запрос на сервер на эндпоинт /changeAccInfo для изменения данных пользователя и передаем вторым параметром объект с полями,используем здесь наш axios с определенными настройками,которые мы задали ему в файле http,чтобы правильно работали запросы на authMiddleware на проверку на access токен на бэкэнде,чтобы когда будет ошибка от бэкэнда от authMiddleware,то будет сразу идти повторный запрос на /refresh на бэкэнде для переобновления access токена и refresh токена и опять будет идти запрос на изменение данных пользователя в базе данных(на /changeAccInfo в данном случае) но уже с переобновленным access токеном,который теперь действителен(это чтобы предотвратить доступ к аккаунту мошенникам,если они украли аккаунт,то есть если access токен будет не действителен уже,то будет запрос на /refresh для переобновления refresh и access токенов, и тогда у мошенников уже будут не действительные токены и они не смогут пользоваться аккаунтом)
 
     }
 
     // фукнция для запроса на сервер на изменение пароля пользователя в базе данных
     const changePassInDb = async (userId:string, currentPass:string, newPass:string) => {
 
-        return axios.post(`${API_URL}/changePass`, {userId, currentPass, newPass}); // возвращаем пост запрос на сервер на эндпоинт /changePass для изменения данных пользователя и передаем вторым параметром объект с полями
+        return $api.post('/changePass', {userId, currentPass, newPass}); // возвращаем пост запрос на сервер на эндпоинт /changePass для изменения данных пользователя и передаем вторым параметром объект с полями
 
     }
 
@@ -62,6 +62,8 @@ const UserPage = () => {
             const response = await AuthService.logout(); // вызываем нашу функцию logout() у AuthService
 
             logoutUser(); // вызываем нашу функцию(action) для изменения состояния пользователя и в данном случае не передаем туда ничего
+
+            setTab('dashboard'); // изменяем состояние таба на dashboard то есть показываем секцию dashboard(в данном случае главный отдел пользователя),чтобы при выходе из аккаунта и входе обратно у пользователя был открыт главный отдел аккаунта,а не настройки или последний отдел,который пользователь открыл до выхода из аккаунта
 
 
         } catch (e: any) {
