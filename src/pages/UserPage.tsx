@@ -25,6 +25,8 @@ const UserPage = () => {
 
     const [changeAccInfoError, setChangeAccInfoError] = useState<string>('');
 
+    const [role,setRole] = useState(false)
+
 
     const [inputCurrentPass, setInputCurrentPass] = useState<string>('');
 
@@ -48,9 +50,9 @@ const UserPage = () => {
     }
 
     // фукнция для запроса на сервер на изменение пароля пользователя в базе данных
-    const changePassInDb = async (userId:string, currentPass:string, newPass:string) => {
+    const changePassInDb = async (userId: string, currentPass: string, newPass: string) => {
 
-        return $api.post('/changePass', {userId, currentPass, newPass}); // возвращаем пост запрос на сервер на эндпоинт /changePass для изменения данных пользователя и передаем вторым параметром объект с полями
+        return $api.post('/changePass', { userId, currentPass, newPass }); // возвращаем пост запрос на сервер на эндпоинт /changePass для изменения данных пользователя и передаем вторым параметром объект с полями
 
     }
 
@@ -109,6 +111,9 @@ const UserPage = () => {
 
         }
 
+        console.log(user.roles)
+
+
     }, [])
 
 
@@ -156,28 +161,28 @@ const UserPage = () => {
     const changePass = async () => {
 
         // если инпут текущего пароля равен пустой строке,то показываем ошибку
-        if(inputCurrentPass === ''){
+        if (inputCurrentPass === '') {
             setChangePassError('Enter current password');
-        }else if(inputNewPass.length < 3 || inputNewPass.length > 32){
+        } else if (inputNewPass.length < 3 || inputNewPass.length > 32) {
             // если инпут нового пароля меньше 3 или больше 32,то показываем ошибку
             setChangePassError('New password must be 3 - 32 characters');
 
-        }else if(inputConfirmPass !== inputNewPass){
+        } else if (inputConfirmPass !== inputNewPass) {
             // если значение инпута подтвержденного пароля не равно значению инпута нового пароля,то показываем ошибку
             setChangePassError('Passwords don`t match');
-        }else{
+        } else {
 
             setChangePassError(''); // изменяем состояние ошибки на пустую строку,то есть убираем ошибку
 
             // оборачиваем в try catch,чтобы отлавливать ошибки
-            try{
+            try {
 
                 const response = await changePassInDb(user.id, inputCurrentPass, inputNewPass); // вызываем нашу функцию запроса на сервер для изменения пароля пользователя,передаем туда user.id(id пользователя) и значения инпутов текущего пароля и нового пароля
 
                 console.log(response.data);
 
 
-            }catch(e:any){
+            } catch (e: any) {
                 console.log(e.response?.data?.message); // выводим ошибку в логи
 
                 return setChangePassError(e.response?.data?.message); // возвращаем и показываем ошибку,используем тут return чтобы если будет ошибка,чтобы код ниже не работал дальше,то есть на этой строчке завершим функцию,чтобы не очищались поля инпутов,если есть ошибка
@@ -242,12 +247,28 @@ const UserPage = () => {
                                         <p className={tab === 'dashboard' ? "leftBar__btn-text leftBar__btn-text--active" : "leftBar__btn-text"}>Dashboard</p>
                                     </button>
                                 </li>
-                                <li className="leftBar__list-item">
-                                    <button className={tab === 'settings' ? "leftBar__item-btn leftBar__item-btn--active" : "leftBar__item-btn"} onClick={() => setTab('settings')}>
-                                        <img src="/images/sectionUserPage/Gear.png" alt="" className="leftBar__btn-img" />
-                                        <p className={tab === 'settings' ? "leftBar__btn-text leftBar__btn-text--active" : "leftBar__btn-text"}>Settings</p>
-                                    </button>
-                                </li>
+
+                                {/* если user.roles[0] === "USER"(то есть элемент по индексу 0 в поле roles(массив) у user(объект пользователя) равно "USER",то показываем этот таб(то есть если роль у пользователя "USER",то показываем этот таб),в другом случае не показываем */}
+                                {user.roles[0] === "USER" && 
+                                    <li className="leftBar__list-item">
+                                        <button className={tab === 'settings' ? "leftBar__item-btn leftBar__item-btn--active" : "leftBar__item-btn"} onClick={() => setTab('settings')}>
+                                            <img src="/images/sectionUserPage/Gear.png" alt="" className="leftBar__btn-img" />
+                                            <p className={tab === 'settings' ? "leftBar__btn-text leftBar__btn-text--active" : "leftBar__btn-text"}>Settings</p>
+                                        </button>
+                                    </li>
+                                }
+
+
+                                {user.roles[0] === "ADMIN" &&
+                                    <li className="leftBar__list-item">
+                                        <button className={tab === 'adminPanel' ? "leftBar__item-btn leftBar__item-btn--active" : "leftBar__item-btn"} onClick={() => setTab('adminPanel')}>
+                                            <img src="/images/sectionUserPage/Gear.png" alt="" className="leftBar__btn-img" />
+                                            <p className={tab === 'adminPanel' ? "leftBar__btn-text leftBar__btn-text--active" : "leftBar__btn-text"}>Admin Panel</p>
+                                        </button>
+                                    </li> 
+                                }
+
+
                             </ul>
                             <div className="leftBar__list-item leftBar__list-itemLogout">
                                 <button className="leftBar__item-btn" onClick={logout}>
@@ -258,7 +279,8 @@ const UserPage = () => {
                         </div>
                         <div className="userPage__mainBlock">
 
-                            {tab === 'dashboard' &&
+                            {/* если tab === 'dashboard' и если user.roles[0] === "USER"(то есть элемент по индексу 0 в поле roles(массив) у user(объект пользователя) равно "USER",то показываем этот таб(то есть если роль у пользователя "USER",то показываем этот таб),в другом случае не показываем */}
+                            {tab === 'dashboard' && user.roles[0] === "USER" &&
                                 <div className="userPage__mainBlock-dashboard">
                                     <h2 className="dashboard__title">Hello, {user.userName}</h2>
                                     <p className="dashboard__text">From your account dashboard. you can easily check & view your <span className="dashboard__text-span" onClick={() => setTab('settings')}>Recent Orders</span>, manage your <span className="dashboard__text-span" onClick={() => setTab('settings')}>Shipping and Billing Addresses</span> and edit your <span className="dashboard__text-span" onClick={() => setTab('settings')}>Password</span> and <span className="dashboard__text-span" onClick={() => setTab('settings')}>Account Details</span>.</p>
@@ -275,6 +297,27 @@ const UserPage = () => {
                                     </div>
                                 </div>
                             }
+
+
+                            {/* если tab === 'dashboard' и если user.roles[0] === "ADMIN"(то есть элемент по индексу 0 в поле roles(массив) у user(объект пользователя) равно "USER",то показываем этот таб(то есть если роль у пользователя "ADMIN",то показываем этот таб),в другом случае не показываем */}
+                            {tab === 'dashboard'  && user.roles[0] === "ADMIN" &&
+                                <div className="userPage__mainBlock-dashboard">
+                                    <h2 className="dashboard__title">Hello, {user.userName}</h2>
+                                    <p className="dashboard__text">From your account dashboard. you can easily check & view your <span className="dashboard__text-span" onClick={() => setTab('adminPanel')}>Recent Orders</span>, manage your <span className="dashboard__text-span" onClick={() => setTab('adminPanel')}>Shipping and Billing Addresses</span> and edit your <span className="dashboard__text-span" onClick={() => setTab('adminPanel')}>Password</span> and <span className="dashboard__text-span" onClick={() => setTab('adminPanel')}>Account Details</span>.</p>
+                                    <div className="dashboard__accInfo">
+                                        <p className="accInfo__title">Account Info</p>
+                                        <div className="accInfo__main">
+                                            <h3 className="accInfo__main-title">{user.userName}</h3>
+                                            <div className="accInfo__main-textBlock">
+                                                <p className="accInfo__textBlock-bold">Email:</p>
+                                                <p className="accInfo__textBlock-default"> {user.email}</p>
+                                            </div>
+                                            <button className="accInfo__main-btn" onClick={() => setTab('adminPanel')}>Admin Panel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
 
                             {tab === 'settings' &&
                                 <div className="userPage__mainBlock-settings">
@@ -327,6 +370,13 @@ const UserPage = () => {
                                             <button className="accSettings__form-btn" onClick={changePass}>Change Password</button>
                                         </div>
                                     </div>
+                                </div>
+                            }
+
+
+                            {tab === 'adminPanel' &&
+                                <div className="userPage__mainBlock-dashboard">
+                                    adminPanel
                                 </div>
                             }
 

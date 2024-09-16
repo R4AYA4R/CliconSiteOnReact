@@ -2070,6 +2070,7 @@ a {
     font-weight: 500;
     font-family: 'Public Sans',sans-serif;
     transition:color .5s ease;
+    text-wrap: nowrap;
 }
 
 .leftBar__btn-text--active{

@@ -16,12 +16,14 @@ export interface IInitialPagesState{
     totalPages:number
 }
 
+
 // создаем и экспортируем интерфейс для объекта пользователя,который приходит от сервера
 export interface IUser{
     email:string,
     isActivated:boolean,
     id:string,
-    userName:string
+    userName:string,
+    roles:string[]// указываем полю roles тип на основе нашего интерфейса Role и что это массив(то есть это массив,который будет содержать элементы типа Role)
 }
 
 // создаем и экспортируем интерфейс для объекта состояния редьюсера для пользователя,указываем ему поле user на основе нашего интерфейса IUser,и остальные поля
