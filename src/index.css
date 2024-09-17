@@ -986,11 +986,11 @@ a {
 .select__optionsBlock {
     max-height: 0;
     position: absolute;
-    top: 5px;
+    top:45px;
     left: 0;
     opacity: 0;
     background-color: #fff;
-    min-width: 180px;
+    width: 100%;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15);
     transition: all 1s ease;
     z-index: -2;
@@ -998,7 +998,6 @@ a {
 
 .select__optionsBlock--active {
     max-height: 100px;
-    top: 45px;
     opacity: 1;
     z-index: 5;
 }
@@ -2196,4 +2195,17 @@ a {
 
 .settings__passSettings{
     margin-top: 24px;
+}
+.select__optionsBlock-adminPanel{
+    max-height: 500px;
+}
+
+.select__text-adminPanel{
+    font-size: 14px;
+}
+.selectBlock__select-inner--adminPanel{
+    min-width: 210px;
+}
+.select__img-adminPanel{
+    top: 13px;
 }

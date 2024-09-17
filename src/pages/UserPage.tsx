@@ -25,8 +25,6 @@ const UserPage = () => {
 
     const [changeAccInfoError, setChangeAccInfoError] = useState<string>('');
 
-    const [role,setRole] = useState(false)
-
 
     const [inputCurrentPass, setInputCurrentPass] = useState<string>('');
 
@@ -35,6 +33,14 @@ const UserPage = () => {
     const [inputConfirmPass, setInputConfirmPass] = useState<string>('');
 
     const [changePassError, setChangePassError] = useState<string>('');
+
+
+    const [inputNameProduct, setInputNameProduct] = useState<string>('');
+
+    const [selectValue,setSelectValue] = useState<string>('');
+
+    const [selectCategoryActive,setSelectCategoryActive] = useState<boolean>(false);
+
 
 
     const { user, isAuth, isLoading } = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния user,используя наш типизированный хук для useSelector
@@ -115,7 +121,7 @@ const UserPage = () => {
 
 
     }, [])
-
+    
 
     // функция для кнопки изменения имени и почты пользователя
     const changeAccInfo = async () => {
@@ -249,7 +255,7 @@ const UserPage = () => {
                                 </li>
 
                                 {/* если user.roles[0] === "USER"(то есть элемент по индексу 0 в поле roles(массив) у user(объект пользователя) равно "USER",то показываем этот таб(то есть если роль у пользователя "USER",то показываем этот таб),в другом случае не показываем */}
-                                {user.roles[0] === "USER" && 
+                                {user.roles[0] === "USER" &&
                                     <li className="leftBar__list-item">
                                         <button className={tab === 'settings' ? "leftBar__item-btn leftBar__item-btn--active" : "leftBar__item-btn"} onClick={() => setTab('settings')}>
                                             <img src="/images/sectionUserPage/Gear.png" alt="" className="leftBar__btn-img" />
@@ -265,7 +271,7 @@ const UserPage = () => {
                                             <img src="/images/sectionUserPage/Gear.png" alt="" className="leftBar__btn-img" />
                                             <p className={tab === 'adminPanel' ? "leftBar__btn-text leftBar__btn-text--active" : "leftBar__btn-text"}>Admin Panel</p>
                                         </button>
-                                    </li> 
+                                    </li>
                                 }
 
 
@@ -300,7 +306,7 @@ const UserPage = () => {
 
 
                             {/* если tab === 'dashboard' и если user.roles[0] === "ADMIN"(то есть элемент по индексу 0 в поле roles(массив) у user(объект пользователя) равно "USER",то показываем этот таб(то есть если роль у пользователя "ADMIN",то показываем этот таб),в другом случае не показываем */}
-                            {tab === 'dashboard'  && user.roles[0] === "ADMIN" &&
+                            {tab === 'dashboard' && user.roles[0] === "ADMIN" &&
                                 <div className="userPage__mainBlock-dashboard">
                                     <h2 className="dashboard__title">Hello, {user.userName}</h2>
                                     <p className="dashboard__text">From your account dashboard. you can easily check & view your <span className="dashboard__text-span" onClick={() => setTab('adminPanel')}>Recent Orders</span>, manage your <span className="dashboard__text-span" onClick={() => setTab('adminPanel')}>Shipping and Billing Addresses</span> and edit your <span className="dashboard__text-span" onClick={() => setTab('adminPanel')}>Password</span> and <span className="dashboard__text-span" onClick={() => setTab('adminPanel')}>Account Details</span>.</p>
@@ -376,7 +382,46 @@ const UserPage = () => {
 
                             {tab === 'adminPanel' &&
                                 <div className="userPage__mainBlock-dashboard">
-                                    adminPanel
+                                    <div className="settings__accSettings">
+                                        <h2 className="settings__accSettings-title">New product</h2>
+
+                                        <form className="userPage__mainBlock-adminForm accSettings__form">
+                                            <div className="formBlock__emailBlock accSettings__form-input">
+                                                <p className="emailBlock__text">Name</p>
+                                                <input type="text" className="emailBlock__input" value={inputNameProduct} onChange={(e) => setInputNameProduct(e.target.value)} />
+                                            </div>
+                                            <div className="formBlock__emailBlock accSettings__form-input">
+                                                <p className="emailBlock__text">Category</p>
+                                                <div className="productsBlock__top-selectBlock">
+                                                    <div className="selectBlock__select-inner selectBlock__select-inner--adminPanel" onClick={() => setSelectCategoryActive((prev) => !prev)}>
+                                                        <div className="selectBlock__select" >
+                                                            <p className="select__text select__text-adminPanel">{selectValue}</p>
+                                                            <img src="/images/sectionCatalog/arrowDown.png" alt="" className={selectCategoryActive ? "select__img select__img--active select__img-adminPanel" : "select__img select__img-adminPanel"} />
+                                                        </div>
+                                                        <div className={selectCategoryActive ? "select__optionsBlock select__optionsBlock--active select__optionsBlock-adminPanel" : "select__optionsBlock"}>
+                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('Electronic Devices')}>
+                                                                <p className="optionsBlock__item-text">Electronic Devices</p>
+                                                            </div>
+                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('Laptop')}>
+                                                                <p className="optionsBlock__item-text">Laptop</p>
+                                                            </div>
+                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('Computer Accessories')}>
+                                                                <p className="optionsBlock__item-text">Computer Accessories</p>
+                                                            </div>
+                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('SmartPhone')}>
+                                                                <p className="optionsBlock__item-text">SmartPhone</p>
+                                                            </div>
+                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('Headphones')}>
+                                                                <p className="optionsBlock__item-text">Headphones</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+
                                 </div>
                             }
 
