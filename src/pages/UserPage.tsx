@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useNavigate } from "react-router-dom";
 import { AuthResponse } from "../types/types";
@@ -37,9 +37,15 @@ const UserPage = () => {
 
     const [inputNameProduct, setInputNameProduct] = useState<string>('');
 
-    const [selectValue,setSelectValue] = useState<string>('');
+    const [selectValue, setSelectValue] = useState<string>('');
 
-    const [selectCategoryActive,setSelectCategoryActive] = useState<boolean>(false);
+    const [selectBrandValue, setSelectBrandValue] = useState<string>('');
+
+    const [selectCategoryActive, setSelectCategoryActive] = useState<boolean>(false);
+
+    const [selectBrandActive, setSelectBrandActive] = useState<boolean>(false);
+
+    const [inputPriceValue, setInputPriceValue] = useState<number>(1);
 
 
 
@@ -121,7 +127,7 @@ const UserPage = () => {
 
 
     }, [])
-    
+
 
     // функция для кнопки изменения имени и почты пользователя
     const changeAccInfo = async () => {
@@ -201,6 +207,39 @@ const UserPage = () => {
         }
 
     }
+
+
+    const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
+
+        // изменяем состояние инпута на текущее его значение
+        setInputPriceValue(+e.target.value); 
+
+    }
+
+    const handlerMinusBtn = () => {
+        // если значение инпута количества товара больше 1,то изменяем это значение на - 1,в другом случае указываем ему значение 1,чтобы после нуля не отнимало - 1
+        if (inputPriceValue > 1) {
+            setInputPriceValue((prev) => prev - 1)
+        } else {
+            setInputPriceValue(1);
+        }
+    }
+
+    const handlerPlusBtn = () => {
+        // увеличиваем значение инпута на текущее + 1
+        setInputPriceValue((prev) => prev + 1);
+    }
+
+
+    // функция для обработки формы создания нового товара
+    const adminFormHandler = (e:FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault(); // убираем дефолтное поведение формы,то есть убираем перезагрузку страницы при клике на любую кнопку формы или enter
+
+
+
+    }
+
 
 
     // если состояние загрузки true,то есть идет загрузка,то показываем лоадер(загрузку),если не отслеживать загрузку при функции checkAuth(для проверки на refresh токен при запуске страницы),то будет не правильно работать(только через некоторое время,когда запрос на /refresh будет отработан,поэтому нужно отслеживать загрузку и ее возвращать как разметку страницы,пока грузится запрос на /refresh)
@@ -385,39 +424,82 @@ const UserPage = () => {
                                     <div className="settings__accSettings">
                                         <h2 className="settings__accSettings-title">New product</h2>
 
-                                        <form className="userPage__mainBlock-adminForm accSettings__form">
-                                            <div className="formBlock__emailBlock accSettings__form-input">
+                                        <form className="userPage__mainBlock-adminForm accSettings__form" onSubmit={adminFormHandler}>
+                                            <div className="formBlock__emailBlock accSettings__form-input adminForm__inputName">
                                                 <p className="emailBlock__text">Name</p>
                                                 <input type="text" className="emailBlock__input" value={inputNameProduct} onChange={(e) => setInputNameProduct(e.target.value)} />
                                             </div>
-                                            <div className="formBlock__emailBlock accSettings__form-input">
-                                                <p className="emailBlock__text">Category</p>
-                                                <div className="productsBlock__top-selectBlock">
-                                                    <div className="selectBlock__select-inner selectBlock__select-inner--adminPanel" onClick={() => setSelectCategoryActive((prev) => !prev)}>
-                                                        <div className="selectBlock__select" >
-                                                            <p className="select__text select__text-adminPanel">{selectValue}</p>
-                                                            <img src="/images/sectionCatalog/arrowDown.png" alt="" className={selectCategoryActive ? "select__img select__img--active select__img-adminPanel" : "select__img select__img-adminPanel"} />
+                                            <div className="adminForm__blockSelects">
+                                                <div className="formBlock__emailBlock accSettings__form-input">
+                                                    <p className="emailBlock__text">Category</p>
+                                                    <div className="productsBlock__top-selectBlock">
+                                                        <div className="selectBlock__select-inner selectBlock__select-inner--adminPanel" onClick={() => setSelectCategoryActive((prev) => !prev)}>
+                                                            <div className="selectBlock__select" >
+                                                                <p className="select__text select__text-adminPanel">{selectValue}</p>
+                                                                <img src="/images/sectionCatalog/arrowDown.png" alt="" className={selectCategoryActive ? "select__img select__img--active select__img-adminPanel" : "select__img select__img-adminPanel"} />
+                                                            </div>
+                                                            <div className={selectCategoryActive ? "select__optionsBlock select__optionsBlock--active select__optionsBlock-adminPanel" : "select__optionsBlock"}>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('Electronic Devices')}>
+                                                                    <p className="optionsBlock__item-text">Electronic Devices</p>
+                                                                </div>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('Laptop')}>
+                                                                    <p className="optionsBlock__item-text">Laptop</p>
+                                                                </div>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('Computer Accessories')}>
+                                                                    <p className="optionsBlock__item-text">Computer Accessories</p>
+                                                                </div>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('SmartPhone')}>
+                                                                    <p className="optionsBlock__item-text">SmartPhone</p>
+                                                                </div>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('Headphones')}>
+                                                                    <p className="optionsBlock__item-text">Headphones</p>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className={selectCategoryActive ? "select__optionsBlock select__optionsBlock--active select__optionsBlock-adminPanel" : "select__optionsBlock"}>
-                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('Electronic Devices')}>
-                                                                <p className="optionsBlock__item-text">Electronic Devices</p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="formBlock__emailBlock accSettings__form-input">
+                                                    <p className="emailBlock__text">Brand</p>
+                                                    <div className="productsBlock__top-selectBlock">
+                                                        <div className="selectBlock__select-inner selectBlock__select-inner--adminPanel" onClick={() => setSelectBrandActive((prev) => !prev)}>
+                                                            <div className="selectBlock__select" >
+                                                                <p className="select__text select__text-adminPanel">{selectBrandValue}</p>
+                                                                <img src="/images/sectionCatalog/arrowDown.png" alt="" className={selectBrandActive ? "select__img select__img--active select__img-adminPanel" : "select__img select__img-adminPanel"} />
                                                             </div>
-                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('Laptop')}>
-                                                                <p className="optionsBlock__item-text">Laptop</p>
-                                                            </div>
-                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('Computer Accessories')}>
-                                                                <p className="optionsBlock__item-text">Computer Accessories</p>
-                                                            </div>
-                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('SmartPhone')}>
-                                                                <p className="optionsBlock__item-text">SmartPhone</p>
-                                                            </div>
-                                                            <div className="optionsBlock__item" onClick={() => setSelectValue('Headphones')}>
-                                                                <p className="optionsBlock__item-text">Headphones</p>
+                                                            <div className={selectBrandActive ? "select__optionsBlock select__optionsBlock--active select__optionsBlock-adminPanel" : "select__optionsBlock"}>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectBrandValue('Apple')}>
+                                                                    <p className="optionsBlock__item-text">Apple</p>
+                                                                </div>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectBrandValue('Samsung')}>
+                                                                    <p className="optionsBlock__item-text">Samsung</p>
+                                                                </div>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectBrandValue('Xiaomi')}>
+                                                                    <p className="optionsBlock__item-text">Xiaomi</p>
+                                                                </div>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectBrandValue('LG')}>
+                                                                    <p className="optionsBlock__item-text">LG</p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div className="adminPanel__priceInput">
+                                                <p className="emailBlock__text">Price</p>
+                                                <div className="table__item-inputBlock ">
+                                                    <button className="inputBlock__minusBtn" onClick={handlerMinusBtn}>
+                                                        <img src="/images/sectionCart/Minus.png" alt="" className="inputBlock__minusImg" />
+                                                    </button>
+                                                    <input type="number" className="inputBlock__input adminPanel__inputPricePadding" value={inputPriceValue} onChange={changeInputValue} />
+                                                    <button className="inputBlock__plusBtn" onClick={handlerPlusBtn}>
+                                                        <img src="/images/sectionCart/Plus.png" alt="" className="inputBlock__plusImg" />
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
                                         </form>
 
                                     </div>

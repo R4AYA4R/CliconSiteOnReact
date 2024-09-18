@@ -2209,3 +2209,19 @@ a {
 .select__img-adminPanel{
     top: 13px;
 }
+
+.adminForm__blockSelects{
+    display: flex;
+    align-items: center;
+    gap:50px;
+}
+
+.adminForm__inputName{
+    max-width: 470px;
+}
+.adminPanel__priceInput{
+    margin-top: 20px;
+}
+.adminPanel__inputPricePadding{
+    padding: 12px 36px;
+}
