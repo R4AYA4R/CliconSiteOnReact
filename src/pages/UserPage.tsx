@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useNavigate } from "react-router-dom";
 import { AuthResponse } from "../types/types";
@@ -212,7 +212,7 @@ const UserPage = () => {
     const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
 
         // изменяем состояние инпута на текущее его значение
-        setInputPriceValue(+e.target.value); 
+        setInputPriceValue(+e.target.value);
 
     }
 
@@ -231,8 +231,17 @@ const UserPage = () => {
     }
 
 
+    // функция для выбора картинки с помощью инпута для файлов
+    const labelInputImageHandler = (e:ChangeEvent<HTMLInputElement>) =>{
+        
+
+        console.log(e.target.files); // e.target.files - массив файлов,которые пользователь выбрал при клике на инпут для файлов
+
+    }
+
+
     // функция для обработки формы создания нового товара
-    const adminFormHandler = (e:FormEvent<HTMLFormElement>) => {
+    const adminFormHandler = (e: FormEvent<HTMLFormElement>) => {
 
         e.preventDefault(); // убираем дефолтное поведение формы,то есть убираем перезагрузку страницы при клике на любую кнопку формы или enter
 
@@ -499,6 +508,15 @@ const UserPage = () => {
                                                 </div>
                                             </div>
 
+                                            <div className="adminPanel__imageBlock">
+                                                <label htmlFor="inputFile" className="adminPanel__labelInputImage" >
+                                                    Load image
+                                                    {/* указываем multiple этому инпуту для файлов,чтобы можно было выбирать несколько файлов одновременно для загрузки */}
+                                                    <input multiple type="file" id="inputFile" className="adminPanel__inputImage" onChange={labelInputImageHandler}/>
+                                                </label>
+                                            </div>
+
+                                            <button className="accSettings__form-btn adminPanel__saveBtn">Save Changes</button>
 
                                         </form>
 
