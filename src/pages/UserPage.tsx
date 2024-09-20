@@ -37,7 +37,7 @@ const UserPage = () => {
 
     const [inputNameProduct, setInputNameProduct] = useState<string>('');
 
-    const [selectValue, setSelectValue] = useState<string>('');
+    const [selectCategoryValue, setSelectCategoryValue] = useState<string>('');
 
     const [selectBrandValue, setSelectBrandValue] = useState<string>('');
 
@@ -47,6 +47,10 @@ const UserPage = () => {
 
     const [inputPriceValue, setInputPriceValue] = useState<number>(1);
 
+
+    const [inputFile, setInputFile] = useState<any>(); // состояние для массива файлов,которые пользователь выберет в инпуте для файлов
+
+    const [errorAdminForm, setErrorAdminForm] = useState<string>('');
 
 
     const { user, isAuth, isLoading } = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния user,используя наш типизированный хук для useSelector
@@ -232,12 +236,21 @@ const UserPage = () => {
 
 
     // функция для выбора картинки с помощью инпута для файлов
-    const labelInputImageHandler = (e:ChangeEvent<HTMLInputElement>) =>{
-        
+    const labelInputImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        // если e.target.files true,то есть пользователь выбрал файл
+        if (e.target.files) {
 
-        console.log(e.target.files); // e.target.files - массив файлов,которые пользователь выбрал при клике на инпут для файлов
+            setInputFile(e.target.files[0]); // помещаем в состояние файла файл под индексом 0 из e.target.files
+
+        }
+
+        // console.log(inputFile); // e.target.files - массив файлов,которые пользователь выбрал при клике на инпут для файлов
 
     }
+
+    useEffect(() => {
+        console.log(inputFile)
+    }, [inputFile])
 
 
     // функция для обработки формы создания нового товара
@@ -246,6 +259,25 @@ const UserPage = () => {
         e.preventDefault(); // убираем дефолтное поведение формы,то есть убираем перезагрузку страницы при клике на любую кнопку формы или enter
 
 
+
+    }
+
+    const saveAdminProductHanlder =()=>{
+        // если значение инпута названия продукта,из которого убрали пробелы с помощью trim() равно пустой строке,то выводим ошибку(то есть если без пробелов это значение равно пустой строке,то показываем ошибку) или это значение меньше 3
+        if(inputNameProduct.trim() === '' || inputNameProduct.trim().length < 3){
+            setErrorAdminForm('Enter product name. It must be more than 2 letters');
+        }else if(selectCategoryValue === '' || selectBrandValue === ''){
+            // если состояния значений селектов категории и бренда пустые,то показываем ошибку
+            setErrorAdminForm('Choose category and brand');
+        }else if(!inputFile){
+
+            setErrorAdminForm('Choose product image');
+            
+        }else{
+
+            setErrorAdminForm('');
+
+        }
 
     }
 
@@ -444,23 +476,23 @@ const UserPage = () => {
                                                     <div className="productsBlock__top-selectBlock">
                                                         <div className="selectBlock__select-inner selectBlock__select-inner--adminPanel" onClick={() => setSelectCategoryActive((prev) => !prev)}>
                                                             <div className="selectBlock__select" >
-                                                                <p className="select__text select__text-adminPanel">{selectValue}</p>
+                                                                <p className="select__text select__text-adminPanel">{selectCategoryValue}</p>
                                                                 <img src="/images/sectionCatalog/arrowDown.png" alt="" className={selectCategoryActive ? "select__img select__img--active select__img-adminPanel" : "select__img select__img-adminPanel"} />
                                                             </div>
                                                             <div className={selectCategoryActive ? "select__optionsBlock select__optionsBlock--active select__optionsBlock-adminPanel" : "select__optionsBlock"}>
-                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('Electronic Devices')}>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectCategoryValue('Electronic Devices')}>
                                                                     <p className="optionsBlock__item-text">Electronic Devices</p>
                                                                 </div>
-                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('Laptop')}>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectCategoryValue('Laptop')}>
                                                                     <p className="optionsBlock__item-text">Laptop</p>
                                                                 </div>
-                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('Computer Accessories')}>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectCategoryValue('Computer Accessories')}>
                                                                     <p className="optionsBlock__item-text">Computer Accessories</p>
                                                                 </div>
-                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('SmartPhone')}>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectCategoryValue('SmartPhone')}>
                                                                     <p className="optionsBlock__item-text">SmartPhone</p>
                                                                 </div>
-                                                                <div className="optionsBlock__item" onClick={() => setSelectValue('Headphones')}>
+                                                                <div className="optionsBlock__item" onClick={() => setSelectCategoryValue('Headphones')}>
                                                                     <p className="optionsBlock__item-text">Headphones</p>
                                                                 </div>
                                                             </div>
@@ -511,12 +543,20 @@ const UserPage = () => {
                                             <div className="adminPanel__imageBlock">
                                                 <label htmlFor="inputFile" className="adminPanel__labelInputImage" >
                                                     Load image
-                                                    {/* указываем multiple этому инпуту для файлов,чтобы можно было выбирать несколько файлов одновременно для загрузки */}
-                                                    <input multiple type="file" id="inputFile" className="adminPanel__inputImage" onChange={labelInputImageHandler}/>
+                                                    {/* указываем multiple этому инпуту для файлов,чтобы можно было выбирать несколько файлов одновременно для загрузки(в данном случае убрали multiple,чтобы был только 1 файл),указываем accept = "image/*",чтобы можно было выбирать только изображения любого типа */}
+                                                    <input accept="image/*" type="file" id="inputFile" className="adminPanel__inputImage" onChange={labelInputImageHandler} />
                                                 </label>
                                             </div>
 
-                                            <button className="accSettings__form-btn adminPanel__saveBtn">Save Changes</button>
+                                            {inputFile &&
+
+                                                <p className="adminPanel__inputFileName">{inputFile.name}</p>
+
+                                            }
+
+                                            {errorAdminForm !== '' && <p className="formBlock__textError adminPanel__textError">{errorAdminForm}</p>}
+
+                                            <button className="accSettings__form-btn adminPanel__saveBtn" onClick={saveAdminProductHanlder}>Save Product</button>
 
                                         </form>
 

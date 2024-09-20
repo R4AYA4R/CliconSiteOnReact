@@ -2228,6 +2228,7 @@ a {
 
 .adminPanel__imageBlock{
     margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 .adminPanel__labelInputImage{
@@ -2253,6 +2254,11 @@ a {
     display: none;
 }
 
-.adminPanel__saveBtn{
-    margin-top: 30px;
+
+.adminPanel__inputFileName{
+    margin: 15px 0;
+}
+
+.adminPanel__textError{
+    margin-top: 10px;
 }
