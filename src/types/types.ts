@@ -3,7 +3,7 @@ export interface IProduct{
     id:number,
     category:string,
     brand:string,
-    image:string,
+    image:any, // был string
     name:string,
     price:number,
     priceFilter:string,

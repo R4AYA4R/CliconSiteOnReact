@@ -107,6 +107,18 @@
       "amount": 1,
       "rating": 4,
       "totalPrice": 1760
+    },
+    {
+      "name": "testProduct",
+      "brand": "Samsung",
+      "category": "Laptop",
+      "price": 50,
+      "priceFilter": "$20 to $100",
+      "amount": 1,
+      "rating": 0,
+      "totalPrice": 50,
+      "image": "/images/sectionCatalog/Image (4).png",
+      "id": 10
     }
   ],
   "comments": [

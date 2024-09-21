@@ -1,13 +1,14 @@
 import { ChangeEvent, FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useNavigate } from "react-router-dom";
-import { AuthResponse } from "../types/types";
+import { AuthResponse, IProduct } from "../types/types";
 import $api, { API_URL } from "../http/http";
 import { useActions } from "../hooks/useActions";
 import axios from "axios";
 import FormComponent from "../components/FormComponent";
 import AuthService from "../services/AuthService";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
+import { useMutation } from "@tanstack/react-query";
 
 const UserPage = () => {
 
@@ -51,6 +52,20 @@ const UserPage = () => {
     const [inputFile, setInputFile] = useState<any>(); // состояние для массива файлов,которые пользователь выберет в инпуте для файлов
 
     const [errorAdminForm, setErrorAdminForm] = useState<string>('');
+
+
+    // создаем мутацию(запрос на сервер для изменения данных с помощью useMutation),с помощью этой функции создаем новый объект товара 
+    const {mutate} = useMutation({
+        mutationKey:['add new product'],
+        mutationFn:async (product:IProduct) => {
+            // указываем тип данных,которые нужно добавить на сервер(в данном случае IProduct)
+            await axios.post<IProduct>('http://localhost:5000/catalogProducts',product);
+        },
+        // при успешной мутации 
+        onSuccess(){
+            console.log('Succeed mutation')
+        }
+    })
 
 
     const { user, isAuth, isLoading } = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния user,используя наш типизированный хук для useSelector
@@ -276,6 +291,32 @@ const UserPage = () => {
         }else{
 
             setErrorAdminForm('');
+
+            let priceFilter; // указываем переменную priceFilter,чтобы ее потом в зависимости от условий изменять
+
+            // если значение инпута цены меньше 20,то изменяем значение priceFilter
+            if(inputPriceValue < 20){
+                priceFilter = 'Under $20';
+            }else if(inputPriceValue >= 20 || inputPriceValue < 100){
+                priceFilter = '$20 to $100';
+            }else if(inputPriceValue >= 100 || inputPriceValue < 500){
+                priceFilter = '$100 to $500';
+            }else if(inputPriceValue >= 500 || inputPriceValue < 1000){
+                priceFilter = '$500 to $1,000';
+            }else if(inputPriceValue >= 1000){
+                priceFilter = 'Above $1,000';
+            }
+
+            // лучше пока сделать загрузку файла на свой сервер,потом на фронтенд возвращать путь до файла на сервере и этот путь до файла потом сохранять в объекте товара на json server,пока используем просто одну картинку,которая есть на фронтенде для добавления ее в товар
+            // const formData = new FormData(); // создаем объект на основе FormData(нужно,чтобы передавать файлы на сервер)
+            // formData.append('file',inputFile); // добавляем в этот объект formData по ключу(названию) 'image' сам файл inputFile(состояние для файла) (первым параметром тут передаем название файла,вторым сам файл)
+
+
+            if(priceFilter){
+                // в image пока используем просто путь до одной картинки на фронтенде,чтобы хоть какая-то была пока что
+                mutate({name:inputNameProduct,brand:selectBrandValue,category:selectCategoryValue,price:inputPriceValue,priceFilter:priceFilter, amount:1, rating:0, totalPrice:inputPriceValue, image:"/images/sectionCatalog/Image (4).png"} as IProduct); // поле id не указываем,чтобы оно сгенерировалось на сервере автоматически
+            }
+            
 
         }
 
