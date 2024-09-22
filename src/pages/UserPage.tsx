@@ -51,18 +51,20 @@ const UserPage = () => {
 
     const [inputFile, setInputFile] = useState<any>(); // состояние для массива файлов,которые пользователь выберет в инпуте для файлов
 
+    const [imgPath,setImgPath] = useState(''); // состояние для пути картинки,который мы получим от сервера,когда туда загрузим картинку
+
     const [errorAdminForm, setErrorAdminForm] = useState<string>('');
 
 
     // создаем мутацию(запрос на сервер для изменения данных с помощью useMutation),с помощью этой функции создаем новый объект товара 
-    const {mutate} = useMutation({
-        mutationKey:['add new product'],
-        mutationFn:async (product:IProduct) => {
+    const { mutate } = useMutation({
+        mutationKey: ['add new product'],
+        mutationFn: async (product: IProduct) => {
             // указываем тип данных,которые нужно добавить на сервер(в данном случае IProduct)
-            await axios.post<IProduct>('http://localhost:5000/catalogProducts',product);
+            await axios.post<IProduct>('http://localhost:5000/catalogProducts', product);
         },
         // при успешной мутации 
-        onSuccess(){
+        onSuccess() {
             console.log('Succeed mutation')
         }
     })
@@ -277,46 +279,61 @@ const UserPage = () => {
 
     }
 
-    const saveAdminProductHanlder =()=>{
+    const saveAdminProductHanlder = async () => {
         // если значение инпута названия продукта,из которого убрали пробелы с помощью trim() равно пустой строке,то выводим ошибку(то есть если без пробелов это значение равно пустой строке,то показываем ошибку) или это значение меньше 3
-        if(inputNameProduct.trim() === '' || inputNameProduct.trim().length < 3){
+        if (inputNameProduct.trim() === '' || inputNameProduct.trim().length < 3) {
             setErrorAdminForm('Enter product name. It must be more than 2 letters');
-        }else if(selectCategoryValue === '' || selectBrandValue === ''){
+        } else if (selectCategoryValue === '' || selectBrandValue === '') {
             // если состояния значений селектов категории и бренда пустые,то показываем ошибку
             setErrorAdminForm('Choose category and brand');
-        }else if(!inputFile){
+        } else if (!inputFile) {
 
             setErrorAdminForm('Choose product image');
-            
-        }else{
+
+        } else {
 
             setErrorAdminForm('');
 
             let priceFilter; // указываем переменную priceFilter,чтобы ее потом в зависимости от условий изменять
 
             // если значение инпута цены меньше 20,то изменяем значение priceFilter
-            if(inputPriceValue < 20){
+            if (inputPriceValue < 20) {
                 priceFilter = 'Under $20';
-            }else if(inputPriceValue >= 20 || inputPriceValue < 100){
+            } else if (inputPriceValue >= 20 || inputPriceValue < 100) {
                 priceFilter = '$20 to $100';
-            }else if(inputPriceValue >= 100 || inputPriceValue < 500){
+            } else if (inputPriceValue >= 100 || inputPriceValue < 500) {
                 priceFilter = '$100 to $500';
-            }else if(inputPriceValue >= 500 || inputPriceValue < 1000){
+            } else if (inputPriceValue >= 500 || inputPriceValue < 1000) {
                 priceFilter = '$500 to $1,000';
-            }else if(inputPriceValue >= 1000){
+            } else if (inputPriceValue >= 1000) {
                 priceFilter = 'Above $1,000';
             }
 
             // лучше пока сделать загрузку файла на свой сервер,потом на фронтенд возвращать путь до файла на сервере и этот путь до файла потом сохранять в объекте товара на json server,пока используем просто одну картинку,которая есть на фронтенде для добавления ее в товар
-            // const formData = new FormData(); // создаем объект на основе FormData(нужно,чтобы передавать файлы на сервер)
-            // formData.append('file',inputFile); // добавляем в этот объект formData по ключу(названию) 'image' сам файл inputFile(состояние для файла) (первым параметром тут передаем название файла,вторым сам файл)
+            const formData = new FormData(); // создаем объект на основе FormData(нужно,чтобы передавать файлы на сервер)
+            formData.append('file', inputFile); // добавляем в этот объект formData по ключу(названию) 'image' сам файл inputFile(состояние для файла) (первым параметром тут передаем название файла,вторым сам файл)
 
 
-            if(priceFilter){
-                // в image пока используем просто путь до одной картинки на фронтенде,чтобы хоть какая-то была пока что
-                mutate({name:inputNameProduct,brand:selectBrandValue,category:selectCategoryValue,price:inputPriceValue,priceFilter:priceFilter, amount:1, rating:0, totalPrice:inputPriceValue, image:"/images/sectionCatalog/Image (4).png"} as IProduct); // поле id не указываем,чтобы оно сгенерировалось на сервере автоматически
+            console.log(inputFile)
+
+            // оборачиваем в try catch,чтобы отлавливать ошибки и делаем пока такой запрос на сервер для загрузки файла на сервер,загружаем объект formData(лучше вынести это в отдельную функцию запроса на сервер но и так можно)
+            try {
+                const response = await axios.post(`${API_URL}/uploadFile`, formData);
+
+                console.log(response);
+
+                setImgPath(response.data.path); // помещаем в состояние путь до файла,который пришел от сервера
+
+            } catch (e: any) {
+                return setErrorAdminForm(e.response?.data?.message); // возвращаем и показываем ошибку,используем тут return чтобы если будет ошибка,чтобы код ниже не работал дальше,то есть на этой строчке завершим функцию,чтобы не очищались поля инпутов,если есть ошибка
             }
-            
+
+            // позже лучше сделать добавление на json server объект нового товара и уже в поле image указать путь до файла на нашем сервере node js,который пришел от сервера
+            // if(priceFilter){
+            //     // в image пока используем просто путь до одной картинки на фронтенде,чтобы хоть какая-то была пока что
+            //     mutate({name:inputNameProduct,brand:selectBrandValue,category:selectCategoryValue,price:inputPriceValue,priceFilter:priceFilter, amount:1, rating:0, totalPrice:inputPriceValue, image:"/images/sectionCatalog/Image (4).png"} as IProduct); // поле id не указываем,чтобы оно сгенерировалось на сервере автоматически
+            // }
+
 
         }
 
@@ -590,9 +607,11 @@ const UserPage = () => {
                                             </div>
 
                                             {inputFile &&
-
-                                                <p className="adminPanel__inputFileName">{inputFile.name}</p>
-
+                                                <>
+                                                    {/* надо изменить здесь путь картинки,а то не работает */}
+                                                    {/* <img src={imgPath} alt="" className="adminPanel__previewImg" /> */}
+                                                    <p className="adminPanel__inputFileName">{inputFile.name}</p>
+                                                </>
                                             }
 
                                             {errorAdminForm !== '' && <p className="formBlock__textError adminPanel__textError">{errorAdminForm}</p>}
