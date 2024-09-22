@@ -111,13 +111,13 @@
     {
       "name": "testProduct",
       "brand": "Samsung",
-      "category": "Laptop",
-      "price": 50,
-      "priceFilter": "$20 to $100",
+      "category": "Computer Accessories",
+      "price": 10,
+      "priceFilter": "Under $20",
       "amount": 1,
       "rating": 0,
-      "totalPrice": 50,
-      "image": "/images/sectionCatalog/Image (4).png",
+      "totalPrice": 10,
+      "image": "http://localhost:5001/Card.png",
       "id": 10
     }
   ],

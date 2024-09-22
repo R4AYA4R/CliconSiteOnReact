@@ -51,7 +51,7 @@ const UserPage = () => {
 
     const [inputFile, setInputFile] = useState<any>(); // состояние для массива файлов,которые пользователь выберет в инпуте для файлов
 
-    const [imgPath,setImgPath] = useState(''); // состояние для пути картинки,который мы получим от сервера,когда туда загрузим картинку
+    const [imgPath, setImgPath] = useState(''); // состояние для пути картинки,который мы получим от сервера,когда туда загрузим картинку
 
     const [errorAdminForm, setErrorAdminForm] = useState<string>('');
 
@@ -253,21 +253,38 @@ const UserPage = () => {
 
 
     // функция для выбора картинки с помощью инпута для файлов
-    const labelInputImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        // если e.target.files true,то есть пользователь выбрал файл
+    const labelInputImageHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+        // e.target.files - массив файлов,которые пользователь выбрал при клике на инпут для файлов, если e.target.files true,то есть пользователь выбрал файл
         if (e.target.files) {
 
-            setInputFile(e.target.files[0]); // помещаем в состояние файла файл под индексом 0 из e.target.files
+            setInputFile(e.target.files[0]);
+
+            // лучше пока сделать загрузку файла на свой сервер,потом на фронтенд возвращать путь до файла на сервере и этот путь до файла потом сохранять в объекте товара на json server,пока используем просто одну картинку,которая есть на фронтенде для добавления ее в товар
+            const formData = new FormData(); // создаем объект на основе FormData(нужно,чтобы передавать файлы на сервер)
+            formData.append('file', e.target.files[0]); // добавляем в этот объект formData по ключу(названию) 'image' сам файл в e.target.files[0] по индексу 0 (первым параметром тут передаем название файла,вторым сам файл)
+
+
+            console.log(e.target.files[0])
+
+            // оборачиваем в try catch,чтобы отлавливать ошибки и делаем пока такой запрос на сервер для загрузки файла на сервер,загружаем объект formData(лучше вынести это в отдельную функцию запроса на сервер но и так можно)
+            try {
+                const response = await axios.post(`${API_URL}/uploadFile`, formData);
+
+                console.log(response);
+
+                setImgPath(`http://localhost:5001/${response.data.name}`); // помещаем в состояние путь до файла,то есть пишем путь до нашего сервера (http://localhost:5001/) в данном случае и добавляем название файла,который нужно показать,который есть в папке (в данном случае static) на нашем сервере,это название пришло от сервера
+
+                setErrorAdminForm('');
+
+            } catch (e: any) {
+                return setErrorAdminForm(e.response?.data?.message); // возвращаем и показываем ошибку,используем тут return чтобы если будет ошибка,чтобы код ниже не работал дальше,то есть на этой строчке завершим функцию,чтобы не очищались поля инпутов,если есть ошибка
+            }
 
         }
 
         // console.log(inputFile); // e.target.files - массив файлов,которые пользователь выбрал при клике на инпут для файлов
 
     }
-
-    useEffect(() => {
-        console.log(inputFile)
-    }, [inputFile])
 
 
     // функция для обработки формы создания нового товара
@@ -309,31 +326,16 @@ const UserPage = () => {
                 priceFilter = 'Above $1,000';
             }
 
-            // лучше пока сделать загрузку файла на свой сервер,потом на фронтенд возвращать путь до файла на сервере и этот путь до файла потом сохранять в объекте товара на json server,пока используем просто одну картинку,которая есть на фронтенде для добавления ее в товар
-            const formData = new FormData(); // создаем объект на основе FormData(нужно,чтобы передавать файлы на сервер)
-            formData.append('file', inputFile); // добавляем в этот объект formData по ключу(названию) 'image' сам файл inputFile(состояние для файла) (первым параметром тут передаем название файла,вторым сам файл)
 
+            // в image передаем путь до файла на нашем node js сервере,в данном случае мы помещаем этот путь в состояние imgPath
+            mutate({ name: inputNameProduct, brand: selectBrandValue, category: selectCategoryValue, price: inputPriceValue, priceFilter: priceFilter, amount: 1, rating: 0, totalPrice: inputPriceValue, image: imgPath } as IProduct); // поле id не указываем,чтобы оно сгенерировалось на сервере автоматически,указываем тип этого объекта as IProduct(то есть как на основе нашего типа IProduct)
 
-            console.log(inputFile)
-
-            // оборачиваем в try catch,чтобы отлавливать ошибки и делаем пока такой запрос на сервер для загрузки файла на сервер,загружаем объект formData(лучше вынести это в отдельную функцию запроса на сервер но и так можно)
-            try {
-                const response = await axios.post(`${API_URL}/uploadFile`, formData);
-
-                console.log(response);
-
-                setImgPath(response.data.path); // помещаем в состояние путь до файла,который пришел от сервера
-
-            } catch (e: any) {
-                return setErrorAdminForm(e.response?.data?.message); // возвращаем и показываем ошибку,используем тут return чтобы если будет ошибка,чтобы код ниже не работал дальше,то есть на этой строчке завершим функцию,чтобы не очищались поля инпутов,если есть ошибка
-            }
-
-            // позже лучше сделать добавление на json server объект нового товара и уже в поле image указать путь до файла на нашем сервере node js,который пришел от сервера
-            // if(priceFilter){
-            //     // в image пока используем просто путь до одной картинки на фронтенде,чтобы хоть какая-то была пока что
-            //     mutate({name:inputNameProduct,brand:selectBrandValue,category:selectCategoryValue,price:inputPriceValue,priceFilter:priceFilter, amount:1, rating:0, totalPrice:inputPriceValue, image:"/images/sectionCatalog/Image (4).png"} as IProduct); // поле id не указываем,чтобы оно сгенерировалось на сервере автоматически
-            // }
-
+            // очищаем инпуты формы создание нового товара
+            setInputNameProduct('');
+            setSelectBrandValue('');
+            setSelectCategoryValue('');
+            setInputPriceValue(1);
+            setImgPath(''); // указываем состоянию пути картинки пустую строку,чтобы когда пользователь сохранил новый товар,то картинка не показывалась уже
 
         }
 
@@ -606,10 +608,9 @@ const UserPage = () => {
                                                 </label>
                                             </div>
 
-                                            {inputFile &&
+                                            {imgPath !== '' &&
                                                 <>
-                                                    {/* надо изменить здесь путь картинки,а то не работает */}
-                                                    {/* <img src={imgPath} alt="" className="adminPanel__previewImg" /> */}
+                                                    <img src={imgPath} alt="" className="adminPanel__previewImg" />
                                                     <p className="adminPanel__inputFileName">{inputFile.name}</p>
                                                 </>
                                             }

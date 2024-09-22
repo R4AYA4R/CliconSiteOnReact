@@ -1110,6 +1110,7 @@ a {
 .products__item-img {
     margin-bottom: 24px;
     mix-blend-mode: multiply;
+    max-width: 212px;
 }
 
 .products__item-middleBlock {
@@ -2261,4 +2262,10 @@ a {
 
 .adminPanel__textError{
     margin-top: 10px;
+}
+
+.adminPanel__previewImg{
+    display: block;
+    margin: 20px 0;
+    max-width: 212px;
 }
