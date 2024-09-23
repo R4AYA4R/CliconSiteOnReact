@@ -111,14 +111,26 @@
     {
       "name": "testProduct",
       "brand": "Samsung",
-      "category": "Computer Accessories",
-      "price": 10,
+      "category": "Laptop",
+      "price": 5,
       "priceFilter": "Under $20",
       "amount": 1,
       "rating": 0,
-      "totalPrice": 10,
-      "image": "http://localhost:5001/Card.png",
+      "totalPrice": 5,
+      "image": "http://localhost:5001/Component 51.png",
       "id": 10
+    },
+    {
+      "name": "testProduct2",
+      "brand": "Xiaomi",
+      "category": "Laptop",
+      "price": 15,
+      "priceFilter": "Under $20",
+      "amount": 1,
+      "rating": 0,
+      "totalPrice": 15,
+      "image": "http://localhost:5001/Component 31.png",
+      "id": 11
     }
   ],
   "comments": [
@@ -454,6 +466,17 @@
       "amount": 5,
       "totalPrice": 1250,
       "id": 4
+    },
+    {
+      "name": "testProduct2",
+      "category": "Laptop",
+      "image": "http://localhost:5001/Component 31.png",
+      "price": 15,
+      "rating": 0,
+      "priceFilter": "Under $20",
+      "amount": 1,
+      "totalPrice": 15,
+      "id": 11
     }
   ]
 }

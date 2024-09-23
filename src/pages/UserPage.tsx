@@ -55,6 +55,9 @@ const UserPage = () => {
 
     const [errorAdminForm, setErrorAdminForm] = useState<string>('');
 
+    const imageNewProduct = useRef<HTMLImageElement>(null); // используем useRef для подключения к html тегу картинки нового товара,чтобы взять у него ширину и проверить ее,в generic типе этого useRef указываем,что в этом useRef будет HTMLImageElement(то есть картинка)
+
+
 
     // создаем мутацию(запрос на сервер для изменения данных с помощью useMutation),с помощью этой функции создаем новый объект товара 
     const { mutate } = useMutation({
@@ -268,6 +271,7 @@ const UserPage = () => {
 
             // оборачиваем в try catch,чтобы отлавливать ошибки и делаем пока такой запрос на сервер для загрузки файла на сервер,загружаем объект formData(лучше вынести это в отдельную функцию запроса на сервер но и так можно)
             try {
+
                 const response = await axios.post(`${API_URL}/uploadFile`, formData);
 
                 console.log(response);
@@ -279,6 +283,7 @@ const UserPage = () => {
             } catch (e: any) {
                 return setErrorAdminForm(e.response?.data?.message); // возвращаем и показываем ошибку,используем тут return чтобы если будет ошибка,чтобы код ниже не работал дальше,то есть на этой строчке завершим функцию,чтобы не очищались поля инпутов,если есть ошибка
             }
+
 
         }
 
@@ -307,39 +312,93 @@ const UserPage = () => {
 
             setErrorAdminForm('Choose product image');
 
+        } else if (imageNewProduct?.current && imageNewProduct?.current?.width < 202 || imageNewProduct?.current && imageNewProduct?.current?.height < 172) {
+            // если imageNewProduct?.current true(то есть в этом useRef что-то есть(эта проверка просто потому что этот useRef может быть undefined и выдает ошибку об этом)) и imageNewProduct?.current?.width меньше 202(то есть если ширина картинки меньше 202 ),или если imageNewProduct?.current true и высота картинки меньше 172,то показываем ошибку
+
+            setErrorAdminForm('Width of image must be more than 202px and height must be more than 172px');
+
         } else {
 
-            setErrorAdminForm('');
+            // если состояние ошибки равно пустой строке,то есть ошибки нет
+            if (errorAdminForm === '') {
 
-            let priceFilter; // указываем переменную priceFilter,чтобы ее потом в зависимости от условий изменять
+                let priceFilter; // указываем переменную priceFilter,чтобы ее потом в зависимости от условий изменять
 
-            // если значение инпута цены меньше 20,то изменяем значение priceFilter
-            if (inputPriceValue < 20) {
-                priceFilter = 'Under $20';
-            } else if (inputPriceValue >= 20 || inputPriceValue < 100) {
-                priceFilter = '$20 to $100';
-            } else if (inputPriceValue >= 100 || inputPriceValue < 500) {
-                priceFilter = '$100 to $500';
-            } else if (inputPriceValue >= 500 || inputPriceValue < 1000) {
-                priceFilter = '$500 to $1,000';
-            } else if (inputPriceValue >= 1000) {
-                priceFilter = 'Above $1,000';
+                // если значение инпута цены меньше 20,то изменяем значение priceFilter
+                if (inputPriceValue < 20) {
+                    priceFilter = 'Under $20';
+                } else if (inputPriceValue >= 20 || inputPriceValue < 100) {
+                    priceFilter = '$20 to $100';
+                } else if (inputPriceValue >= 100 || inputPriceValue < 500) {
+                    priceFilter = '$100 to $500';
+                } else if (inputPriceValue >= 500 || inputPriceValue < 1000) {
+                    priceFilter = '$500 to $1,000';
+                } else if (inputPriceValue >= 1000) {
+                    priceFilter = 'Above $1,000';
+                }
+
+
+                // в image передаем путь до файла на нашем node js сервере,в данном случае мы помещаем этот путь в состояние imgPath
+                mutate({ name: inputNameProduct, brand: selectBrandValue, category: selectCategoryValue, price: inputPriceValue, priceFilter: priceFilter, amount: 1, rating: 0, totalPrice: inputPriceValue, image: imgPath } as IProduct); // поле id не указываем,чтобы оно сгенерировалось на сервере автоматически,указываем тип этого объекта as IProduct(то есть как на основе нашего типа IProduct)
+
+                setErrorAdminForm(''); // убираем ошибку формы
+
+                // очищаем инпуты формы создание нового товара
+                setInputNameProduct('');
+                setSelectBrandValue('');
+                setSelectCategoryValue('');
+                setInputPriceValue(1);
+                setImgPath(''); // указываем состоянию пути картинки пустую строку,чтобы когда пользователь сохранил новый товар,то картинка не показывалась уже
+
             }
-
-
-            // в image передаем путь до файла на нашем node js сервере,в данном случае мы помещаем этот путь в состояние imgPath
-            mutate({ name: inputNameProduct, brand: selectBrandValue, category: selectCategoryValue, price: inputPriceValue, priceFilter: priceFilter, amount: 1, rating: 0, totalPrice: inputPriceValue, image: imgPath } as IProduct); // поле id не указываем,чтобы оно сгенерировалось на сервере автоматически,указываем тип этого объекта as IProduct(то есть как на основе нашего типа IProduct)
-
-            // очищаем инпуты формы создание нового товара
-            setInputNameProduct('');
-            setSelectBrandValue('');
-            setSelectCategoryValue('');
-            setInputPriceValue(1);
-            setImgPath(''); // указываем состоянию пути картинки пустую строку,чтобы когда пользователь сохранил новый товар,то картинка не показывалась уже
 
         }
 
+
+
     }
+
+    const deleteFileRequest = async (fileName: string) => {
+
+        try {
+
+            const response = await axios.delete(`${API_URL}/deleteFile/${fileName}`); // делаем запрос на сервер для удаления файла на сервере и указываем в ссылке на эндпоинт параметр fileName,чтобы на бэкэнде его достать 
+
+            console.log(response.data); // выводим в логи ответ от сервера
+
+        } catch (e: any) {
+            setErrorAdminForm(e.response?.data?.message);
+        }
+
+
+    }
+
+    // при изменении imgPath проверяем ширину и высоту картинки,которую выбрал пользователь(мы помещаем путь до картинки на нашем сервере node js в тег img и к этому тегу img привязали useRef с помощью которого берем ширину и высоту картинки)
+    useEffect(() => {
+
+        // используем тут setTimeout(код в этом callback будет выполнен через время,которое указали вторым параметром в setTimeout после запятой,это время указывается в миллисекундах,в данном случае этот код будет выполнен через 0.1 секунду(через 100 миллисекунд)),в данном случае это делаем для того,чтобы успела появится новая картинка,после того,как пользователь ее выбрал в ипнуте файлов,иначе не успевает появиться и показывает ширину картинки как 0
+        setTimeout(() => {
+            console.log(imageNewProduct?.current?.width);
+            console.log(imageNewProduct?.current?.height);
+
+            // imageNewProduct?.current true,то есть в этом useRef что-то есть(эта проверка просто потому что этот useRef может быть undefined и выдает ошибку об этом)
+            if (imageNewProduct?.current) {
+                // если imageNewProduct?.current?.width меньше 202(то есть если ширина картинки меньше 202 ) и если высота картинки меньше 172,то показываем ошибку
+                if (imageNewProduct?.current?.width < 202 || imageNewProduct?.current?.height < 172) {
+
+                    setErrorAdminForm('Width of image must be more than 202px and height must be more than 172px');
+
+                    // делаем удаление файла на сервере,который не правильного размера ширины и высоты,так как если не удалять,а нужна конкретная ширина и высота картинки,то файлы будут просто скачиваться на наш node js сервер и не удаляться,поэтому отдельно делаем запрос на сервер на удаление файла
+                    deleteFileRequest(inputFile.name); // передаем в нашу функцию название файла,который пользователь выбрал в инпуте файлов(мы поместили его в состояние inputFile),наша функция deleteFileRequest делает запрос на сервер на удаление файла и возвращает ответ от сервера(в данном случае при успешном запросе ответ от сервера будет объект,с полями)
+
+                }
+            }
+
+
+        }, 100)
+
+
+    }, [imgPath])
 
 
 
@@ -610,7 +669,7 @@ const UserPage = () => {
 
                                             {imgPath !== '' &&
                                                 <>
-                                                    <img src={imgPath} alt="" className="adminPanel__previewImg" />
+                                                    <img src={imgPath} alt="" ref={imageNewProduct} className="adminPanel__previewImg" />
                                                     <p className="adminPanel__inputFileName">{inputFile.name}</p>
                                                 </>
                                             }
