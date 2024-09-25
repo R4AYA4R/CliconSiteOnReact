@@ -1,15 +1,20 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { IComment, IProduct } from "../types/types";
+import { AuthResponse, IComment, IProduct } from "../types/types";
 import SectionSellers from "../components/SectionSellers";
 import { apiBasket } from "../store/apiBasket";
+import { useTypedSelector } from "../hooks/useTypedSelector";
+import { useActions } from "../hooks/useActions";
+import { API_URL } from "../http/http";
 
 
 
 const ProductItemPage = () => {
+
+    const router = useNavigate(); // используем useNavigate чтобы перекидывать пользователя на определенную страницу
 
     const [tab, setTab] = useState<string>('desc');
 
@@ -33,6 +38,11 @@ const ProductItemPage = () => {
     const params = useParams(); //useParams выцепляет параметр из url (в данном случае id товара)
 
     const {pathname} = useLocation(); // берем pathname(url страницы) из useLocation()
+
+
+    const { user, isAuth, isLoading } = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния user,используя наш типизированный хук для useSelector
+
+    const { checkAuthUser, setLoadingUser, logoutUser, setUser } = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
 
 
     const [addProductBasket] = apiBasket.useAddProductBasketMutation(); // берем функцию запроса на сервер из нашего api(apiBasket) с помощью нашего хука useAddProductBasketMutation,вторым элементом,который можно взять у этого хука,это все состояния,которые rtk query автоматически создает,а также data(данные запроса)
@@ -127,15 +137,22 @@ const ProductItemPage = () => {
         e.preventDefault();
 
         // если значение textarea и input (.trim()-убирает из строки пробелы,чтобы нельзя было ввести только пробел) в форме комментария будет пустой строчкой(то есть пользователь ничего туда не ввел),будем изменять состояние ErrorFormMessage(то есть показывать ошибку и не отправлять комментарий),в другом случае очищаем поля textarea и input формы и убираем форму
-        if (inputFormName.trim() === '' || textFormArea.trim() === '' || activeStarsForm === 0) {
-            setErrorFormMessage('Fill out all form fields and rating');
-        } else if (inputFormName.trim().length <= 2) {
-            setErrorFormMessage('Name must be more than 2 characters');
-        } else if (textFormArea.trim().length <= 10) {
+
+        // if (inputFormName.trim() === '' || textFormArea.trim() === '' || activeStarsForm === 0) {
+        //     setErrorFormMessage('Fill out all form fields and rating');
+        // } else if (inputFormName.trim().length <= 2) {
+        //     setErrorFormMessage('Name must be more than 2 characters');
+        // } 
+
+        // убрали проверки выше на inputFormName потому что уже не используем,так как показываем уже сразу имя пользователя(если он авторизован)
+        if (textFormArea.trim().length <= 10) {
             setErrorFormMessage('Comment must be more than 10 characters');
+        } else if(activeStarsForm == 0){
+            // если состояние активных звезд рейтинга равно 0,то показываем ошибку,чтобы пользователь указал рейтинг
+            setErrorFormMessage('Enter rating');
         } else {
 
-            mutate({ name: inputFormName, nameFor: data?.data.name, text: textFormArea, rating: activeStarsForm } as IComment); // вызываем функцию post запроса на сервер,создавая комментарий,разворачивая в объект нужные поля для комментария и давая этому объекту тип as IComment(вручную не указываем id,чтобы он автоматически создавался на сервере)
+            mutate({ name: user.userName, nameFor: data?.data.name, text: textFormArea, rating: activeStarsForm } as IComment); // вызываем функцию post запроса на сервер,создавая комментарий,разворачивая в объект нужные поля для комментария и давая этому объекту тип as IComment(вручную не указываем id,чтобы он автоматически создавался на сервере)
 
 
             setInputFormName('');
@@ -196,6 +213,62 @@ const ProductItemPage = () => {
 
     const addToCart = async () => {
         await addProductBasket({ name: data?.data.name, category: data?.data.category, image: data?.data.image, price: data?.data.price, rating: data?.data.rating, priceFilter: data?.data.priceFilter, amount: inputValue, totalPrice: priceProduct, id: data?.data.id } as IProduct); // передаем в addProductBasket объект типа IProduct только таким образом,разворачивая в объект все необходимые поля(то есть наш product,в котором полe name,делаем поле name со значением,как и у этого товара name(data?.data.name) и остальные поля также,кроме поля amount и totalPrice,их мы изменяем и указываем как значения inputValue(инпут с количеством) и priceProduct(состояние цены,которое изменяется при изменении inputValue)),указываем тип этого объекта, созданный нами тип IProduct,при создании на сервере не указываем конкретное значение id,чтобы он сам автоматически генерировался на сервере и потом можно было удалить этот объект,в данном случае указываем id как у data?.data.id(id как у этого товара),чтобы потом в корзине при клике на название товара можно было перейти на страницу этого товара с этим id,в данном случае удаление работает
+    }
+
+
+    // функция для проверки авторизован ли пользователь(валиден ли его refresh токен)
+    const checkAuth = async () => {
+
+        setLoadingUser(true); // изменяем поле isLoading состояния пользователя в userSlice на true(то есть пошла загрузка)
+
+        // оборачиваем в try catch,чтобы отлавливать ошибки
+        try {
+
+            // здесь используем уже обычный axios,указываем тип в generic,что в ответе от сервера ожидаем наш тип данных AuthResponse,указываем наш url до нашего роутера(/api) на бэкэнде(API_URL мы импортировали из другого нашего файла) и через / указываем refresh(это тот url,где мы выдаем access и refresh токены на бэкэнде),и вторым параметром указываем объект опций,указываем поле withCredentials true(чтобы автоматически с запросом отправлялись cookies)
+            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, { withCredentials: true });
+
+            console.log(response);
+
+            checkAuthUser(response.data); // вызываем нашу функцию(action) для изменения состояния пользователя и передаем туда response.data(в данном случае это объект с полями accessToken,refreshToken и user,которые пришли от сервера)
+
+        } catch (e: any) {
+
+            console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e
+
+        } finally {
+            // в блоке finally будет выполнен код в независимости от try catch(то есть в любом случае,даже если будет ошибка)
+            setLoadingUser(false); // изменяем поле isLoading состояния пользователя в userSlice на false(то есть загрузка закончена)
+        }
+
+    }
+
+
+    // при запуске сайта будет отработан код в этом useEffect
+    useEffect(() => {
+
+        // если localStorage.getItem('token') true,то есть по ключу token в localStorage что-то есть
+        if (localStorage.getItem('token')) {
+
+            checkAuth(); // вызываем нашу функцию checkAuth(),которую описали выше для проверки авторизован ли пользователь
+
+        }
+
+    }, [])
+
+    // функция для показа формы для создания комментария
+    const addCommentBtn = () => {
+
+        console.log(user.userName)
+
+        // если имя пользователя не равно пустой строке,то есть оно есть и пользователь авторизован,то показываем форму,в другом случае перекидываем пользователя на страницу авторизации
+        if(user.userName){
+            setFormActive(true); // изменяем состояние активной формы,то есть показываем форму для создания комментария
+        }else{
+            router('/user'); // перекидываем пользователя на страницу авторизации (/user в данном случае)
+        }
+
+
+
     }
 
     return (
@@ -364,13 +437,19 @@ const ProductItemPage = () => {
                                     </div>
                                     <div className="reviews__rightBlock">
                                         <div className="reviews__rightBlock-top">
-                                            <button className={formActive ? "rightBlock__top-btn rightBlock__top-btnNone" : "rightBlock__top-btn"} onClick={() => setFormActive(true)}>Add Comment</button>
+                                            <button className={formActive ? "rightBlock__top-btn rightBlock__top-btnNone" : "rightBlock__top-btn"} onClick={addCommentBtn}>Add Comment</button>
                                         </div>
 
                                         <div className={formActive ? "reviews__rightBlock-form" : "reviews__rightBlock-form reviews__rightBlock-formNone"}>
                                             <div className="form__top">
-                                                <input type="text" className="form__top-inputName" placeholder="Name" value={inputFormName} onChange={(e) => setInputFormName(e.target.value)} />
-                                                <div className="products__item-stars">
+
+                                                <h2 className="comment__top-title">{user.userName}</h2>
+
+                                                {/* вместо этого инпута имени будет сразу показываться имя пользователя,который авторизован(если он авторизован) */}
+                                                {/* <input type="text" className="form__top-inputName" placeholder="Name" value={inputFormName} onChange={(e) => setInputFormName(e.target.value)} /> */}
+
+
+                                                <div className="products__item-stars commentsForm__item-stars">
                                                     <img src={activeStarsForm === 0 ? "/images/sectionCatalog/StarGray.png" : "/images/sectionCatalog/Star.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(1)} />
                                                     <img src={activeStarsForm >= 2 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(2)} />
                                                     <img src={activeStarsForm >= 3 ? "/images/sectionCatalog/Star.png" : "/images/sectionCatalog/StarGray.png"} alt="" className="item__stars-img item__stars-imgForm" onClick={() => setActiveStarsForm(3)} />

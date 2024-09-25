@@ -9,7 +9,7 @@
       "price": 2300,
       "priceFilter": "Above $1,000",
       "amount": 1,
-      "rating": 2.7142857142857144,
+      "rating": 3.5,
       "totalPrice": 2300
     },
     {
@@ -21,7 +21,7 @@
       "price": 20,
       "priceFilter": "Under $20",
       "amount": 1,
-      "rating": 4.2,
+      "rating": 4,
       "totalPrice": 20
     },
     {
@@ -33,7 +33,7 @@
       "price": 890,
       "priceFilter": "$500 to $1,000",
       "amount": 1,
-      "rating": 3.5,
+      "rating": 0,
       "totalPrice": 890
     },
     {
@@ -45,7 +45,7 @@
       "price": 250,
       "priceFilter": "$100 to $500",
       "amount": 1,
-      "rating": 3,
+      "rating": 2,
       "totalPrice": 250
     },
     {
@@ -57,7 +57,7 @@
       "price": 80,
       "priceFilter": "$20 to $100",
       "amount": 1,
-      "rating": 2.75,
+      "rating": 3,
       "totalPrice": 80
     },
     {
@@ -69,7 +69,7 @@
       "price": 1250,
       "priceFilter": "Above $1,000",
       "amount": 1,
-      "rating": 3.25,
+      "rating": 4,
       "totalPrice": 1250
     },
     {
@@ -81,7 +81,7 @@
       "price": 580,
       "priceFilter": "$500 to $1,000",
       "amount": 1,
-      "rating": 2.75,
+      "rating": 5,
       "totalPrice": 580
     },
     {
@@ -93,7 +93,7 @@
       "price": 350,
       "priceFilter": "$100 to $500",
       "amount": 1,
-      "rating": 3.6,
+      "rating": 4,
       "totalPrice": 350
     },
     {
@@ -105,7 +105,7 @@
       "price": 1760,
       "priceFilter": "Above $1,000",
       "amount": 1,
-      "rating": 4,
+      "rating": 3,
       "totalPrice": 1760
     },
     {
@@ -119,307 +119,71 @@
       "totalPrice": 5,
       "image": "http://localhost:5001/Component 51.png",
       "id": 10
-    },
-    {
-      "name": "testProduct2",
-      "brand": "Xiaomi",
-      "category": "Laptop",
-      "price": 15,
-      "priceFilter": "Under $20",
-      "amount": 1,
-      "rating": 0,
-      "totalPrice": 15,
-      "image": "http://localhost:5001/Component 31.png",
-      "id": 11
     }
   ],
   "comments": [
     {
-      "name": "bob",
+      "name": "Bob",
       "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
-      "text": "aaaaaaaaaaaaaaaaaaaa",
-      "rating": 3,
+      "text": "nice asdfasdfa",
+      "rating": 4,
       "id": 1
     },
     {
-      "name": "adfadsf",
-      "nameFor": "Portable Headphones, 11lbs capacity Model 18NMF",
-      "text": "aaaaaaaaaaaaaaaaaaa",
-      "rating": 5,
+      "name": "Bob",
+      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
+      "text": "adfasdfasdf",
+      "rating": 3,
       "id": 2
     },
     {
-      "name": "adsfadf",
-      "nameFor": "4K UHD LED Smart TV with Chromecast Built-in",
-      "text": "adfaaaaaaaaaaaaa",
-      "rating": 2,
+      "name": "Bob",
+      "nameFor": "Portable Headphones, 11lbs capacity Model 18NMF",
+      "text": "adfasdfasdf",
+      "rating": 4,
       "id": 3
     },
     {
-      "name": "aaaaaaa",
-      "nameFor": "Sony DSCHX8 High Zoom",
-      "text": "aaaaaaaaaaaaaaa",
-      "rating": 1,
+      "name": "Bob",
+      "nameFor": "Dell Optiplex 7000x7480 All-in-One Printer",
+      "text": "asdfafadsfasfaf",
+      "rating": 2,
       "id": 4
     },
     {
-      "name": "aaaaaaaa",
-      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
-      "text": "aaaaaaaaaaaaaa",
-      "rating": 5,
+      "name": "Bob",
+      "nameFor": "4K UHD LED Smart TV with Chromecast Built-in",
+      "text": "adfaaadasfasdfa",
+      "rating": 4,
       "id": 5
     },
     {
-      "name": "afdas",
+      "name": "Bob",
       "nameFor": "TOZO T6 Keyboard True Bluetooth",
-      "text": "aaaaaaaaaaaaaaaa",
+      "text": "dafadsfafafafa",
       "rating": 5,
       "id": 6
     },
     {
-      "name": "adsfass",
-      "nameFor": "Portable Headphones, 11lbs capacity Model 18NMF",
-      "text": "adsfafdadfaf",
-      "rating": 2,
+      "name": "Bob",
+      "nameFor": "Acer Aspire TC-1780-UA92",
+      "text": "asdfaaaaaaaaaaaaf",
+      "rating": 3,
       "id": 7
     },
     {
-      "name": "fqwefafdaf",
-      "nameFor": "Portable Headphones, 11lbs capacity Model 18NMF",
-      "text": "adfadfadfaaaaaaaaa",
+      "name": "ADMIN",
+      "nameFor": "Sony DSCHX8 High Zoom",
+      "text": "asdfasdfaasdfasdf",
       "rating": 4,
       "id": 8
     },
     {
-      "name": "adf",
-      "nameFor": "Dell Optiplex 7000x7480 All-in-One Printer",
-      "text": "aaaaaaaaaaaa",
+      "name": "ADMIN",
+      "nameFor": "Dell All-in-One Computer Laptop",
+      "text": "asdfasdfasdfasf",
       "rating": 3,
       "id": 9
-    },
-    {
-      "name": "adfadf",
-      "nameFor": "Acer Aspire TC-1780-UA92",
-      "text": "aaaaaaaaaaaa",
-      "rating": 4,
-      "id": 10
-    },
-    {
-      "name": "adfssss",
-      "nameFor": "Dell All-in-One Computer Laptop",
-      "text": "aaaaaaaaaaaaaaa",
-      "rating": 1,
-      "id": 11
-    },
-    {
-      "name": "adfaaaa",
-      "nameFor": "TOZO T6 Keyboard True Bluetooth",
-      "text": "aaaaaaaaaaaaaaaaaa",
-      "rating": 4,
-      "id": 12
-    },
-    {
-      "name": "aaaaaaaa",
-      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
-      "text": "aaaaaaaaaaaaaa",
-      "rating": 3,
-      "id": 13
-    },
-    {
-      "name": "afdafaaaaa",
-      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
-      "text": "aaaaaaaaaaaaaaaa",
-      "rating": 5,
-      "id": 14
-    },
-    {
-      "name": "bob",
-      "nameFor": "Dell Optiplex 7000x7480 All-in-One Printer",
-      "text": "asdfasdfadsfa",
-      "rating": 5,
-      "id": 15
-    },
-    {
-      "name": "adsfa",
-      "nameFor": "Dell All-in-One Computer Laptop",
-      "text": "aaaaaaaaaaaaaaaaaadfa",
-      "rating": 4,
-      "id": 16
-    },
-    {
-      "name": "adfasf",
-      "nameFor": "Dell All-in-One Computer Laptop",
-      "text": "adsffffffffff",
-      "rating": 5,
-      "id": 17
-    },
-    {
-      "name": "asfadf",
-      "nameFor": "Wired Over-Ear Hyrocopter with USB",
-      "text": "asdfasfdaaaa",
-      "rating": 2,
-      "id": 18
-    },
-    {
-      "name": "adsf",
-      "nameFor": "Sony DSCHX8 High Zoom",
-      "text": "asdfaaaaaaaaa",
-      "rating": 5,
-      "id": 19
-    },
-    {
-      "name": "adf",
-      "nameFor": "Sony DSCHX8 High Zoom",
-      "text": "asdfafdafadf",
-      "rating": 2,
-      "id": 20
-    },
-    {
-      "name": "adfadsf",
-      "nameFor": "Wired Over-Ear Hyrocopter with USB",
-      "text": "asdfasdfasa",
-      "rating": 5,
-      "id": 21
-    },
-    {
-      "name": "aaaa",
-      "nameFor": "Wired Over-Ear Hyrocopter with USB",
-      "text": "aaaaaaaaaaaaaaaaaa",
-      "rating": 5,
-      "id": 22
-    },
-    {
-      "name": "adfadf",
-      "nameFor": "Sony DSCHX8 High Zoom",
-      "text": "adfadfaaaaaa",
-      "rating": 5,
-      "id": 23
-    },
-    {
-      "name": "adfadfasf",
-      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
-      "text": "adsfadfaaaaaaaaa",
-      "rating": 1,
-      "id": 24
-    },
-    {
-      "name": "asdfasdfafda",
-      "nameFor": "4K UHD LED Smart TV with Chromecast Built-in",
-      "text": "aaaaaaaaaaaaaaaaaaaaaaaaa",
-      "rating": 5,
-      "id": 25
-    },
-    {
-      "name": "bob",
-      "nameFor": "Acer Aspire TC-1780-UA92",
-      "text": "sadfafdadsfasf",
-      "rating": 1,
-      "id": 26
-    },
-    {
-      "name": "adsfasdfadsf",
-      "nameFor": "Dell Optiplex 7000x7480 All-in-One Printer",
-      "text": "aaaaaaaaaaaaaaaaaaaaaa",
-      "rating": 1,
-      "id": 27
-    },
-    {
-      "name": "dasfasdfa",
-      "nameFor": "Acer Aspire TC-1780-UA92",
-      "text": "aaaaaaaaaaaaaaaa",
-      "rating": 5,
-      "id": 28
-    },
-    {
-      "name": "adfadsfaaaaaaa",
-      "nameFor": "Acer Aspire TC-1780-UA92",
-      "text": "aaaaaaaaaaaaaaa",
-      "rating": 5,
-      "id": 29
-    },
-    {
-      "name": "adfadfadfadfa",
-      "nameFor": "Acer Aspire TC-1780-UA92",
-      "text": "aaaaaaaaaaaaaaaaaaaaa",
-      "rating": 5,
-      "id": 30
-    },
-    {
-      "name": "fdafadsfadfaa",
-      "nameFor": "4K UHD LED Smart TV with Chromecast Built-in",
-      "text": "aaaaaaaaaaa",
-      "rating": 1,
-      "id": 31
-    },
-    {
-      "name": "aadfafa",
-      "nameFor": "Portable Headphones, 11lbs capacity Model 18NMF",
-      "text": "aaaaaaaaaaa",
-      "rating": 5,
-      "id": 32
-    },
-    {
-      "name": "adfaaa",
-      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
-      "text": "aaaaaaaaaaaaaaa",
-      "rating": 1,
-      "id": 33
-    },
-    {
-      "name": "bacbaba",
-      "nameFor": "Samsung Electronics Samsung Galaxy S21 5G",
-      "text": "aaaaaaaaaaaa",
-      "rating": 1,
-      "id": 34
-    },
-    {
-      "name": "john",
-      "nameFor": "TOZO T6 Keyboard True Bluetooth",
-      "text": "asdfafaaaaaaa",
-      "rating": 1,
-      "id": 35
-    },
-    {
-      "name": "adsfasf",
-      "nameFor": "TOZO T6 Keyboard True Bluetooth",
-      "text": "aaaaaaaaaaaaa",
-      "rating": 1,
-      "id": 36
-    },
-    {
-      "name": "adsfadsf",
-      "nameFor": "4K UHD LED Smart TV with Chromecast Built-in",
-      "text": "aaaaaaaaaaaaa",
-      "rating": 5,
-      "id": 37
-    },
-    {
-      "name": "dasfasd",
-      "nameFor": "Wired Over-Ear Hyrocopter with USB",
-      "text": "asdfadsfasdf",
-      "rating": 2,
-      "id": 38
-    },
-    {
-      "name": "bob",
-      "nameFor": "Dell All-in-One Computer Laptop",
-      "text": "adsfadsfaaaaa",
-      "rating": 1,
-      "id": 39
-    },
-    {
-      "name": "bobdasfadsf",
-      "nameFor": "Portable Headphones, 11lbs capacity Model 18NMF",
-      "text": "aaaaaadfasfasfasf",
-      "rating": 5,
-      "id": 40
-    },
-    {
-      "name": "bob",
-      "nameFor": "Sony DSCHX8 High Zoom",
-      "text": "adfadfababadsf",
-      "rating": 5,
-      "id": 41
     }
   ],
   "productsBasket": [
@@ -466,17 +230,6 @@
       "amount": 5,
       "totalPrice": 1250,
       "id": 4
-    },
-    {
-      "name": "testProduct2",
-      "category": "Laptop",
-      "image": "http://localhost:5001/Component 31.png",
-      "price": 15,
-      "rating": 0,
-      "priceFilter": "Under $20",
-      "amount": 1,
-      "totalPrice": 15,
-      "id": 11
     }
   ]
 }

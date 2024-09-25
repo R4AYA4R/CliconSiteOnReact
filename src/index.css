@@ -1785,7 +1785,7 @@ a {
 .form__top {
     display: flex;
     align-items: center;
-    gap: 50px;
+    gap: 20px;
     margin-bottom: 20px;
 }
 
@@ -2268,4 +2268,8 @@ a {
     display: block;
     margin: 20px 0;
     max-width: 212px;
+}
+
+.commentsForm__item-stars{
+    align-self: end;
 }
