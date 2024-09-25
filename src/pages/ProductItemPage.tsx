@@ -147,7 +147,7 @@ const ProductItemPage = () => {
         // убрали проверки выше на inputFormName потому что уже не используем,так как показываем уже сразу имя пользователя(если он авторизован)
         if (textFormArea.trim().length <= 10) {
             setErrorFormMessage('Comment must be more than 10 characters');
-        } else if(activeStarsForm == 0){
+        } else if(activeStarsForm === 0){
             // если состояние активных звезд рейтинга равно 0,то показываем ошибку,чтобы пользователь указал рейтинг
             setErrorFormMessage('Enter rating');
         } else {
