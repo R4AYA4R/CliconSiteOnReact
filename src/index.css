@@ -245,6 +245,7 @@ a {
     display: flex;
     align-items: center;
     gap: 20px;
+    border-radius: 6px;
 }
 
 .right__bottomBlock-title {
@@ -2272,4 +2273,33 @@ a {
 
 .commentsForm__item-stars{
     align-self: end;
+}
+
+
+@media (max-width:1210px) {
+    
+    .sectionTop__inner{
+        gap:12px;
+    }
+
+    .sectionTop__right-topBlock{
+        margin-bottom: 12px;
+    }
+
+    .sectionTop__left{
+        gap: 12px;
+        padding: 25px;
+    }
+
+    .info__title {
+        font-size: 34px;
+    }
+
+    .sectionTop__left-img{
+        max-width: 280px;
+    }
+
+    .sectionTop__right-topBlock,.sectionTop__right-bottomBlock{
+        padding: 25px;
+    }
 }
