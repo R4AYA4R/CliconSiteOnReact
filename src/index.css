@@ -131,6 +131,7 @@ a {
     align-items: center;
     gap: 36px;
     background-color: #F2F4F5;
+    border-radius: 6px;
 }
 
 .info__subtitle {
@@ -422,6 +423,7 @@ a {
     top: 40px;
     left: 0;
     border-radius: 2px;
+    z-index: 2;
 }
 
 .deals__item4 {
@@ -489,6 +491,7 @@ a {
     align-items: center;
     gap: 40px;
     border-radius: 4px;
+    width: 100%;
 }
 
 .sectionNew__left-info {
@@ -529,8 +532,10 @@ a {
     background-image: url('/public/images/sectionNew/Banner.png');
     display: flex;
     gap: 12px;
-    min-width: 648px;
     border-radius: 4px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .sectionNew__right-img {
@@ -2275,6 +2280,23 @@ a {
     align-self: end;
 }
 
+@media (max-width:1260px){
+
+    .sectionTop__desc-item{
+        padding-right: 54px;
+    }
+
+    .sectionNew__left,
+    .sectionNew__right{
+        padding: 20px;
+    }
+
+    .sectionNew__right-title,
+    .sectionNew__left-title{
+        font-size: 24px;
+    }
+
+}
 
 @media (max-width:1210px) {
     
@@ -2301,5 +2323,62 @@ a {
 
     .sectionTop__right-topBlock,.sectionTop__right-bottomBlock{
         padding: 25px;
+    }
+
+    .sectionTop__desc-item{
+        padding-right: 34px;
+    }
+
+    .footer__top-inner{
+        gap: 50px;
+    }
+}
+
+@media (max-width:1100px){
+
+    .sectionNew__left-img{
+        max-width: 180px;
+    }
+
+    .sectionNew__left{
+        gap: 20px;
+    }
+
+    .sectionMac__inner {
+        padding: 0 35px;
+    }
+
+    .sectionMac__info-title{
+        font-size: 32px;
+    }
+
+    .sectionMac__info-text{
+        font-size: 18px;
+    }
+
+    .sectionMac__info-img {
+        max-width: 430px;
+    }
+
+}
+
+@media (max-width:870px) {
+  
+    .sectionNew__info-link {
+        padding: 10px 5px 10px 25px;
+    }
+
+    .sectionNew__right-title, .sectionNew__left-title{
+        font-size: 22px;
+    }
+
+    .sectionNew__text,
+    .sectionNew__right-text{
+        font-size: 14px;
+    }
+
+    .sectionNew__right-subtitle,
+    .sectionNew__left-subtitle{
+        padding: 3px 9px;
     }
 }
