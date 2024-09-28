@@ -164,6 +164,7 @@ a {
     max-width: 191px;
     font-family: 'Public Sans', sans-serif;
     transition: opacity .5s ease;
+    justify-content: space-evenly;
 }
 
 .info__link:hover {
@@ -212,6 +213,7 @@ a {
     gap: 5px;
     padding: 14px;
     align-items: center;
+    justify-content: space-evenly;
 }
 
 .right__info-link .info__link-text,
@@ -273,9 +275,8 @@ a {
     padding: 16px;
     margin-bottom: 48px;
     border: 1px solid #E4E7E9;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
     gap: 28px;
 }
 
@@ -653,6 +654,7 @@ a {
     margin-bottom: 16px;
     transition: all .3s ease;
     cursor:pointer;
+    max-height: 87px;
 }
 
 .sectionSellers__flash-item:hover {
@@ -2332,6 +2334,10 @@ a {
     .footer__top-inner{
         gap: 50px;
     }
+
+    .flashItem__info-title{
+        font-size: 13px;
+    }
 }
 
 @media (max-width:1100px){
@@ -2360,7 +2366,81 @@ a {
         max-width: 430px;
     }
 
+    .sectionTop__desc-item{
+        flex-direction: column;
+        padding-right: 24px;
+    }
+
+    .sectionSellers__inner{
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    .deals__item {
+        padding: 14px;
+    }
+
 }
+
+@media (max-width:970px){
+    .deals__item-img{
+        max-width: 150px;
+    }
+
+    .sectionTop__right-sale,
+    .deals__item-hot{
+        padding: 4px 8px;
+    }
+
+    .right__sale-text{
+        font-size: 14px;
+    }
+
+    .deals__item-hot{
+        top: 30px;
+    }
+
+    .sectionTop__left-img{
+        max-width: 200px;
+    }
+    .sectionTop__left{
+        padding: 10px;
+    }
+    .sectionTop__right-topBlock, .sectionTop__right-bottomBlock{
+        padding: 10px;
+    }
+    .right__info-link{
+        padding: 10px;
+    }
+    .info__link{
+        padding: 10px 16px;
+    }
+    .info__title{
+        font-size: 28px;
+    }
+    .info__desc{
+        font-size: 16px;
+    }
+    .info__subtitle,
+    .right__info-subtitle {
+        font-size: 13px;
+    }
+    .right__bottomBlock-title,
+    .right__info-title{
+        font-size: 20px;
+    }
+
+    .info__link.right__info-link{
+        padding: 8px 16px;
+    }
+
+    .right__bottomBlock-img{
+        max-width: 130px;
+    }
+
+    .sectionMac__info-img{
+        max-width: 330px;
+    }
+}   
 
 @media (max-width:870px) {
   
