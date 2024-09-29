@@ -2462,3 +2462,41 @@ a {
         padding: 3px 9px;
     }
 }
+
+@media (max-width:800px){
+    .sectionTop__left-img{
+        max-width: 130px;
+    }
+
+    .info__title{
+        font-size: 18px;
+    }
+
+    .info__subtitle{
+        font-size: 12px;
+    }
+
+    .info__desc,
+    .info__link-text {
+        font-size: 14px;
+    }
+
+    .info__desc{
+        margin-bottom: 10px;
+    }
+
+    .info__link{
+        padding: 8px 14px;
+    }
+    .right__bottomBlock-title, 
+    .right__info-title{
+        font-size: 18px;
+    }
+
+    .item__info-title{
+        font-size: 13px;
+    }
+    .sectionTop__desc-item{
+        padding-right: 14px;
+    }
+}
