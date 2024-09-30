@@ -58,7 +58,7 @@ const SectionTop = () => {
                             <p className="item__info-text">Delivery in 24/H</p>
                         </div>
                     </div>
-                    <div className="sectionTop__desc-item">
+                    <div className="sectionTop__desc-item sectionTop__desc-item2">
                         <img src="/images/sectionTop/Trophy.png" alt="" className="desc__item-img" />
                         <div className="desc__item-info">
                             <h3 className="item__info-title">24 Hours Return</h3>

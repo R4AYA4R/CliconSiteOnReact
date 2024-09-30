@@ -2461,6 +2461,14 @@ a {
     .sectionNew__left-subtitle{
         padding: 3px 9px;
     }
+
+    .footer__top-inner{
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    .footer{
+        padding: 45px 0 24px 0;
+    }
 }
 
 @media (max-width:800px){
@@ -2498,5 +2506,98 @@ a {
     }
     .sectionTop__desc-item{
         padding-right: 14px;
+    }
+
+    .sectionSellers__inner{
+        grid-template-columns: repeat(2,1fr);
+    }
+    .deals__item{
+        padding: 10px;
+    }
+    .deals__item-img{
+        max-width: 120px;
+    }
+
+    .sectionNew__left-img{
+        max-width: 140px;
+    }
+
+    .sectionMac__inner{
+        padding: 20px;
+    }
+
+    .sectionMac__info-img{
+        max-width: 280px;
+    }
+
+}
+
+@media (max-width:690px){
+
+    .sectionTop__inner {
+        grid-template-columns: 1fr;
+    }
+
+    .info__link{
+        max-width: 143px;
+    }
+
+    .sectionTop__left-img{
+        max-width: 170px;
+    }
+
+    .sectionTop__right-topBlock{
+        background-position: bottom;
+    }
+
+    .sectionTop__right-bottomBlock{
+        justify-content: space-evenly;
+    }
+    .sectionTop__desc{
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .sectionTop__desc-item2{
+        border-right: none;
+    }
+
+    .deals__item-img{
+        max-width: 180px;
+    }
+
+    .sectionDeals__deals{
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .deals__item-borderBottom{
+        border-bottom: 1px solid #E4E7E9;
+    }
+
+    .sectionNew__inner{
+        flex-direction: column;
+    }
+
+    .sectionNew__left{
+        justify-content: space-between;
+    }
+
+    .sectionNew__left-img{
+        max-width: 180px;
+    }
+
+    .sectionNew__right {
+        background-position: top right;
+    }
+
+    .sectionMac__info-title{
+        font-size: 22px;
+    }
+
+    .sectionMac__info-text{
+        font-size: 16px;
+    }
+
+    .sectionMac__info-img {
+        max-width: 250px;
     }
 }
