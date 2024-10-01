@@ -2600,4 +2600,108 @@ a {
     .sectionMac__info-img {
         max-width: 250px;
     }
+
+    .list__item-title{
+        font-size: 14px;
+    }
+
+    .logo-title{
+        font-size: 24px;
+    }
+
+    .logo-img{
+        max-width: 38px;
+    }
+
+    .footer__top-inner{
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .sectionTop__desc {
+        margin-bottom: 18px;
+    }
+
+    .sectionDeals,
+    .sectionNew {
+        padding-bottom: 42px;
+    }
+
+    .sectionMac,
+    .sectionSellers{
+        margin-bottom: 42px;
+    }
+}
+
+@media (max-width:550px) {
+
+    .sectionSellers__inner{
+        grid-template-columns: 1fr;
+    }
+
+    .sectionMac__inner {
+        padding: 10px;
+    }
+
+    .sectionMac__info-img{
+        max-width: 210px;
+    }
+
+    .deals__item3-borderBottom{
+        border-bottom: 1px solid #E4E7E9;
+    }
+
+    .sectionDeals__deals{
+        grid-template-columns: 1fr;
+    }
+
+    .sectionDeals__link{
+        justify-content: space-around;
+    }
+
+}
+
+@media (max-width:450px){
+
+    .sectionNew__left{
+        flex-direction: column;
+        align-items: start;
+        padding: 10px;
+    }
+
+    .sectionNew__left-img{
+        order: -1;
+        align-self: center;
+    }
+
+    .sectionTop__left{
+        flex-direction: column;
+    }
+
+    .sectionTop__left-img{
+        order:-1;
+    }
+
+    .sectionTop__right-topBlock{
+        gap: 53px;
+    }
+
+    .sectionMac__inner{
+        flex-direction: column;
+    }
+
+    .sectionMac__info-img{
+        align-self: center;
+        order:-1;
+    }
+
+    .footer__top-inner{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding-bottom: 35px;
+    }
+
+    .footer{
+        padding: 35px 0 24px 0;
+    }
 }

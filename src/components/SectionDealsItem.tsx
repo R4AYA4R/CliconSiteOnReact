@@ -11,7 +11,7 @@ const SectionDealsItem = ({ product }: SectionDealsItem) => {
 
     return (
         // если product.id > 4(если id товара больше 4,то даем такие классы,в другом случае если product.id > 0 && product.id < 3(то есть первые 2 товара),то еще одни классы даем,и уже в другом случае,если условия перед этим не выполняются,то ставим просто класс "deals__item",это чтобы указать определенным товарам определенные классы,в данном случае для border)
-        <div className={product.id > 4 ? "deals__item deals__item-borderTop" : product.id > 0 && product.id < 3 ? "deals__item deals__item-borderBottom" : "deals__item"}>
+        <div className={product.id > 4 ? "deals__item deals__item-borderTop" : product.id > 0 && product.id < 3 ? "deals__item deals__item-borderBottom" : product.id === 3 ? "deals__item deals__item3-borderBottom" : "deals__item"}>
             <div className="sectionDeals__link" onClick={()=>router(`/catalog/${product.id}`)}>
 
                 {/* если product.id(id товара равняется такому-то,то указываем у него скидку,это чтобы указать определенным товарам скидку и другие отдельные элементы) */}
