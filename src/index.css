@@ -2282,6 +2282,28 @@ a {
     align-self: end;
 }
 
+.header__menuBtn{
+    display: none;
+}
+
+.header__menuMobileList{
+    display: none;
+}
+
+.header__menuMobileList{
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    width: 50%;
+    height: 50vh;
+    transform:translateX(100%);
+    transition:all 1s ease;
+    z-index: 2;
+    background-color: rgb(53, 137, 194,0.9);
+}
+
 @media (max-width:1260px){
 
     .sectionTop__desc-item{
@@ -2469,6 +2491,16 @@ a {
     .footer{
         padding: 45px 0 24px 0;
     }
+
+    .logo-title{
+        font-size: 28px;
+    }
+
+    .logo-img{
+        max-width: 40px;
+    }
+
+
 }
 
 @media (max-width:800px){
@@ -2528,6 +2560,59 @@ a {
 
     .sectionMac__info-img{
         max-width: 280px;
+    }
+
+
+    .header__menuList{
+        display: none;
+    }
+
+    .header__menuBtn{
+        width: 50px;
+        height: 47px;
+        display: block;
+        background-color: #3589c2;
+        border:none;
+        position: relative;
+        z-index: 5;
+        cursor:pointer;
+    }
+
+    .menuBtn__span{
+        width: 50px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 20%;
+        position: absolute;
+        right: 0;
+        transition:transform .5s ease;
+    }
+    .menuBtn__span:nth-child(1){
+        top:10px;
+    }
+    .menuBtn__span:nth-child(2){
+        top:25px;
+    }
+    .menuBtn__span:nth-child(3){
+        top:25px;
+    }
+    .menuBtn__span:nth-child(4){
+        top:40px;
+    }
+
+    .menuBtn__spanActiveScale{
+        transform: scaleX(0);
+    }
+    .menuBtn__spanActiveRotate2{
+        transform: rotate(45deg);
+    }
+    .menuBtn__spanActiveRotate3{
+        transform: rotate(-45deg);
+    }
+
+    .header__menuMobileListActive{
+        opacity: 1;
+        transform:translateX(0);
     }
 
 }
