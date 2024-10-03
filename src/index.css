@@ -8,6 +8,10 @@
     margin: 0;
 }
 
+* {
+    -webkit-tap-highlight-color: transparent; /* указываем это свойство,чтобы при нажатии кнопок на телефоне задний фон кнопок не изменялся на секунду на синий*/
+}
+
 body {
     font-family: "Public Sans", sans-serif;
     font-size: 16px;
