@@ -2291,7 +2291,11 @@ a {
 }
 
 .header__menuMobileList{
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
     position: absolute;
     right: 0;
     top: 0;
@@ -2302,6 +2306,15 @@ a {
     transition:all 1s ease;
     z-index: 2;
     background-color: rgb(53, 137, 194,0.9);
+}
+
+.menuMobileList__userCartBlock{
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 @media (max-width:1260px){
@@ -2571,7 +2584,7 @@ a {
         width: 50px;
         height: 47px;
         display: block;
-        background-color: #3589c2;
+        background-color: transparent;
         border:none;
         position: relative;
         z-index: 5;
@@ -2579,7 +2592,7 @@ a {
     }
 
     .menuBtn__span{
-        width: 50px;
+        width: 40px;
         height: 2px;
         background-color: #fff;
         border-radius: 20%;
@@ -2589,6 +2602,7 @@ a {
     }
     .menuBtn__span:nth-child(1){
         top:10px;
+        transform-origin: left; /* это свойство нужно,чтобы типа указать с какой стороны будет происходить анимация transform, то есть для данного спана будет анимация,которая уменьшает его влевую сторону,а не по центру,как если бы это свойство было по умолчанию */
     }
     .menuBtn__span:nth-child(2){
         top:25px;
@@ -2598,6 +2612,7 @@ a {
     }
     .menuBtn__span:nth-child(4){
         top:40px;
+        transform-origin: right;
     }
 
     .menuBtn__spanActiveScale{
@@ -2614,6 +2629,8 @@ a {
         opacity: 1;
         transform:translateX(0);
     }
+
+
 
 }
 
