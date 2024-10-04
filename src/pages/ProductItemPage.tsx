@@ -3,7 +3,7 @@ import { useIsOnScreen } from "../hooks/useIsOnScreen";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { AuthResponse, IComment, IProduct } from "../types/types";
+import { AuthResponse, IComment, IProduct, IProductBasket } from "../types/types";
 import SectionSellers from "../components/SectionSellers";
 import { apiBasket } from "../store/apiBasket";
 import { useTypedSelector } from "../hooks/useTypedSelector";
@@ -47,7 +47,7 @@ const ProductItemPage = () => {
 
     const [addProductBasket] = apiBasket.useAddProductBasketMutation(); // берем функцию запроса на сервер из нашего api(apiBasket) с помощью нашего хука useAddProductBasketMutation,вторым элементом,который можно взять у этого хука,это все состояния,которые rtk query автоматически создает,а также data(данные запроса)
 
-    const { data: dataBasket } = apiBasket.useGetAllProductsBasketQuery(null); // делаем запрос на сервер для получения всех объектов в корзине,чтобы сделать проверку на существующий товар в корзине,указываем в параметре useGetAllProductsBasketQuery null,так как используем typescript
+    const { data: dataBasket } = apiBasket.useGetAllProductsBasketQuery(user.email); // делаем запрос на сервер для получения всех объектов в корзине,чтобы сделать проверку на существующий товар в корзине, передаем в параметре user.email,то есть email зарегестрированного пользователя,чтобы показывать товары корзины для каждого определенного пользователя разные
 
 
     const { data, refetch } = useQuery({
@@ -211,11 +211,6 @@ const ProductItemPage = () => {
     }, [inputValue, data?.data])
 
 
-    const addToCart = async () => {
-        await addProductBasket({ name: data?.data.name, category: data?.data.category, image: data?.data.image, price: data?.data.price, rating: data?.data.rating, priceFilter: data?.data.priceFilter, amount: inputValue, totalPrice: priceProduct, id: data?.data.id } as IProduct); // передаем в addProductBasket объект типа IProduct только таким образом,разворачивая в объект все необходимые поля(то есть наш product,в котором полe name,делаем поле name со значением,как и у этого товара name(data?.data.name) и остальные поля также,кроме поля amount и totalPrice,их мы изменяем и указываем как значения inputValue(инпут с количеством) и priceProduct(состояние цены,которое изменяется при изменении inputValue)),указываем тип этого объекта, созданный нами тип IProduct,при создании на сервере не указываем конкретное значение id,чтобы он сам автоматически генерировался на сервере и потом можно было удалить этот объект,в данном случае указываем id как у data?.data.id(id как у этого товара),чтобы потом в корзине при клике на название товара можно было перейти на страницу этого товара с этим id,в данном случае удаление работает
-    }
-
-
     // функция для проверки авторизован ли пользователь(валиден ли его refresh токен)
     const checkAuth = async () => {
 
@@ -254,6 +249,27 @@ const ProductItemPage = () => {
         }
 
     }, [])
+
+    
+    const addToCart = async () => {
+
+        // если имя пользователя равно true,то есть оно есть и пользователь авторизован,то помещаем товар в корзину,в другом случае перекидываем пользователя на страницу авторизации
+        if(user.userName){
+
+            // если data?.data true,в данном случае делаем эту проверку,чтобы не было ошибки,когда хотим добавить id товара + 1
+            if(data?.data){
+
+                await addProductBasket({ name: data?.data.name, category: data?.data.category, image: data?.data.image, price: data?.data.price, rating: data?.data.rating, priceFilter: data?.data.priceFilter, amount: inputValue, totalPrice: priceProduct, usualProductId:data.data.id, forUser:user.email } as IProductBasket); // передаем в addProductBasket объект типа IProduct только таким образом,разворачивая в объект все необходимые поля(то есть наш product,в котором полe name,делаем поле name со значением,как и у этого товара name(data?.data.name) и остальные поля также,кроме поля amount и totalPrice,их мы изменяем и указываем как значения inputValue(инпут с количеством) и priceProduct(состояние цены,которое изменяется при изменении inputValue)),указываем тип этого объекта, созданный нами тип IProduct,при создании на сервере не указываем конкретное значение id,чтобы он сам автоматически генерировался на сервере и потом можно было удалить этот объект, добавляем поле forUser со значением user.email(то есть со значением почты пользователя,чтобы потом показывать товары в корзине для каждого конкретного пользователя,у которого email будет равен полю forUser у этого товара),указываем usualProductId со значением data?.data.id,чтобы потом в корзине можно было перейти на страницу товара в магазине по этому usualProductId,а сам id корзины товара не указываем,чтобы он автоматически правильно генерировался,так как делаем показ товаров по-разному для конкретных пользователей(то есть как и должно быть),иначе ошибка
+
+            }
+            
+
+        }else{
+            router('/user'); // перекидываем пользователя на страницу авторизации (/user в данном случае)
+        }
+        
+    }
+
 
     // функция для показа формы для создания комментария
     const addCommentBtn = () => {

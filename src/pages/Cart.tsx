@@ -3,10 +3,19 @@ import ProductItemCart from "../components/ProductItemCart";
 import { useIsOnScreen } from "../hooks/useIsOnScreen";
 import SectionSellers from "../components/SectionSellers";
 import { apiBasket } from "../store/apiBasket";
+import { AuthResponse } from "../types/types";
+import { API_URL } from "../http/http";
+import axios from "axios";
+import { useTypedSelector } from "../hooks/useTypedSelector";
+import { useActions } from "../hooks/useActions";
 
 const Cart = () => {
 
-    const { data } = apiBasket.useGetAllProductsBasketQuery(null);
+    const { user, isAuth, isLoading } = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния user,используя наш типизированный хук для useSelector
+
+    const { checkAuthUser, setLoadingUser, logoutUser, setUser } = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
+    
+    const { data } = apiBasket.useGetAllProductsBasketQuery(user.email); // делаем запрос на получение всех товаров корзины и передаем в параметре user.email,то есть email зарегестрированного пользователя,чтобы показывать товары корзины для каждого определенного пользователя разные
 
     const [deleteProductBasket] = apiBasket.useDeleteProductBasketMutation();
 
@@ -32,6 +41,45 @@ const Cart = () => {
         setTotalCheck(dataCheck);
 
     },[data])
+
+    // функция для проверки авторизован ли пользователь(валиден ли его refresh токен)
+    const checkAuth = async () => {
+
+        setLoadingUser(true); // изменяем поле isLoading состояния пользователя в userSlice на true(то есть пошла загрузка)
+
+        // оборачиваем в try catch,чтобы отлавливать ошибки
+        try {
+
+            // здесь используем уже обычный axios,указываем тип в generic,что в ответе от сервера ожидаем наш тип данных AuthResponse,указываем наш url до нашего роутера(/api) на бэкэнде(API_URL мы импортировали из другого нашего файла) и через / указываем refresh(это тот url,где мы выдаем access и refresh токены на бэкэнде),и вторым параметром указываем объект опций,указываем поле withCredentials true(чтобы автоматически с запросом отправлялись cookies)
+            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, { withCredentials: true });
+
+            console.log(response);
+
+            checkAuthUser(response.data); // вызываем нашу функцию(action) для изменения состояния пользователя и передаем туда response.data(в данном случае это объект с полями accessToken,refreshToken и user,которые пришли от сервера)
+
+        } catch (e: any) {
+
+            console.log(e.response?.data?.message); // если была ошибка,то выводим ее в логи,берем ее из ответа от сервера  из поля message из поля data у response у e
+
+        } finally {
+            // в блоке finally будет выполнен код в независимости от try catch(то есть в любом случае,даже если будет ошибка)
+            setLoadingUser(false); // изменяем поле isLoading состояния пользователя в userSlice на false(то есть загрузка закончена)
+        }
+
+    }
+
+    // при запуске сайта будет отработан код в этом useEffect
+    useEffect(() => {
+
+        // если localStorage.getItem('token') true,то есть по ключу token в localStorage что-то есть
+        if (localStorage.getItem('token')) {
+
+            checkAuth(); // вызываем нашу функцию checkAuth(),которую описали выше для проверки авторизован ли пользователь
+
+        }
+
+    }, [])
+
 
 
     return (

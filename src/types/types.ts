@@ -12,6 +12,23 @@ export interface IProduct{
     totalPrice:number
 }
 
+// создаем и экспортируем тип для товара корзины
+export interface IProductBasket{
+    id:number,
+    usualProductId:number,
+    category:string,
+    brand:string,
+    image:any, // был string
+    name:string,
+    price:number,
+    priceFilter:string,
+    amount:number,
+    rating:number,
+    totalPrice:number,
+    forUser:string
+
+}
+
 export interface IInitialPagesState{
     totalPages:number
 }

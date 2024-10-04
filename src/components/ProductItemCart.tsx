@@ -1,11 +1,11 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { IProduct } from "../types/types";
+import { IProduct, IProductBasket } from "../types/types";
 import { apiBasket } from "../store/apiBasket";
 import { useNavigate } from "react-router-dom";
 
 
 interface IProductItemCart{
-    product:IProduct
+    product:IProductBasket
 }
 
 const ProductItemCart = ({product}:IProductItemCart) => {
@@ -68,10 +68,10 @@ const ProductItemCart = ({product}:IProductItemCart) => {
             <div className="table__item-info">
                 <img src="/images/sectionCart/crossImg.png" alt="" className="table__item-deleteImg" onClick={()=>deleteProductBasket(product)}/>
 
-                <img src={product.image} alt="" className="table__item-itemImg" onClick={()=>router(`/catalog/${product.id}`)}/>
+                <img src={product.image} alt="" className="table__item-itemImg" onClick={()=>router(`/catalog/${product.usualProductId}`)}/>
 
-                {/* по клику перемещает на страницу товара */}
-                <p onClick={()=>router(`/catalog/${product.id}`)} className="table__item-desc">{product.name}</p>
+                {/* по клику перемещает на страницу товара, указывая usualProductId,а не обычный id,потому что они отличаются,мы это описывали при создании товара в коризне в файле ProductItemPage */}
+                <p onClick={()=>router(`/catalog/${product.usualProductId}`)} className="table__item-desc">{product.name}</p>
             </div>
             <p className="table__item-price">${product.price}</p>
             <div className="table__item-inputBlock">

@@ -192,44 +192,74 @@
       "category": "SmartPhone",
       "image": "/images/sectionCatalog/Image.png",
       "price": 2300,
-      "rating": 2.7142857142857144,
-      "priceFilter": "Above $1,000",
-      "amount": 5,
-      "totalPrice": 11500,
-      "id": 1
-    },
-    {
-      "name": "Wired Over-Ear Hyrocopter with USB",
-      "category": "Electronics Devices",
-      "image": "/images/sectionCatalog/Image (1).png",
-      "price": 890,
       "rating": 3.5,
-      "priceFilter": "$500 to $1,000",
-      "amount": 12,
-      "totalPrice": 10680,
-      "id": 3
+      "priceFilter": "Above $1,000",
+      "amount": 1,
+      "totalPrice": 2300,
+      "id": 1,
+      "forUser": "bob@gmail.com"
     },
     {
-      "name": "TOZO T6 Keyboard True Bluetooth",
-      "category": "Computer Accessories",
-      "image": "/images/sectionCatalog/Image (8).png",
-      "price": 580,
-      "rating": 2.75,
-      "priceFilter": "$500 to $1,000",
-      "amount": 15,
-      "totalPrice": 8700,
-      "id": 7
+      "name": "Portable Headphones, 11lbs capacity Model 18NMF",
+      "category": "Headphones",
+      "image": "/images/sectionCatalog/Image (5).png",
+      "price": 20,
+      "rating": 4,
+      "priceFilter": "Under $20",
+      "amount": 1,
+      "totalPrice": 20,
+      "id": 2,
+      "forUser": "bob@gmail.com"
     },
     {
       "name": "Dell Optiplex 7000x7480 All-in-One Printer",
       "category": "Electronics Devices",
       "image": "/images/sectionCatalog/Image (2).png",
       "price": 250,
-      "rating": 3,
+      "rating": 2,
       "priceFilter": "$100 to $500",
       "amount": 5,
       "totalPrice": 1250,
-      "id": 4
+      "id": 4,
+      "forUser": "john@gmail.com"
+    },
+    {
+      "name": "4K UHD LED Smart TV with Chromecast Built-in",
+      "category": "Laptop",
+      "image": "/images/sectionCatalog/Image (6).png",
+      "price": 1250,
+      "rating": 4,
+      "priceFilter": "Above $1,000",
+      "amount": 5,
+      "totalPrice": 6250,
+      "id": 6,
+      "forUser": "john@gmail.com"
+    },
+    {
+      "name": "Wired Over-Ear Hyrocopter with USB",
+      "category": "Electronics Devices",
+      "image": "/images/sectionCatalog/Image (1).png",
+      "price": 890,
+      "rating": 0,
+      "priceFilter": "$500 to $1,000",
+      "amount": 5,
+      "totalPrice": 4450,
+      "usualProductId": 3,
+      "forUser": "bob@gmail.com",
+      "id": 7
+    },
+    {
+      "name": "Dell All-in-One Computer Laptop",
+      "category": "Electronics Devices",
+      "image": "/images/sectionCatalog/Image (4).png",
+      "price": 80,
+      "rating": 3,
+      "priceFilter": "$20 to $100",
+      "amount": 2,
+      "totalPrice": 160,
+      "usualProductId": 5,
+      "forUser": "bob@gmail.com",
+      "id": 8
     }
   ]
 }
