@@ -435,7 +435,7 @@ const Catalog = () => {
                                 {data?.data.length ? data?.data.map(product =>
                                     <ProductItem key={product.id} product={product} />)
                                     : !error ?
-                                        <h4>Not found</h4>
+                                        <h4 className="sectionCatalog__notFoundText">Not found</h4>
                                         : ''
                                 }
                             </div>

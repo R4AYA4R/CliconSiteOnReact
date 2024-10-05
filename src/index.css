@@ -2418,6 +2418,23 @@ a {
         padding: 14px;
     }
 
+    .filters__right-desc{
+        text-wrap: nowrap;
+    }
+
+    .filters__right-desc,
+    .filters__right-text{
+        align-self:start;
+    }
+
+    .productsBlock__top-filters{
+        gap: 5px;
+    }
+
+    .top__filters-left{
+        flex-wrap: wrap;
+        gap: 5px 16px; /* указываем первым значением gap для рядов(по вертикали),а вторым - gap для колонок(по горизонтали) */
+    }
 }
 
 @media (max-width:970px){
@@ -2478,6 +2495,10 @@ a {
 
     .sectionMac__info-img{
         max-width: 330px;
+    }
+
+    .productsBlock__top-inputBlock{
+        min-width: 300px;
     }
 }   
 
@@ -2634,7 +2655,14 @@ a {
         transform:translateX(0);
     }
 
+    .sectionCatalog__inner{
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
 
+    .sectionCatalog__notFoundText{
+        margin-bottom: 50px;
+    }
 
 }
 
@@ -2736,6 +2764,27 @@ a {
     .sectionSellers{
         margin-bottom: 42px;
     }
+
+    .productsBlock__top{
+        flex-direction: column;
+        align-items: start;
+        gap: 10px;
+    }
+
+    .productsBlock__top-selectBlock{
+        flex-direction: column;
+        align-items: start;
+        gap: 5px;
+    }
+
+    .sectionCatalog__inner{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sectionCatalog__productsBlock-pagination{
+        margin: 40px 0;
+    }
 }
 
 @media (max-width:550px) {
@@ -2762,6 +2811,19 @@ a {
 
     .sectionDeals__link{
         justify-content: space-around;
+    }
+
+    .sectionCatalog__productsBlock-products{
+        grid-template-columns: 1fr;
+    }
+
+    .products__item{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .products__item-img{
+        align-self: center;
     }
 
 }
@@ -2809,5 +2871,18 @@ a {
 
     .footer{
         padding: 35px 0 24px 0;
+    }
+
+    .productsBlock__top-filters{
+        gap: 35px;
+    }
+
+    .pagination__item{
+        padding: 8px 12px;
+    }
+
+    .btnLeft__imgRight,
+    .btnLeft__imgLeft{
+        max-width: 30px;
     }
 }
