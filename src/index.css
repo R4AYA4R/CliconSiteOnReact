@@ -2377,6 +2377,26 @@ a {
     .flashItem__info-title{
         font-size: 13px;
     }
+
+    .sectionAbout__top-img{
+        max-width: 500px;
+    }
+
+    .sectionAbout__top{
+        gap: 36px;
+    }
+
+    .sectionTeam__team{
+        gap: 14px;
+    }
+
+    .team__item{
+        padding: 15px;
+    }
+
+    .sectionTrusted{
+        padding: 88px 0 150px 50px;
+    }
 }
 
 @media (max-width:1100px){
@@ -2434,6 +2454,10 @@ a {
     .top__filters-left{
         flex-wrap: wrap;
         gap: 5px 16px; /* указываем первым значением gap для рядов(по вертикали),а вторым - gap для колонок(по горизонтали) */
+    }
+
+    .sectionTeam__team{
+        grid-template-columns: repeat(3,1fr);
     }
 }
 
@@ -2500,6 +2524,15 @@ a {
     .productsBlock__top-inputBlock{
         min-width: 300px;
     }
+
+    .top__info-title{
+        font-size: 24px;
+    }
+
+    
+    .sectionAbout__top{
+        padding: 70px 0;
+    }
 }   
 
 @media (max-width:870px) {
@@ -2538,7 +2571,21 @@ a {
         max-width: 40px;
     }
 
+    .sectionAbout__top{
+        flex-direction: column;
+    }
 
+    .sectionAbout__top-img{
+        order: -1;
+    }
+
+    .sectionTeam__team{
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .sectionTrusted{
+        padding: 88px 0 100px 50px;
+    }
 }
 
 @media (max-width:800px){
@@ -2664,6 +2711,19 @@ a {
         margin-bottom: 50px;
     }
 
+    .sectionAbout__top,
+    .sectionTeam__inner{
+        padding: 50px 0;
+    }
+
+    .sectionTrusted{
+        margin-bottom: 50px;
+    }
+
+    .sectionTrusted{
+        padding: 88px 0 100px 20px;
+    }
+
 }
 
 @media (max-width:690px){
@@ -2785,6 +2845,7 @@ a {
     .sectionCatalog__productsBlock-pagination{
         margin: 40px 0;
     }
+
 }
 
 @media (max-width:550px) {
@@ -2825,6 +2886,23 @@ a {
     .products__item-img{
         align-self: center;
     }
+
+    .sectionAbout__top-img{
+        max-width: 100%;
+    }
+
+    .sectionTeam__team{
+        grid-template-columns: 1fr;
+    }
+
+    .sectionTrusted__title{
+        font-size: 24px;
+    }
+
+    .sectionTrusted {
+        padding: 50px 0 50px 10px;
+    }
+
 
 }
 
@@ -2884,5 +2962,9 @@ a {
     .btnLeft__imgRight,
     .btnLeft__imgLeft{
         max-width: 30px;
+    }
+
+    .sectionTrusted__text{
+        font-size: 16px;
     }
 }

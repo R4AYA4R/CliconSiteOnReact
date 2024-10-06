@@ -33,7 +33,7 @@
       "price": 890,
       "priceFilter": "$500 to $1,000",
       "amount": 1,
-      "rating": 0,
+      "rating": 3,
       "totalPrice": 890
     },
     {
@@ -184,6 +184,13 @@
       "text": "asdfasdfasdfasf",
       "rating": 3,
       "id": 9
+    },
+    {
+      "name": "Michael",
+      "nameFor": "Wired Over-Ear Hyrocopter with USB",
+      "text": "asdfasdfasdfasdfasdfasf",
+      "rating": 3,
+      "id": 10
     }
   ],
   "productsBasket": [
@@ -260,6 +267,19 @@
       "usualProductId": 5,
       "forUser": "bob@gmail.com",
       "id": 8
+    },
+    {
+      "name": "Wired Over-Ear Hyrocopter with USB",
+      "category": "Electronics Devices",
+      "image": "/images/sectionCatalog/Image (1).png",
+      "price": 890,
+      "rating": 3,
+      "priceFilter": "$500 to $1,000",
+      "amount": 5,
+      "totalPrice": 4450,
+      "usualProductId": 3,
+      "forUser": "michael@gmail.com",
+      "id": 9
     }
   ]
 }
