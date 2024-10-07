@@ -2459,6 +2459,10 @@ a {
     .sectionTeam__team{
         grid-template-columns: repeat(3,1fr);
     }
+
+    .sectionDesc__innerMain{
+        grid-template-columns: 2fr 1fr;
+    }
 }
 
 @media (max-width:970px){
@@ -2532,6 +2536,11 @@ a {
     
     .sectionAbout__top{
         padding: 70px 0;
+    }
+
+    .sectionProductTop__infoBlock {
+        min-width: auto;
+        width: 100%;
     }
 }   
 
@@ -2724,6 +2733,18 @@ a {
         padding: 88px 0 100px 20px;
     }
 
+    .sectionProductTop__inner{
+        flex-direction: column;
+    }
+
+    .sectionCatalog__top-inner{
+        flex-wrap: wrap;
+    }
+
+    .reviews__inner{
+        padding: 70px;
+    }
+
 }
 
 @media (max-width:690px){
@@ -2846,6 +2867,14 @@ a {
         margin: 40px 0;
     }
 
+    .sectionDesc__innerMain{
+        grid-template-columns: 1fr;
+    }
+
+    .reviews__inner{
+        margin-bottom: 50px;
+    }
+
 }
 
 @media (max-width:550px) {
@@ -2903,7 +2932,45 @@ a {
         padding: 50px 0 50px 10px;
     }
 
+    .amountBlock__btn {
+        padding: 18px 50px;
+        max-width: 250px;
+        margin-top: 24px;
+    }
 
+    .infoBlock__amountBlock{
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .sectionDesc__desc {
+        padding: 20px;
+    }
+
+    .reviews__rightBlock{
+        order:-1;
+    }
+
+    .reviews__innerMain{
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .reviews__rightBlock-formNone{
+        position: absolute;
+    }
+
+    .reviews__rightBlock-top{
+        display: block;
+    }
+
+    .reviews__inner{
+        padding: 20px;
+    }
+
+    .sectionProductTop{
+        padding: 32px 0 50px 0;
+    }
 }
 
 @media (max-width:450px){
@@ -2952,7 +3019,7 @@ a {
     }
 
     .productsBlock__top-filters{
-        gap: 35px;
+        gap: 15px;
     }
 
     .pagination__item{
