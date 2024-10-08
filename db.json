@@ -243,19 +243,6 @@
       "forUser": "john@gmail.com"
     },
     {
-      "name": "Wired Over-Ear Hyrocopter with USB",
-      "category": "Electronics Devices",
-      "image": "/images/sectionCatalog/Image (1).png",
-      "price": 890,
-      "rating": 0,
-      "priceFilter": "$500 to $1,000",
-      "amount": 5,
-      "totalPrice": 4450,
-      "usualProductId": 3,
-      "forUser": "bob@gmail.com",
-      "id": 7
-    },
-    {
       "name": "Dell All-in-One Computer Laptop",
       "category": "Electronics Devices",
       "image": "/images/sectionCatalog/Image (4).png",

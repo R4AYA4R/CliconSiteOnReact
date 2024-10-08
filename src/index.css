@@ -2024,6 +2024,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 50px;
 }
 
 .userPage__inner{
@@ -2321,6 +2322,28 @@ a {
     gap: 15px;
 }
 
+.table__item-itemMobile{
+    display: none;
+}
+
+.totals__btnBlock{
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width:1400px){
+
+    .sectionTableCart__inner{
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .sectionTableCart {
+        margin: 100px 0;
+    }
+
+}
+
 @media (max-width:1260px){
 
     .sectionTop__desc-item{
@@ -2542,6 +2565,48 @@ a {
         min-width: auto;
         width: 100%;
     }
+
+    .table__item-item{
+        display: none;
+    }
+
+    .table__item-itemMobile{
+        display: block;
+        border-top:1px solid #E4E7E9;
+        padding: 10px 24px;
+    }
+
+    .table__names{
+        display: none;
+    }
+
+    .table__top{
+        padding: 20px 24px 0;
+    }
+
+    .sectionTableCart__table{
+        min-width: auto;
+    }
+
+    .itemMobileCart__namesAndValues{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin: 20px 0;
+        gap: 20px;
+        
+    }
+
+    .namesAndValues__item{
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+        align-items: center;
+    }
+
+    .sectionTableCart {
+        margin: 50px 0;
+    }
+
 }   
 
 @media (max-width:870px) {
@@ -2971,6 +3036,15 @@ a {
     .sectionProductTop{
         padding: 32px 0 50px 0;
     }
+
+    .sectionTableCart__totals{
+        min-width: auto;
+    }
+
+    .totals__btn{
+        padding: 16px 20px;
+        font-size: 14px;
+    }
 }
 
 @media (max-width:450px){
@@ -3033,5 +3107,25 @@ a {
 
     .sectionTrusted__text{
         font-size: 16px;
+    }
+
+    .table__item-info{
+        gap: 5px;
+    }
+
+    .table__items{
+        padding: 10px;
+    }
+
+    .table__item-itemMobile{
+        padding: 5px;
+    }
+
+    .table__names-text{
+        font-size: 12px;
+    }
+
+    .itemMobileCart__namesAndValues{
+        gap: 10px;
     }
 }

@@ -14,33 +14,33 @@ const Cart = () => {
     const { user, isAuth, isLoading } = useTypedSelector(state => state.userSlice);  // указываем наш слайс(редьюсер) под названием userSlice и деструктуризируем у него поле состояния user,используя наш типизированный хук для useSelector
 
     const { checkAuthUser, setLoadingUser, logoutUser, setUser } = useActions(); // берем actions для изменения состояния пользователя у слайса(редьюсера) userSlice у нашего хука useActions уже обернутые в диспатч,так как мы оборачивали это в самом хуке useActions
-    
+
     const { data } = apiBasket.useGetAllProductsBasketQuery(user.email); // делаем запрос на получение всех товаров корзины и передаем в параметре user.email,то есть email зарегестрированного пользователя,чтобы показывать товары корзины для каждого определенного пользователя разные
 
     const [deleteProductBasket] = apiBasket.useDeleteProductBasketMutation();
 
-    const [totalCheck,setTotalCheck] = useState<number>();
+    const [totalCheck, setTotalCheck] = useState<number>();
 
     const sectionCartRef = useRef(null);
     const onScreen = useIsOnScreen(sectionCartRef);
 
-    const dataCheck = data?.reduce((prev,curr)=> prev + curr.totalPrice,0); // проходимся по массиву объектов корзины и на каждой итерации увеличиваем переменную prev(это число,и мы указали,что в начале оно равно 0 и оно будет увеличиваться на каждой итерации массива объектов,запоминая старое состояние числа и увеличивая его на новое значение) на curr(текущий итерируемый объект).totalPrice,это чтобы посчитать общую сумму цены всех товаров
+    const dataCheck = data?.reduce((prev, curr) => prev + curr.totalPrice, 0); // проходимся по массиву объектов корзины и на каждой итерации увеличиваем переменную prev(это число,и мы указали,что в начале оно равно 0 и оно будет увеличиваться на каждой итерации массива объектов,запоминая старое состояние числа и увеличивая его на новое значение) на curr(текущий итерируемый объект).totalPrice,это чтобы посчитать общую сумму цены всех товаров
 
     // функция для удаления всех товаров корзины
-    const deleteAllProducts=()=>{
+    const deleteAllProducts = () => {
         // проходимся по каждому элементу массива товаров корзины и вызываем мутацию deleteProductBasket и передаем туда product(сам product, каждый товар на каждой итерации,и потом в функции deleteProductBasket будем брать у этого product только id для удаления из корзины(это мы прописали в нашей функции deleteProductBasket))
-        data?.forEach(product =>{
+        data?.forEach(product => {
             deleteProductBasket(product);
         })
 
     }
 
     // при изменении data(массива объектов корзины),изменяем состояние totalCheck на dataCheck,чтобы посчитать общую сумму товаров
-    useEffect(()=>{
+    useEffect(() => {
 
         setTotalCheck(dataCheck);
 
-    },[data])
+    }, [data])
 
     // функция для проверки авторизован ли пользователь(валиден ли его refresh токен)
     const checkAuth = async () => {
@@ -90,7 +90,7 @@ const Cart = () => {
                         <div className="sectionCatalog__top-inner">
                             <img src="/images/sectionCatalog/House.png" alt="" className="sectionCatalog__top-img" />
                             <p className="sectionCatalog__top-text">Home</p>
-                            <img src="/images/header/CareRight.png" className="sectionCatalog__top-text sectionCatalog__top-textCenter"/>
+                            <img src="/images/header/CareRight.png" className="sectionCatalog__top-text sectionCatalog__top-textCenter" />
                             <p className="sectionCatalog__top-textActive"> Shopping Cart</p>
                         </div>
                     </div>
@@ -109,12 +109,11 @@ const Cart = () => {
                                 <p className="table__names-text">Quantity</p>
                                 <p className="table__names-text">Sub-Total</p>
                             </div>
-
                             {data?.length ?
                                 <>
                                     <div className="table__items">
                                         {data?.map(product =>
-                                            <ProductItemCart key={product.id} product={product}/>
+                                            <ProductItemCart key={product.id} product={product} />
                                         )}
                                     </div>
                                     <div className="table__bottom">
@@ -124,8 +123,6 @@ const Cart = () => {
                                 :
                                 <h3 className="table__emptyCartText">Cart is empty</h3>
                             }
-
-
                         </div>
                         <div className="sectionTableCart__totals">
                             <h3 className="totals__title">Card Totals</h3>
@@ -149,12 +146,14 @@ const Cart = () => {
                                     <p className="totals__item-totalPrice">${totalCheck + 3.99} USD</p>
                                     : <p className="totals__item-totalPrice">$0 USD</p>
                                 }
-                                
+
                             </div>
-                            <button className="totals__btn">
-                                <p className="totals__btn-text">Proceed to Checkout</p>
-                                <img src="/images/sectionTop/ArrowRight.png" alt="" className="totals__btn-img" />
-                            </button>
+                            <div className="totals__btnBlock">
+                                <button className="totals__btn">
+                                    <p className="totals__btn-text">Proceed to Checkout</p>
+                                    <img src="/images/sectionTop/ArrowRight.png" alt="" className="totals__btn-img" />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
