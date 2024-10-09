@@ -1006,6 +1006,7 @@ a {
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15);
     transition: all 1s ease;
     z-index: -2;
+    overflow: hidden; /* указываем это свойство,чтобы все,что заходит за границы этого блока скрывалось(то есть все элементы,которые в html есть у этого блока), в данном случае,для анимации,когда уменьшаем высоту этого блока,чтобы текст не показывался ниже этого блока */
 }
 
 .select__optionsBlock--active {
@@ -2660,6 +2661,16 @@ a {
     .sectionTrusted{
         padding: 88px 0 100px 50px;
     }
+
+    .userPage__inner{
+        gap: 30px;
+    }
+
+    .adminForm__blockSelects{
+        flex-direction: column;
+        gap: 20px;
+        align-items: start;
+    }
 }
 
 @media (max-width:800px){
@@ -2940,6 +2951,10 @@ a {
         margin-bottom: 50px;
     }
 
+    .userPage__inner{
+        grid-template-columns: 1fr;
+    }
+
 }
 
 @media (max-width:550px) {
@@ -3044,6 +3059,15 @@ a {
     .totals__btn{
         padding: 16px 20px;
         font-size: 14px;
+    }
+
+    .formBlock__top-titleBtn{
+        min-width: auto;
+        padding: 16px 35px;
+    }
+
+    .sectionForm__inner {
+        padding: 50px 0;
     }
 }
 
